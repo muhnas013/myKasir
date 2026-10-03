@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Pos;
 
+use App\Actions\Shifts\OpenShift;
 use App\Livewire\Pos\Grid;
 use App\Models\Product;
 use App\Models\User;
@@ -96,12 +97,18 @@ class MenuGridTest extends TestCase
             ->assertSee('Belum ada menu aktif.');
     }
 
-    public function test_all_active_roles_can_open_pos_but_inactive_user_cannot_transact(): void
+    public function test_all_active_roles_with_open_shift_can_open_pos(): void
     {
-        $this->actingAs(User::factory()->cashier()->create())->get('/pos')->assertOk();
-        $this->actingAs(User::factory()->admin()->create())->get('/pos')->assertOk();
-        $this->actingAs(User::factory()->owner()->create())->get('/pos')->assertOk();
+        foreach ([User::factory()->cashier(), User::factory()->admin(), User::factory()->owner()] as $factory) {
+            $user = $factory->create();
+            app(OpenShift::class)->handle($user, 0);
 
+            $this->actingAs($user)->get('/pos')->assertOk();
+        }
+    }
+
+    public function test_inactive_user_cannot_transact(): void
+    {
         $this->assertFalse(User::factory()->cashier()->make(['is_active' => false])->can('pos.transact'));
     }
 

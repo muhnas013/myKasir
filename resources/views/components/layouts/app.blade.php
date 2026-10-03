@@ -14,8 +14,13 @@
             <div class="app-sidebar__brand">MyKasir</div>
             <nav class="app-sidebar__nav">
                 @can('pos.transact')
-                    <a href="{{ route('pos.placeholder') }}" class="app-sidebar__link @if(request()->routeIs('pos.*')) is-active @endif">
+                    <a href="{{ route('pos.index') }}" class="app-sidebar__link @if(request()->routeIs('pos.*')) is-active @endif">
                         <x-icon name="store" /> Kasir
+                    </a>
+                @endcan
+                @can('pos.transact')
+                    <a href="{{ route('orders.index') }}" class="app-sidebar__link @if(request()->routeIs('orders.*')) is-active @endif">
+                        <x-icon name="receipt" /> Transaksi
                     </a>
                 @endcan
                 @can('menu.manage')
@@ -29,6 +34,14 @@
                     </a>
                 @endcan
             </nav>
+            @php($activeShift = auth()->user()->activeShift())
+            @if ($activeShift)
+                <div class="shift-card">
+                    <div class="shift-card__label">Shift aktif</div>
+                    <div class="shift-card__value">sejak {{ $activeShift->opened_at->format('H.i') }}</div>
+                    <a href="{{ route('shift.close') }}" class="shift-card__link">Tutup Shift</a>
+                </div>
+            @endif
             <form method="POST" action="{{ route('lock') }}" style="margin-top:auto">
                 @csrf
                 <x-button variant="secondary" type="submit" style="width:100%">

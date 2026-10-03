@@ -21,6 +21,13 @@
       "step": 0,
       "detik": 0,
       "tok_est": 0
+    },
+    {
+      "mulai": "2026-10-04T02:22:38+08:00",
+      "selesai": null,
+      "step": 0,
+      "detik": 0,
+      "tok_est": 0
     }
   ],
   "step_berjalan": null,
@@ -231,6 +238,55 @@
         "Klausa order_items snapshot harga (F3)"
       ],
       "selesai": "2026-10-04T02:19:50+08:00"
+    },
+    {
+      "fitur": "F3 POS+PAY+SHIFT+VOID",
+      "rute": "Fitur baru (vertical slice)",
+      "mulai": "2026-10-04T02:22:38+08:00",
+      "rencana": [
+        "app",
+        "database",
+        "resources",
+        "routes",
+        "tests",
+        "config/app.php",
+        "docs"
+      ],
+      "total_step": 0,
+      "step": [],
+      "detik": 0,
+      "tok_est": 0,
+      "deviasi": [
+        "docs/07 orders.number: unique global → unique (business_date, number) — disetujui pengguna, 07 diperbarui lebih dulu",
+        "config/app.php timezone: 'UTC' hardcoded → env APP_TIMEZONE default Asia/Makassar (PRD)"
+      ],
+      "warn_dilewati": [
+        "S7: berkas baru di dalam direktori rencana",
+        "S8: komponen non-halaman (icon, layout, segmented, receipt) tanpa 4 state"
+      ],
+      "asumsi": [
+        "Open bill (Simpan/Lanjutkan/Batalkan) dikerjakan minimal karena PRD POS memuatnya dan tutup shift memblokirnya",
+        "Pesanan tersimpan dibatalkan lewat DiscardOpenOrder (status void, audit order.void) — 06 tak menyebut",
+        "Kas seharusnya = modal + Σ(paid_amount − change) tunai pesanan paid",
+        "Rate limit PIN persetujuan per pemohon (penyetuju belum diketahui sebelum PIN cocok)"
+      ],
+      "dokumen_diperbarui": [
+        "docs/07_DATA_MODEL.md (unique orders)",
+        "docs/03_ROADMAP.md",
+        "docs/23 (F3 diarsip, sisa 2 butir manual)"
+      ],
+      "landmine_tersentuh": [
+        "stock_movements.ingredient_id tanpa FK (tabel ingredients baru di F4 — tambah FK lewat migrasi aditif)",
+        "Gate force-close shift (shift.force-close) belum diimplementasikan — tidak ada di PRD F3",
+        "Cart hanya di state Livewire: refresh halaman menghilangkan keranjang (gunakan Simpan)",
+        "pdo_mysql perlu PHP_INI_SCAN_DIR di mesin dev"
+      ],
+      "ditunda": [
+        "Uji manual cetak struk 58 mm & stopwatch 30 detik",
+        "FK stock_movements.ingredient_id (F4)",
+        "Force-close shift orang lain"
+      ],
+      "selesai": "2026-10-04T02:43:15+08:00"
     }
   ],
   "akumulasi": {
@@ -238,6 +294,6 @@
     "tok_est": 18530,
     "tok_terukur": 0,
     "step": 6,
-    "fitur": 2
+    "fitur": 3
   }
 }

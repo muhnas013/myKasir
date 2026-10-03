@@ -54,6 +54,11 @@ class User extends Authenticatable
         ];
     }
 
+    public function activeShift(): ?Shift
+    {
+        return Shift::query()->where('user_id', $this->id)->where('status', 'open')->latest('id')->first();
+    }
+
     public function isOwner(): bool
     {
         return $this->role === Role::Owner;

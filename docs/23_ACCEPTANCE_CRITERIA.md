@@ -3,22 +3,10 @@
 Hanya fitur AKTIF. Fitur yang diterima dipindah ke `docs/_archive/23-{kode}.md`. Fitur: `docs/01_PRD.md`; proses & rumus: `docs/06_BUSINESS_PROCESS.md`; peran: `docs/05_USER_ROLE.md`; DoD: `docs/24_DEFINITION_OF_DONE.md`.
 Data uji standar: Es Kopi Susu Gula Aren Rp 18.000, Nasi Goreng Spesial Rp 25.000, Pisang Goreng Rp 12.000.
 
-## F3 — POS + PAY + SHIFT + VOID
-- [ ] (dari F2) Given harga produk diubah setelah ada pesanan, Then `order_items` lama (snapshot `unit_price`) tidak berubah.
-- [ ] Keranjang 2× Es Kopi + 1 Nasi Goreng + 1 Pisang Goreng, PB1 10%, layanan off, take away → subtotal 73.000, tax 7.300, total **80.300**.
-- [ ] Sama, dine in, layanan 5% on → service 3.650, tax 7.665, total **84.300**, rounding −15.
-- [ ] Tunai 100.000 → kembalian 19.700; tombol selesai nonaktif bila uang < total.
-- [ ] Debit/Transfer tanpa nomor referensi → ditolak.
-- [ ] Dua panggilan `CompleteOrder` dengan `idempotency_key` sama → tepat 1 baris `orders`.
-- [ ] Stok tidak cukup saat bayar → tidak ada baris baru di `orders`/`payments`/`stock_movements`; keranjang tetap.
-- [ ] Kasir tanpa shift `open` tidak bisa membuka layar kasir.
-- [ ] Tutup shift: modal 200.000 + 1 transaksi tunai 80.300 → `expected_cash` 280.300; dihitung 280.000 → selisih −300, catatan wajib.
-- [ ] Void oleh kasir tanpa PIN admin → ditolak; dengan PIN → status `void`, stok kembali, `expected_cash` berkurang.
-- [ ] Struk menampilkan nama outlet, nomor, waktu WITA, item, subtotal, PB1, total, bayar, kembali, footer — tercetak penuh di kertas 58 mm (manual).
+## F3 — POS + PAY + SHIFT + VOID (sisa: uji manual)
+Butir otomatis sudah diterima dan diarsipkan di `docs/_archive/23-F3-POS-PAY-SHIFT-VOID.md`. Sisa butir manual:
+- [ ] Struk tercetak penuh di kertas 58 mm pada printer thermal nyata (nama outlet, nomor, waktu WITA, item, subtotal, PB1, total, bayar, kembali, footer) (manual).
 - [ ] Alur 3 item tunai selesai ≤ 30 detik oleh penguji yang belum pernah memakai (manual, stopwatch).
-```
-php artisan test --filter='CompleteOrder|VoidOrder|Shift|PriceCalculator'   → lulus: 0 failures
-```
 
 ## F4 — STOCK
 - [ ] Jual 1 Es Kopi Susu (resep: espresso 18 g, susu 120 ml, gula aren 25 ml) → tiap bahan berkurang sesuai, 3 baris `stock_movements` tipe `sale`.

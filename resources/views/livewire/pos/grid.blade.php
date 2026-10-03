@@ -20,9 +20,13 @@
         @else
             <div class="menu-grid">
                 @foreach ($products as $product)
-                    <button type="button" class="menu-tile menu-tile--cat-{{ ($product->category_id - 1) % 4 + 1 }}" wire:key="tile-{{ $product->id }}" wire:click="selectProduct({{ $product->id }})">
+                    @php($soldOut = ! $stock->isSellable($product))
+                    <button type="button" class="menu-tile menu-tile--cat-{{ ($product->category_id - 1) % 4 + 1 }}" wire:key="tile-{{ $product->id }}" wire:click="selectProduct({{ $product->id }})" @disabled($soldOut)>
                         <span class="menu-tile__name">{{ $product->name }}</span>
                         <span class="menu-tile__price">{{ \App\Support\Money::format($product->price) }}</span>
+                        @if ($soldOut)
+                            <x-badge variant="danger">Habis</x-badge>
+                        @endif
                     </button>
                 @endforeach
             </div>

@@ -4,6 +4,7 @@ namespace App\Livewire\Pos;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Services\StockService;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 
@@ -38,6 +39,7 @@ class Grid extends Component
             'products' => $products,
             'categories' => Category::orderBy('sort_order')->orderBy('name')->get(),
             'selecting' => $selecting,
+            'stock' => app(StockService::class),
         ]);
     }
 
@@ -45,6 +47,12 @@ class Grid extends Component
     {
         Gate::authorize('pos.transact');
         $product = Product::active()->with('variantGroups.options')->findOrFail($productId);
+
+        if (! app(StockService::class)->isSellable($product)) {
+            $this->dispatch('toast', type: 'warning', message: $product->name.' habis.');
+
+            return;
+        }
 
         if ($product->variantGroups->isEmpty()) {
             $this->addToCart($product, []);

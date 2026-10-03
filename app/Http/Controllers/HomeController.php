@@ -15,11 +15,6 @@ class HomeController extends Controller
             return redirect()->route('settings.index');
         }
 
-        return redirect()->route('pos.placeholder');
-    }
-
-    public function posPlaceholder()
-    {
-        return view('pos.placeholder');
+        return redirect()->route('pos.index');
     }
 }

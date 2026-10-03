@@ -3,8 +3,13 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PinLoginController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ReceiptController;
 use App\Livewire\Menu\Index as MenuIndex;
+use App\Livewire\Pos\History as PosHistory;
+use App\Livewire\Pos\Register as PosRegister;
 use App\Livewire\Settings\Index as SettingsIndex;
+use App\Livewire\Shift\Close as ShiftClose;
+use App\Livewire\Shift\Open as ShiftOpen;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
@@ -20,7 +25,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/lock', [PinLoginController::class, 'lock'])->name('lock');
 
     Route::get('/', [HomeController::class, 'index'])->name('home');
-    Route::get('/pos', [HomeController::class, 'posPlaceholder'])->name('pos.placeholder');
+    Route::get('/shift/open', ShiftOpen::class)->middleware('can:pos.transact')->name('shift.open');
+    Route::get('/shift/close', ShiftClose::class)->middleware(['can:pos.transact', 'shift.open'])->name('shift.close');
+
+    Route::get('/pos', PosRegister::class)->middleware(['can:pos.transact', 'shift.open'])->name('pos.index');
+    Route::get('/orders', PosHistory::class)->middleware('can:pos.transact')->name('orders.index');
+    Route::get('/receipts/{order}', [ReceiptController::class, 'show'])->name('receipts.show');
 
     Route::get('/menu', MenuIndex::class)
         ->middleware('can:menu.manage')

@@ -90,7 +90,7 @@ Unik: (`ingredient_id`, `product_id`, `variant_option_id`).
 ## orders
 | Kolom | Tipe | Constraint | Catatan |
 |---|---|---|---|
-| number | varchar(12) | unique | `A-0001`, reset per tanggal bisnis |
+| number | varchar(12) | unique bersama `business_date` | `A-0001`, reset per tanggal bisnis; indeks unik komposit (`business_date`, `number`) |
 | business_date | date | index | tanggal Asia/Makassar |
 | shift_id | fk shifts | not null | |
 | user_id | fk users | not null | kasir pembuat |
@@ -152,7 +152,7 @@ Tanpa `updated_at`; baris tidak pernah diubah atau dihapus.
 Tanpa `updated_at`; append-only.
 
 ## Indeks penting
-- `orders (business_date, status)`, `orders (shift_id)`, `stock_movements (ingredient_id, created_at)`, `audit_logs (action, created_at)`.
+- `orders (business_date, number)` UNIQUE, `orders (business_date, status)`, `orders (shift_id)`, `stock_movements (ingredient_id, created_at)`, `audit_logs (action, created_at)`.
 
 ## Data sensitif
 `password`, `pin_hash` (hash, tidak pernah di-log/diserialisasi — `$hidden` di model). `orders`, `payments`, `stock_movements`, `audit_logs`, `shifts` tidak pernah di-hard-delete. Aturan: `docs/21_SECURITY_RULES.md`.
