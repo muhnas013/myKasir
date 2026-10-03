@@ -44,6 +44,16 @@
       "chars": 23427,
       "cpt": 3.5,
       "est_tokens": 6693
+    },
+    {
+      "ts": "2026-10-04T03:05:41+08:00",
+      "type": "task",
+      "task": "F4-STOCK",
+      "route": "Fitur baru (vertical slice)",
+      "files": 8,
+      "chars": 22774,
+      "cpt": 3.5,
+      "est_tokens": 6507
     }
   ],
   "measured_sessions": {}
