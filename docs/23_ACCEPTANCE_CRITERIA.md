@@ -3,16 +3,6 @@
 Hanya fitur AKTIF. Fitur yang diterima dipindah ke `docs/_archive/23-{kode}.md`. Fitur: `docs/01_PRD.md`; proses & rumus: `docs/06_BUSINESS_PROCESS.md`; peran: `docs/05_USER_ROLE.md`; DoD: `docs/24_DEFINITION_OF_DONE.md`.
 Data uji standar: Es Kopi Susu Gula Aren Rp 18.000, Nasi Goreng Spesial Rp 25.000, Pisang Goreng Rp 12.000.
 
-## F1 — AUTH + SET
-- [ ] Given kasir aktif ber-PIN, When memilih nama + PIN benar, Then masuk ke layar Buka Shift/Kasir.
-- [ ] Given PIN salah 5x, Then dialog terkunci 15 menit dan baris `audit_logs.action=auth.pin_locked` tercipta.
-- [ ] Given cashier login, When membuka `/settings` atau `/menu`, Then 403.
-- [ ] Given owner terakhir, When mencoba menonaktifkan dirinya, Then ditolak dengan pesan.
-- [ ] Given owner mengubah PB1 jadi 11%, Then pesanan baru memakai 11% dan perubahan tercatat `setting.updated`.
-```
-php artisan test --filter='Auth|Settings'   → lulus: 0 failures
-```
-
 ## F2 — MENU
 - [ ] Given produk `is_active=false`, Then tidak tampil di grid kasir.
 - [ ] Given grup varian wajib, When produk diketuk, Then dialog varian muncul dan item tak bisa ditambah tanpa memilih.
