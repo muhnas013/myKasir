@@ -1,0 +1,412 @@
+{
+  "app": {
+    "name": "MyKasir",
+    "description": "Aplikasi kasir (POS) berbasis web untuk satu outlet makanan & minuman: transaksi, pembayaran, struk, shift, menu, stok bahan baku, laporan, pengguna & peran",
+    "type": "greenfield"
+  },
+  "confirmed_at": "2026-10-03T21:00:00+08:00",
+  "requirements": {
+    "goal": "Mempercepat dan merapikan transaksi kasir outlet F&B sekaligus mengendalikan stok bahan dan kas per shift",
+    "success_metric": "Transaksi biasa (3 item, tunai) selesai dari pilih menu sampai struk <= 30 detik",
+    "features": [
+      {
+        "name": "Autentikasi (email+password Pemilik/Admin, PIN Kasir) & peran",
+        "priority": "mvp"
+      },
+      {
+        "name": "Pengaturan outlet, pajak/biaya, metode bayar, struk",
+        "priority": "mvp"
+      },
+      {
+        "name": "Menu, kategori, varian, stok produk",
+        "priority": "mvp"
+      },
+      {
+        "name": "Transaksi kasir + pembayaran Tunai/QRIS statis/Debit-Transfer + struk",
+        "priority": "mvp"
+      },
+      {
+        "name": "Shift buka/tutup + rekonsiliasi kas",
+        "priority": "mvp"
+      },
+      {
+        "name": "Pembatalan transaksi (void) dengan PIN admin",
+        "priority": "mvp"
+      },
+      {
+        "name": "Bahan baku, resep, potong stok otomatis, HPP, stok masuk, peringatan menipis",
+        "priority": "mvp"
+      },
+      {
+        "name": "Laporan penjualan (omzet, per jam, terlaris, metode bayar, riwayat) + export Excel",
+        "priority": "mvp"
+      },
+      {
+        "name": "Mode offline PWA (antrean transaksi + sinkronisasi)",
+        "priority": "later"
+      }
+    ],
+    "out_of_scope": [
+      "Multi-outlet/cabang",
+      "QRIS dinamis/payment gateway",
+      "Aplikasi mobile native",
+      "Integrasi GoFood/GrabFood",
+      "Akuntansi & e-filing pajak",
+      "Member/loyalti",
+      "Kitchen display (KDS)",
+      "Multi-bahasa"
+    ],
+    "roles": [
+      {
+        "name": "owner",
+        "can": [
+          "semua"
+        ],
+        "cannot": []
+      },
+      {
+        "name": "admin",
+        "can": [
+          "transaksi",
+          "diskon",
+          "void",
+          "kelola menu & stok",
+          "laporan semua"
+        ],
+        "cannot": [
+          "ubah pengaturan",
+          "kelola pengguna"
+        ]
+      },
+      {
+        "name": "cashier",
+        "can": [
+          "transaksi",
+          "buka/tutup shift sendiri",
+          "laporan shift sendiri"
+        ],
+        "cannot": [
+          "diskon/void tanpa PIN admin",
+          "kelola menu & stok",
+          "pengaturan"
+        ]
+      }
+    ],
+    "processes": [
+      {
+        "name": "Transaksi",
+        "happy_path": "buka shift -> pilih menu -> bayar -> struk",
+        "failure": "produk habis tak bisa dipilih; tunai kurang tak bisa diselesaikan"
+      },
+      {
+        "name": "Tutup shift",
+        "happy_path": "input kas fisik -> sistem hitung selisih -> kunci shift",
+        "failure": "selisih != 0 wajib catatan"
+      },
+      {
+        "name": "Void",
+        "happy_path": "pilih transaksi -> alasan -> PIN admin -> stok dikembalikan",
+        "failure": "PIN salah ditolak; 5x salah dikunci 15 menit"
+      },
+      {
+        "name": "Stok masuk",
+        "happy_path": "pilih bahan -> qty + harga beli -> stok & HPP rata-rata diperbarui",
+        "failure": "qty <= 0 ditolak"
+      }
+    ],
+    "entities": [
+      {
+        "name": "User",
+        "key_attrs": [
+          "name",
+          "email",
+          "pin_hash",
+          "role"
+        ],
+        "relations": [
+          "hasMany Shift",
+          "hasMany Order"
+        ]
+      },
+      {
+        "name": "Shift",
+        "key_attrs": [
+          "opening_cash",
+          "closing_cash_counted",
+          "expected_cash"
+        ],
+        "relations": [
+          "belongsTo User",
+          "hasMany Order"
+        ]
+      },
+      {
+        "name": "Product",
+        "key_attrs": [
+          "name",
+          "price",
+          "track_stock",
+          "stock_qty"
+        ],
+        "relations": [
+          "belongsTo Category",
+          "hasMany VariantGroup",
+          "belongsToMany Ingredient via Recipe"
+        ]
+      },
+      {
+        "name": "Ingredient",
+        "key_attrs": [
+          "name",
+          "unit",
+          "stock_qty",
+          "min_qty",
+          "avg_cost"
+        ],
+        "relations": [
+          "hasMany StockMovement"
+        ]
+      },
+      {
+        "name": "Order",
+        "key_attrs": [
+          "number",
+          "status",
+          "subtotal",
+          "tax",
+          "total"
+        ],
+        "relations": [
+          "hasMany OrderItem",
+          "hasMany Payment",
+          "belongsTo Shift"
+        ]
+      }
+    ],
+    "sensitive_data": [
+      "password & PIN (hash)",
+      "data transaksi & kas (tak boleh dihapus)",
+      "audit log"
+    ],
+    "stack": {
+      "backend": "Laravel 12 / PHP 8.3",
+      "frontend": "Blade + Livewire 3 + Alpine.js",
+      "db": "MySQL 8",
+      "versions": {
+        "php": "8.3",
+        "laravel": "12",
+        "livewire": "3",
+        "alpinejs": "3",
+        "mysql": "8.0",
+        "node": "20 LTS",
+        "vite": "6"
+      },
+      "forbidden": [
+        "jQuery",
+        "Bootstrap",
+        "Tailwind",
+        "React/Vue/SPA",
+        "float/decimal untuk uang"
+      ],
+      "framework": {
+        "backend": "laravel",
+        "frontend": "livewire"
+      }
+    },
+    "ui": {
+      "enabled": true,
+      "anchor": "Rancangan kanvas MyKasir (Rancangan Aplikasi Kasir Outlet) — 4 layar"
+    },
+    "split": {
+      "enabled": false,
+      "role": "",
+      "contract_path": "",
+      "contract_version": ""
+    },
+    "architecture": {
+      "pattern": "Monolit modular: Controller/Livewire tipis, logika di app/Actions & app/Services",
+      "integrations": [
+        "QRIS statis (gambar)",
+        "Cetak struk via window.print() 58 mm"
+      ]
+    },
+    "environment": {
+      "os": "Ubuntu 24.04 + Nginx + PHP-FPM 8.3",
+      "services": [
+        "MySQL 8"
+      ],
+      "commands": {
+        "run": "php artisan serve",
+        "test": "php artisan test",
+        "migrate": "php artisan migrate",
+        "build": "npm run build"
+      }
+    },
+    "testing": "Feature test alur kritis + unit test kalkulasi uang/HPP",
+    "security": [
+      "FormRequest semua input",
+      "Policy per peran",
+      "rahasia di .env",
+      "rate limit login & PIN",
+      "tidak ada hard-delete transaksi"
+    ],
+    "acceptance": "Kriteria per fitur di 23 + tes hijau",
+    "definition_of_done": "Lihat 24",
+    "change_policy": {
+      "git": "branch per fitur, PR ke main, dilarang commit langsung ke main",
+      "irreversible_ops": [
+        "migrasi destruktif",
+        "hapus data",
+        "rilis produksi",
+        "reset stok/opname massal"
+      ],
+      "release_steps": [
+        "tes hijau",
+        "backup DB",
+        "migrasi",
+        "deploy",
+        "smoke test",
+        "rollback plan"
+      ]
+    }
+  },
+  "canonical_owners": {
+    "product_value": "00/01",
+    "features": "01",
+    "scope": "02",
+    "roadmap": "03",
+    "domain_terms": "04",
+    "roles": "05",
+    "business_process": "06",
+    "schema": "07",
+    "architecture": "08",
+    "stack": "09",
+    "dev_env": "10",
+    "commands": "11",
+    "project_structure": "12",
+    "testing": "13",
+    "error_handling": "14",
+    "observability": "15",
+    "landmines": "16",
+    "repair_rules": "18",
+    "guardrails": "20",
+    "security": "21",
+    "change_policy": "22",
+    "definition_of_done": "24",
+    "ui_conventions": "26"
+  },
+  "referenced_by": {
+    "01": [
+      "02",
+      "03",
+      "23"
+    ],
+    "02": [
+      "03",
+      "17",
+      "22",
+      "23",
+      "CLAUDE"
+    ],
+    "03": [],
+    "04": [
+      "06",
+      "07"
+    ],
+    "05": [
+      "06",
+      "21",
+      "23",
+      "26"
+    ],
+    "06": [
+      "23"
+    ],
+    "07": [
+      "06",
+      "16",
+      "18",
+      "21",
+      "23"
+    ],
+    "08": [],
+    "09": [
+      "08",
+      "10",
+      "CLAUDE"
+    ],
+    "10": [],
+    "11": [
+      "10",
+      "13",
+      "16",
+      "23",
+      "25",
+      "CLAUDE"
+    ],
+    "12": [
+      "26",
+      "CLAUDE"
+    ],
+    "13": [
+      "23",
+      "24"
+    ],
+    "14": [
+      "16",
+      "26"
+    ],
+    "15": [
+      "16"
+    ],
+    "16": [
+      "18"
+    ],
+    "18": [
+      "17"
+    ],
+    "20": [
+      "24",
+      "CLAUDE"
+    ],
+    "21": [
+      "06",
+      "20",
+      "22",
+      "23"
+    ],
+    "22": [
+      "25",
+      "CLAUDE"
+    ],
+    "24": [
+      "23",
+      "25"
+    ],
+    "26": [
+      "23",
+      "24",
+      "CLAUDE"
+    ]
+  },
+  "collapsed": [
+    "17",
+    "19"
+  ],
+  "landmines": [],
+  "assumptions": [
+    "CSS kustom berbasis variabel token, tanpa Bootstrap/Tailwind",
+    "Export Excel memakai maatwebsite/excel",
+    "PIN kasir 6 digit; Pemilik/Admin email + kata sandi",
+    "PB1 10% aktif, biaya layanan 5% opsional, pembulatan Rp 100",
+    "Produk tanpa resep: stok per produk; produk dengan resep: stok mengikuti bahan",
+    "Roadmap F1-F5 MVP, F6 PWA offline",
+    "Kode di folder mykasir/"
+  ],
+  "open_questions": [
+    "Pustaka/pola sinkronisasi offline Fase 2",
+    "Nama, alamat, logo outlet asli",
+    "Jadwal backup otomatis"
+  ],
+  "archive_pattern": "23-*.md"
+}
