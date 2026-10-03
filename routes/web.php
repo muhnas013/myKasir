@@ -10,6 +10,7 @@ use App\Livewire\Pos\Register as PosRegister;
 use App\Livewire\Settings\Index as SettingsIndex;
 use App\Livewire\Shift\Close as ShiftClose;
 use App\Livewire\Shift\Open as ShiftOpen;
+use App\Livewire\Stock\Index as StockIndex;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
@@ -35,6 +36,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/menu', MenuIndex::class)
         ->middleware('can:menu.manage')
         ->name('menu.index');
+
+    Route::get('/stock', StockIndex::class)
+        ->middleware('can:stock.manage')
+        ->name('stock.index');
 
     Route::get('/settings', SettingsIndex::class)
         ->middleware('can:settings.manage')

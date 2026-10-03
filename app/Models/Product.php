@@ -45,6 +45,12 @@ class Product extends Model
         return $this->hasMany(VariantGroup::class);
     }
 
+    /** Resep dasar (per 1 porsi) — bukan resep opsi varian, lihat VariantOption::recipes(). */
+    public function recipes(): HasMany
+    {
+        return $this->hasMany(Recipe::class);
+    }
+
     public function scopeActive($query)
     {
         return $query->where('is_active', true);

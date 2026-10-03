@@ -26,7 +26,7 @@ class Grid extends Component
     {
         $products = Product::query()
             ->active()
-            ->with('category')
+            ->with('category', 'recipes.ingredient')
             ->when($this->categoryFilter !== '', fn ($q) => $q->where('category_id', $this->categoryFilter))
             ->orderBy('name')
             ->get();

@@ -28,6 +28,11 @@
                         <x-icon name="utensils" /> Menu
                     </a>
                 @endcan
+                @can('stock.manage')
+                    <a href="{{ route('stock.index') }}" class="app-sidebar__link @if(request()->routeIs('stock.*')) is-active @endif">
+                        <x-icon name="package" /> Stok
+                    </a>
+                @endcan
                 @can('settings.manage')
                     <a href="{{ route('settings.index') }}" class="app-sidebar__link @if(request()->routeIs('settings.*')) is-active @endif">
                         <x-icon name="settings" /> Pengaturan

@@ -12,7 +12,11 @@ use Illuminate\Validation\ValidationException;
  */
 class CartPricer
 {
-    public function __construct(private PriceCalculator $calculator, private SettingService $settings) {}
+    public function __construct(
+        private PriceCalculator $calculator,
+        private SettingService $settings,
+        private StockService $stock,
+    ) {}
 
     /**
      * @param  list<array{product_id: int, option_ids?: list<int>, qty: int, note?: ?string}>  $lines
@@ -22,7 +26,7 @@ class CartPricer
     {
         $products = Product::query()
             ->active()
-            ->with('variantGroups.options')
+            ->with('variantGroups.options.recipes.ingredient', 'recipes.ingredient')
             ->whereIn('id', collect($lines)->pluck('product_id')->unique())
             ->get()
             ->keyBy('id');
@@ -52,6 +56,7 @@ class CartPricer
                 'unit_price' => $unitPrice,
                 'qty' => $qty,
                 'line_total' => $lineTotal,
+                'unit_cost' => $this->stock->porsiCost($product, array_column($options, 'id')),
                 'options' => $options,
                 'note' => $line['note'] ?? null,
             ];

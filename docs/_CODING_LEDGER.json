@@ -2,10 +2,10 @@
   "versi": "1.1",
   "genesis": "2026-10-04T01:46:11+08:00",
   "perintah": {
-    "test": "php-legacy artisan test",
-    "run": "php-legacy artisan serve",
-    "migrate": "php-legacy artisan migrate",
-    "lint": "php-legacy vendor/bin/pint --test"
+    "test": "php artisan test",
+    "run": "composer run dev",
+    "migrate": "php artisan migrate",
+    "lint": "./vendor/bin/pint --test"
   },
   "sesi": [
     {
@@ -28,14 +28,33 @@
       "step": 0,
       "detik": 0,
       "tok_est": 0
+    },
+    {
+      "mulai": "2026-10-04T02:46:19+08:00",
+      "selesai": null,
+      "step": 6,
+      "detik": 640,
+      "tok_est": 36813
     }
   ],
-  "step_berjalan": null,
+  "step_berjalan": {
+    "no": 7,
+    "nama": "Gerbang fitur",
+    "mulai": "2026-10-04T03:02:43+08:00"
+  },
   "blueprint": {
     "sidik_awal": "c34de8dd38e393ec",
-    "sidik": "c34de8dd38e393ec",
+    "sidik": "8807b74ecc7ed50f",
     "dokumen": 27,
-    "disegel": "2026-10-04T01:46:11+08:00"
+    "disegel": "2026-10-04T02:46:19+08:00",
+    "sidik_sebelumnya": "c34de8dd38e393ec",
+    "riwayat": [
+      {
+        "dari": "c34de8dd38e393ec",
+        "ke": "8807b74ecc7ed50f",
+        "pada": "2026-10-04T02:46:19+08:00"
+      }
+    ]
   },
   "riwayat_fitur": [
     {
@@ -290,10 +309,149 @@
     }
   ],
   "akumulasi": {
-    "detik": 1145,
-    "tok_est": 18530,
+    "detik": 1785,
+    "tok_est": 55343,
     "tok_terukur": 0,
-    "step": 6,
+    "step": 12,
     "fitur": 3
+  },
+  "fitur_aktif": {
+    "fitur": "F4-STOCK",
+    "rute": "Fitur baru (vertical slice)",
+    "mulai": "2026-10-04T02:52:06+08:00",
+    "rencana": [
+      "database/migrations/2026_10_05_000000_create_stock_catalog_table.php",
+      "app/Models/Ingredient.php",
+      "app/Models/Recipe.php",
+      "app/Models/Product.php",
+      "app/Models/VariantOption.php",
+      "app/Models/StockMovement.php",
+      "app/Policies/StockPolicy.php",
+      "app/Providers/AppServiceProvider.php",
+      "app/Services/StockService.php",
+      "app/Services/CartPricer.php",
+      "app/Actions/Orders/SaveOpenOrder.php",
+      "app/Actions/Orders/CompleteOrder.php",
+      "app/Actions/Stock/SaveIngredient.php",
+      "app/Actions/Stock/DeleteIngredient.php",
+      "app/Actions/Stock/SaveRecipe.php",
+      "app/Livewire/Stock/Index.php",
+      "app/Livewire/Stock/IngredientTable.php",
+      "app/Livewire/Stock/RecipeEditor.php",
+      "resources/views/livewire/stock/index.blade.php",
+      "resources/views/livewire/stock/ingredient-table.blade.php",
+      "resources/views/livewire/stock/recipe-editor.blade.php",
+      "routes/web.php",
+      "resources/views/components/layouts/app.blade.php",
+      "resources/css/app.css",
+      "database/factories/IngredientFactory.php",
+      "tests/Feature/Stock/StockManagementTest.php",
+      "tests/Feature/Stock/RecipeManagementTest.php",
+      "tests/Feature/Stock/StockMovementTest.php"
+    ],
+    "total_step": 0,
+    "step": [
+      {
+        "no": 1,
+        "nama": "Skema/migrasi",
+        "mulai": "2026-10-04T02:52:06+08:00",
+        "selesai": "2026-10-04T02:52:42+08:00",
+        "detik": 36,
+        "tok_est": 2636,
+        "muat": [
+          "database/migrations/2026_10_05_000000_create_stock_catalog_table.php",
+          "docs/07_DATA_MODEL.md"
+        ]
+      },
+      {
+        "no": 2,
+        "nama": "Model/akses data",
+        "mulai": "2026-10-04T02:52:42+08:00",
+        "selesai": "2026-10-04T02:53:22+08:00",
+        "detik": 41,
+        "tok_est": 2060,
+        "muat": [
+          "app/Models/Ingredient.php",
+          "app/Models/Recipe.php",
+          "app/Models/Product.php",
+          "app/Models/VariantOption.php",
+          "app/Models/StockMovement.php",
+          "app/Policies/StockPolicy.php",
+          "app/Providers/AppServiceProvider.php",
+          "docs/05_USER_ROLE.md"
+        ]
+      },
+      {
+        "no": 3,
+        "nama": "Service/logika domain",
+        "mulai": "2026-10-04T02:53:22+08:00",
+        "selesai": "2026-10-04T02:55:53+08:00",
+        "detik": 152,
+        "tok_est": 8339,
+        "muat": [
+          "app/Services/StockService.php",
+          "app/Services/CartPricer.php",
+          "app/Actions/Orders/SaveOpenOrder.php",
+          "app/Actions/Orders/CompleteOrder.php",
+          "docs/06_BUSINESS_PROCESS.md",
+          "docs/16_DEBUGGING_GUIDE.md"
+        ]
+      },
+      {
+        "no": 4,
+        "nama": "Endpoint/controller/rute",
+        "mulai": "2026-10-04T02:55:53+08:00",
+        "selesai": "2026-10-04T02:57:21+08:00",
+        "detik": 88,
+        "tok_est": 5789,
+        "muat": [
+          "app/Actions/Stock/SaveIngredient.php",
+          "app/Actions/Stock/DeleteIngredient.php",
+          "app/Actions/Stock/SaveRecipe.php",
+          "routes/web.php",
+          "resources/views/components/layouts/app.blade.php",
+          "resources/views/components/icon.blade.php",
+          "app/Livewire/Pos/Grid.php",
+          "docs/26_UI_CONVENTIONS.md"
+        ]
+      },
+      {
+        "no": 5,
+        "nama": "UI + empat state wajib",
+        "mulai": "2026-10-04T02:57:21+08:00",
+        "selesai": "2026-10-04T03:00:01+08:00",
+        "detik": 160,
+        "tok_est": 13114,
+        "muat": [
+          "app/Livewire/Stock/Index.php",
+          "app/Livewire/Stock/IngredientTable.php",
+          "app/Livewire/Stock/RecipeEditor.php",
+          "resources/views/livewire/stock/index.blade.php",
+          "resources/views/livewire/stock/ingredient-table.blade.php",
+          "resources/views/livewire/stock/recipe-editor.blade.php",
+          "resources/css/app.css",
+          "resources/views/components/*.blade.php",
+          "resources/views/livewire/pos/history.blade.php"
+        ]
+      },
+      {
+        "no": 6,
+        "nama": "Tes",
+        "mulai": "2026-10-04T03:00:01+08:00",
+        "selesai": "2026-10-04T03:02:43+08:00",
+        "detik": 163,
+        "tok_est": 4875,
+        "muat": [
+          "database/factories/IngredientFactory.php",
+          "tests/Feature/Stock/StockManagementTest.php",
+          "tests/Feature/Stock/RecipeManagementTest.php",
+          "tests/Feature/Stock/StockMovementTest.php",
+          "docs/23_ACCEPTANCE_CRITERIA.md",
+          "docs/13_TESTING.md"
+        ]
+      }
+    ],
+    "detik": 640,
+    "tok_est": 36813
   }
 }

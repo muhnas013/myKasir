@@ -2,29 +2,21 @@
 
 namespace App\Models;
 
-use App\Enums\StockMovementType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class StockMovement extends Model
+class Recipe extends Model
 {
-    const UPDATED_AT = null;
-
     protected $fillable = [
         'ingredient_id',
         'product_id',
-        'type',
+        'variant_option_id',
         'qty',
-        'total_cost',
-        'order_id',
-        'user_id',
-        'note',
     ];
 
     protected function casts(): array
     {
         return [
-            'type' => StockMovementType::class,
             'qty' => 'decimal:3',
         ];
     }
@@ -37,5 +29,10 @@ class StockMovement extends Model
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function variantOption(): BelongsTo
+    {
+        return $this->belongsTo(VariantOption::class);
     }
 }

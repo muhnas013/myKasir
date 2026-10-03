@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class VariantOption extends Model
 {
@@ -19,5 +20,10 @@ class VariantOption extends Model
     public function group(): BelongsTo
     {
         return $this->belongsTo(VariantGroup::class, 'variant_group_id');
+    }
+
+    public function recipes(): HasMany
+    {
+        return $this->hasMany(Recipe::class);
     }
 }

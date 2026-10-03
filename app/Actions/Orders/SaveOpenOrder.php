@@ -100,6 +100,7 @@ class SaveOpenOrder
                     'unit_price' => $item['unit_price'],
                     'qty' => $item['qty'],
                     'line_total' => $item['line_total'],
+                    'unit_cost' => $item['unit_cost'] ?? 0,
                     'options' => $item['options'] ?: null,
                     'note' => $this->clean($item['note'], 150),
                 ]);

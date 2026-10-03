@@ -75,6 +75,7 @@ class CompleteOrder
         $this->stock->deductForSale($order, $order->items->map(fn ($item) => [
             'product_id' => $item->product_id,
             'qty' => $item->qty,
+            'option_ids' => collect($item->options ?? [])->pluck('id')->all(),
         ]), $actor);
 
         $order->payment()->create([

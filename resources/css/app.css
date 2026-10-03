@@ -519,6 +519,29 @@ textarea.input {
     color: var(--c-danger);
 }
 
+.stock-alert {
+    display: flex;
+    gap: var(--sp-3);
+    align-items: flex-start;
+    padding: var(--sp-3);
+    margin-bottom: var(--sp-4);
+    background: var(--c-warning-soft);
+    border: 1px solid var(--c-warning-border);
+    border-radius: var(--r-md);
+    color: var(--c-warning);
+}
+
+.stock-alert__title {
+    font-weight: 600;
+    margin-bottom: var(--sp-2);
+}
+
+.stock-alert__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-2);
+}
+
 /* Table */
 .table-wrap {
     overflow-x: auto;
