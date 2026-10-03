@@ -3,16 +3,8 @@
 Hanya fitur AKTIF. Fitur yang diterima dipindah ke `docs/_archive/23-{kode}.md`. Fitur: `docs/01_PRD.md`; proses & rumus: `docs/06_BUSINESS_PROCESS.md`; peran: `docs/05_USER_ROLE.md`; DoD: `docs/24_DEFINITION_OF_DONE.md`.
 Data uji standar: Es Kopi Susu Gula Aren Rp 18.000, Nasi Goreng Spesial Rp 25.000, Pisang Goreng Rp 12.000.
 
-## F2 — MENU
-- [ ] Given produk `is_active=false`, Then tidak tampil di grid kasir.
-- [ ] Given grup varian wajib, When produk diketuk, Then dialog varian muncul dan item tak bisa ditambah tanpa memilih.
-- [ ] Given perubahan harga produk, Then `audit_logs.action=product.price_changed` berisi harga lama & baru, dan `order_items` lama tidak berubah.
-- [ ] Layar Menu menampilkan empat state (26) — kosong: "Belum ada menu. Tambah menu pertama."
-```
-php artisan test --filter=Menu   → lulus: 0 failures
-```
-
 ## F3 — POS + PAY + SHIFT + VOID
+- [ ] (dari F2) Given harga produk diubah setelah ada pesanan, Then `order_items` lama (snapshot `unit_price`) tidak berubah.
 - [ ] Keranjang 2× Es Kopi + 1 Nasi Goreng + 1 Pisang Goreng, PB1 10%, layanan off, take away → subtotal 73.000, tax 7.300, total **80.300**.
 - [ ] Sama, dine in, layanan 5% on → service 3.650, tax 7.665, total **84.300**, rounding −15.
 - [ ] Tunai 100.000 → kembalian 19.700; tombol selesai nonaktif bila uang < total.

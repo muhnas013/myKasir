@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PinLoginController;
 use App\Http\Controllers\HomeController;
+use App\Livewire\Menu\Index as MenuIndex;
 use App\Livewire\Settings\Index as SettingsIndex;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +21,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/pos', [HomeController::class, 'posPlaceholder'])->name('pos.placeholder');
+
+    Route::get('/menu', MenuIndex::class)
+        ->middleware('can:menu.manage')
+        ->name('menu.index');
 
     Route::get('/settings', SettingsIndex::class)
         ->middleware('can:settings.manage')

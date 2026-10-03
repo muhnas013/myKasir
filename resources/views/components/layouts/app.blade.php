@@ -18,6 +18,11 @@
                         <x-icon name="store" /> Kasir
                     </a>
                 @endcan
+                @can('menu.manage')
+                    <a href="{{ route('menu.index') }}" class="app-sidebar__link @if(request()->routeIs('menu.*')) is-active @endif">
+                        <x-icon name="utensils" /> Menu
+                    </a>
+                @endcan
                 @can('settings.manage')
                     <a href="{{ route('settings.index') }}" class="app-sidebar__link @if(request()->routeIs('settings.*')) is-active @endif">
                         <x-icon name="settings" /> Pengaturan

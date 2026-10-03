@@ -22,5 +22,7 @@ class DemoSeeder extends Seeder
             'name' => 'Kasir 1',
             'pin_hash' => Hash::make('123456'),
         ]);
+
+        $this->call(MenuDemoSeeder::class);
     }
 }

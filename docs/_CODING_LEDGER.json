@@ -11,148 +11,233 @@
     {
       "mulai": "2026-10-04T01:46:11+08:00",
       "selesai": null,
-      "step": 5,
-      "detik": 1010,
-      "tok_est": 16991
+      "step": 6,
+      "detik": 1145,
+      "tok_est": 18530
+    },
+    {
+      "mulai": "2026-10-04T02:09:39+08:00",
+      "selesai": null,
+      "step": 0,
+      "detik": 0,
+      "tok_est": 0
     }
   ],
-  "fitur_aktif": {
-    "fitur": "F1-AUTH-SET",
-    "rute": "Fitur baru (vertical slice)",
-    "mulai": "2026-10-04T01:47:22+08:00",
-    "rencana": [
-      "app/Models",
-      "app/Enums",
-      "app/Services",
-      "app/Actions/Auth",
-      "app/Actions/Settings",
-      "app/Policies",
-      "app/Http/Controllers/Auth",
-      "app/Livewire/Settings",
-      "app/Http/Middleware",
-      "database/migrations",
-      "resources/views",
-      "resources/css/app.css",
-      "routes/web.php",
-      "tests/Feature/Auth",
-      "tests/Feature/Settings"
-    ],
-    "total_step": 0,
-    "step": [
-      {
-        "no": 1,
-        "nama": "Bootstrap Laravel + Livewire",
-        "mulai": "2026-10-04T01:47:22+08:00",
-        "selesai": "2026-10-04T01:49:43+08:00",
-        "detik": 142,
-        "tok_est": 2164,
-        "muat": [
-          "composer.json",
-          ".env",
-          "phpunit.xml",
-          "database/migrations/0001_01_01_000000_create_users_table.php",
-          "database/migrations/2026_10_03_174930_create_settings_table.php"
-        ]
-      },
-      {
-        "no": 2,
-        "nama": "Model/Enum",
-        "mulai": "2026-10-04T01:49:43+08:00",
-        "selesai": "2026-10-04T01:50:17+08:00",
-        "detik": 34,
-        "tok_est": 778,
-        "muat": [
-          "app/Enums/Role.php",
-          "app/Models/User.php",
-          "app/Models/Setting.php",
-          "database/migrations/2026_10_03_174930_create_settings_table.php"
-        ]
-      },
-      {
-        "no": 3,
-        "nama": "Service/Action/Policy",
-        "mulai": "2026-10-04T01:50:17+08:00",
-        "selesai": "2026-10-04T01:52:50+08:00",
-        "detik": 153,
-        "tok_est": 3891,
-        "muat": [
-          "app/Services/SettingService.php",
-          "app/Actions/Auth/LoginWithPassword.php",
-          "app/Actions/Auth/LoginWithPin.php",
-          "app/Actions/Settings/UpdateGeneralSettings.php",
-          "app/Actions/Settings/CreateUser.php",
-          "app/Actions/Settings/UpdateUser.php",
-          "app/Policies/SettingPolicy.php",
-          "app/Policies/UserPolicy.php",
-          "app/Providers/AppServiceProvider.php",
-          "app/Http/Middleware/EnsureUserIsActive.php",
-          "bootstrap/app.php",
-          "config/mykasir.php",
-          "database/migrations/2026_10_03_175032_create_audit_logs_table.php",
-          "app/Models/AuditLog.php"
-        ]
-      },
-      {
-        "no": 4,
-        "nama": "Endpoint/Controller/Rute",
-        "mulai": "2026-10-04T01:52:50+08:00",
-        "selesai": "2026-10-04T02:02:27+08:00",
-        "detik": 578,
-        "tok_est": 8129,
-        "muat": [
-          "app/Http/Controllers/Auth/LoginController.php",
-          "app/Http/Controllers/Auth/PinLoginController.php",
-          "app/Http/Controllers/HomeController.php",
-          "routes/web.php",
-          "app/Livewire/Settings/Index.php",
-          "app/Livewire/Settings/General.php",
-          "app/Livewire/Settings/Users.php",
-          "resources/views/components",
-          "resources/views/auth",
-          "resources/views/pos/placeholder.blade.php",
-          "resources/views/livewire/settings",
-          "resources/css/app.css",
-          "package.json",
-          "vite.config.js",
-          "database/factories/UserFactory.php",
-          "database/seeders"
-        ]
-      },
-      {
-        "no": 5,
-        "nama": "Tes",
-        "mulai": "2026-10-04T02:02:27+08:00",
-        "selesai": "2026-10-04T02:04:10+08:00",
-        "detik": 103,
-        "tok_est": 2029,
-        "muat": [
-          "tests/Feature/Auth/LoginTest.php",
-          "tests/Feature/Auth/PinLoginTest.php",
-          "tests/Feature/Settings/SettingsTest.php",
-          "tests/Feature/Settings/UserManagementTest.php"
-        ]
-      }
-    ],
-    "detik": 1010,
-    "tok_est": 16991
-  },
-  "step_berjalan": {
-    "no": 6,
-    "nama": "Gerbang Selesai",
-    "mulai": "2026-10-04T02:04:10+08:00"
-  },
+  "step_berjalan": null,
   "blueprint": {
     "sidik_awal": "c34de8dd38e393ec",
     "sidik": "c34de8dd38e393ec",
     "dokumen": 27,
     "disegel": "2026-10-04T01:46:11+08:00"
   },
-  "riwayat_fitur": [],
+  "riwayat_fitur": [
+    {
+      "fitur": "F1-AUTH-SET",
+      "rute": "Fitur baru (vertical slice)",
+      "mulai": "2026-10-04T01:47:22+08:00",
+      "rencana": [
+        "app/Models",
+        "app/Enums",
+        "app/Services",
+        "app/Actions/Auth",
+        "app/Actions/Settings",
+        "app/Policies",
+        "app/Http/Controllers/Auth",
+        "app/Livewire/Settings",
+        "app/Http/Middleware",
+        "database/migrations",
+        "resources/views",
+        "resources/css/app.css",
+        "routes/web.php",
+        "tests/Feature/Auth",
+        "tests/Feature/Settings"
+      ],
+      "total_step": 0,
+      "step": [
+        {
+          "no": 1,
+          "nama": "Bootstrap Laravel + Livewire",
+          "mulai": "2026-10-04T01:47:22+08:00",
+          "selesai": "2026-10-04T01:49:43+08:00",
+          "detik": 142,
+          "tok_est": 2164,
+          "muat": [
+            "composer.json",
+            ".env",
+            "phpunit.xml",
+            "database/migrations/0001_01_01_000000_create_users_table.php",
+            "database/migrations/2026_10_03_174930_create_settings_table.php"
+          ]
+        },
+        {
+          "no": 2,
+          "nama": "Model/Enum",
+          "mulai": "2026-10-04T01:49:43+08:00",
+          "selesai": "2026-10-04T01:50:17+08:00",
+          "detik": 34,
+          "tok_est": 778,
+          "muat": [
+            "app/Enums/Role.php",
+            "app/Models/User.php",
+            "app/Models/Setting.php",
+            "database/migrations/2026_10_03_174930_create_settings_table.php"
+          ]
+        },
+        {
+          "no": 3,
+          "nama": "Service/Action/Policy",
+          "mulai": "2026-10-04T01:50:17+08:00",
+          "selesai": "2026-10-04T01:52:50+08:00",
+          "detik": 153,
+          "tok_est": 3891,
+          "muat": [
+            "app/Services/SettingService.php",
+            "app/Actions/Auth/LoginWithPassword.php",
+            "app/Actions/Auth/LoginWithPin.php",
+            "app/Actions/Settings/UpdateGeneralSettings.php",
+            "app/Actions/Settings/CreateUser.php",
+            "app/Actions/Settings/UpdateUser.php",
+            "app/Policies/SettingPolicy.php",
+            "app/Policies/UserPolicy.php",
+            "app/Providers/AppServiceProvider.php",
+            "app/Http/Middleware/EnsureUserIsActive.php",
+            "bootstrap/app.php",
+            "config/mykasir.php",
+            "database/migrations/2026_10_03_175032_create_audit_logs_table.php",
+            "app/Models/AuditLog.php"
+          ]
+        },
+        {
+          "no": 4,
+          "nama": "Endpoint/Controller/Rute",
+          "mulai": "2026-10-04T01:52:50+08:00",
+          "selesai": "2026-10-04T02:02:27+08:00",
+          "detik": 578,
+          "tok_est": 8129,
+          "muat": [
+            "app/Http/Controllers/Auth/LoginController.php",
+            "app/Http/Controllers/Auth/PinLoginController.php",
+            "app/Http/Controllers/HomeController.php",
+            "routes/web.php",
+            "app/Livewire/Settings/Index.php",
+            "app/Livewire/Settings/General.php",
+            "app/Livewire/Settings/Users.php",
+            "resources/views/components",
+            "resources/views/auth",
+            "resources/views/pos/placeholder.blade.php",
+            "resources/views/livewire/settings",
+            "resources/css/app.css",
+            "package.json",
+            "vite.config.js",
+            "database/factories/UserFactory.php",
+            "database/seeders"
+          ]
+        },
+        {
+          "no": 5,
+          "nama": "Tes",
+          "mulai": "2026-10-04T02:02:27+08:00",
+          "selesai": "2026-10-04T02:04:10+08:00",
+          "detik": 103,
+          "tok_est": 2029,
+          "muat": [
+            "tests/Feature/Auth/LoginTest.php",
+            "tests/Feature/Auth/PinLoginTest.php",
+            "tests/Feature/Settings/SettingsTest.php",
+            "tests/Feature/Settings/UserManagementTest.php"
+          ]
+        },
+        {
+          "no": 6,
+          "nama": "Gerbang Selesai",
+          "mulai": "2026-10-04T02:04:10+08:00",
+          "selesai": "2026-10-04T02:06:25+08:00",
+          "detik": 135,
+          "tok_est": 1539,
+          "muat": [
+            "docs/03_ROADMAP.md",
+            "docs/23_ACCEPTANCE_CRITERIA.md",
+            "docs/_archive/23-F1-AUTH-SET.md"
+          ]
+        }
+      ],
+      "detik": 1145,
+      "tok_est": 18530,
+      "deviasi": [
+        "resources/views/pos/placeholder.blade.php — halaman landing sementara untuk kasir/admin pasca-login PIN, karena /pos sungguhan & tabel shifts baru dibangun di F3. AC F1 'masuk ke layar Buka Shift/Kasir' dipenuhi longgar (stub empty-state), bukan fitur POS/SHIFT nyata.",
+        "Gate pos.transact belum didefinisikan (menyusul F3) sehingga link 'Kasir' di sidebar belum muncul untuk siapa pun — tidak memblokir F1 karena kasir diarahkan langsung via redirect after-login, bukan lewat sidebar.",
+        "PHP yang dipakai adalah php-legacy (8.3.33) bukan php default sistem (8.5) — sistem punya dua instalasi PHP; semua perintah proyek wajib pakai php-legacy eksplisit (lihat ledger)."
+      ],
+      "asumsi": [
+        "SettingService meng-cache seluruh baris settings ke satu cache key 'settings.all' (bukan per-key) — wajar untuk volume kecil (±15 baris), dihapus otomatis tiap SettingService::set()."
+      ],
+      "dokumen_diperbarui": [
+        "docs/03_ROADMAP.md (status F1)",
+        "docs/23_ACCEPTANCE_CRITERIA.md (arsip F1)"
+      ],
+      "landmine_tersentuh": [
+        "git repo baru diinisialisasi sesi ini (sebelumnya tidak ada .git sama sekali) — histori proyek dimulai dari commit ini."
+      ],
+      "ditunda": [
+        "Route /menu (disebut di AC F1 untuk cek 403) — dibangun di F2, tidak diuji di sini."
+      ],
+      "selesai": "2026-10-04T02:06:25+08:00"
+    },
+    {
+      "fitur": "F2 MENU",
+      "rute": "Fitur baru (vertical slice)",
+      "mulai": "2026-10-04T02:09:39+08:00",
+      "rencana": [
+        "database/migrations",
+        "app/Models",
+        "app/Policies/MenuPolicy.php",
+        "app/Providers/AppServiceProvider.php",
+        "app/Actions/Menu",
+        "app/Support/Money.php",
+        "app/Livewire/Menu",
+        "app/Livewire/Pos",
+        "resources/views",
+        "resources/css/app.css",
+        "routes/web.php",
+        "database/factories",
+        "database/seeders",
+        "tests/Feature/Menu",
+        "tests/Unit",
+        "docs"
+      ],
+      "total_step": 0,
+      "step": [],
+      "detik": 0,
+      "tok_est": 0,
+      "deviasi": [
+        "app/Policies/PosPolicy.php + Gate pos.transact — gate belum terdefinisi sehingga @can sidebar selalu false dan Pos\\Grid menolak semua; ditambah sesuai matriks 05"
+      ],
+      "warn_dilewati": [
+        "S7: berkas baru di dalam direktori rencana (app/Actions/Menu dst) terdeteksi sebagai luar rencana — rencana ditulis per direktori",
+        "S8: komponen layout/modal tanpa 4 state — bukan halaman ber-data"
+      ],
+      "asumsi": [
+        "Tile kategori memakai (category_id-1)%4+1 untuk warna token, bukan urutan tampil",
+        "Grid kasir hanya mengumumkan event cart-add (keranjang F3)"
+      ],
+      "dokumen_diperbarui": [
+        "docs/03_ROADMAP.md (status F2)",
+        "docs/23 (F2 diarsip; klausa order_items ke F3)"
+      ],
+      "landmine_tersentuh": [
+        "php pdo_mysql nonaktif di /etc/php/php.ini; tes lokal perlu PHP_INI_SCAN_DIR berisi extension=pdo_mysql"
+      ],
+      "ditunda": [
+        "Klausa order_items snapshot harga (F3)"
+      ],
+      "selesai": "2026-10-04T02:19:50+08:00"
+    }
+  ],
   "akumulasi": {
-    "detik": 1010,
-    "tok_est": 16991,
+    "detik": 1145,
+    "tok_est": 18530,
     "tok_terukur": 0,
-    "step": 5,
-    "fitur": 0
+    "step": 6,
+    "fitur": 2
   }
 }
