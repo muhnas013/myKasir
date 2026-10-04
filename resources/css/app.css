@@ -901,9 +901,14 @@ textarea.input {
     align-items: start;
 }
 
+.pos__menu {
+    min-width: 0;
+}
+
 .pos__cart {
     position: sticky;
     top: var(--sp-6);
+    min-width: 0;
 }
 
 @media (max-width: 1279px) {
