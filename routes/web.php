@@ -13,6 +13,7 @@ use App\Livewire\Pos\Register as PosRegister;
 use App\Livewire\Reports\Index as ReportsIndex;
 use App\Livewire\Settings\Index as SettingsIndex;
 use App\Livewire\Shift\Close as ShiftClose;
+use App\Livewire\Shift\Expenses as ShiftExpenses;
 use App\Livewire\Shift\Open as ShiftOpen;
 use App\Livewire\Stock\Index as StockIndex;
 use Illuminate\Support\Facades\Route;
@@ -32,6 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/shift/open', ShiftOpen::class)->middleware('can:pos.transact')->name('shift.open');
     Route::get('/shift/close', ShiftClose::class)->middleware(['can:pos.transact', 'shift.open'])->name('shift.close');
+    Route::get('/shift/expenses', ShiftExpenses::class)->middleware(['can:pos.transact', 'shift.open'])->name('shift.expenses');
 
     Route::get('/pos', PosRegister::class)->middleware(['can:pos.transact', 'shift.open'])->name('pos.index');
     // Bukan 'shift.open': dipanggil fetch() offline-sync JS tanpa Livewire; shift divalidasi di dalam Action (lihat 06 P7).

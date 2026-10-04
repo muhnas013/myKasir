@@ -56,12 +56,17 @@ class Shift extends Model
         return $this->hasMany(ShiftActivity::class);
     }
 
+    public function expenses(): HasMany
+    {
+        return $this->hasMany(ShiftExpense::class);
+    }
+
     public function isOpen(): bool
     {
         return $this->status === ShiftStatus::Open;
     }
 
-    /** Modal awal + tunai dari pesanan lunas (penerimaan − kembalian). Pesanan void tidak dihitung. */
+    /** Modal awal + tunai dari pesanan lunas (penerimaan − kembalian) − pengeluaran kas. Pesanan void tidak dihitung. */
     public function expectedCash(): int
     {
         $cash = Payment::query()
@@ -70,6 +75,6 @@ class Shift extends Model
             ->selectRaw('COALESCE(SUM(paid_amount - change_amount), 0) as net')
             ->value('net');
 
-        return $this->opening_cash + (int) $cash;
+        return $this->opening_cash + (int) $cash - $this->expenses()->sum('amount');
     }
 }

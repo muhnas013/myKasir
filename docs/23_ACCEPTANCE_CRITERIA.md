@@ -3,6 +3,12 @@
 Hanya fitur AKTIF. Fitur yang diterima dipindah ke `docs/_archive/23-{kode}.md`. Fitur: `docs/01_PRD.md`; proses & rumus: `docs/06_BUSINESS_PROCESS.md`; peran: `docs/05_USER_ROLE.md`; DoD: `docs/24_DEFINITION_OF_DONE.md`.
 Data uji standar: Es Kopi Susu Gula Aren Rp 18.000, Nasi Goreng Spesial Rp 25.000, Pisang Goreng Rp 12.000.
 
+## SHIFT — pengeluaran kas operasional (06 P2, tambahan setelah F3 diarsipkan)
+- [x] Kasir mencatat pengeluaran (keterangan + nominal) selama shift terbuka; mengurangi `expected_cash` (`ShiftActionsTest::test_expense_reduces_expected_cash`).
+- [x] Pengeluaran tak bisa dicatat pada shift tertutup atau oleh bukan pemilik shift (`test_expense_cannot_be_recorded_on_closed_shift`, `test_expense_cannot_be_recorded_by_another_user`).
+- [x] Kasir bisa hapus pengeluaran yang salah catat selama shift masih terbuka (`ShiftPagesTest::test_cashier_can_record_and_delete_expense`).
+- [x] Ringkasan Tutup Shift menampilkan total pengeluaran bila ada (visual, lihat `close.blade.php`).
+
 ## F3 — POS + PAY + SHIFT + VOID (sisa: uji manual)
 Butir otomatis sudah diterima dan diarsipkan di `docs/_archive/23-F3-POS-PAY-SHIFT-VOID.md`. Sisa butir manual:
 - [ ] Struk tercetak penuh di kertas 58 mm pada printer thermal nyata (nama outlet, nomor, waktu WITA, item, subtotal, PB1, total, bayar, kembali, footer) (manual).

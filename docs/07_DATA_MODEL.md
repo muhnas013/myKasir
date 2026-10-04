@@ -140,6 +140,14 @@ Unik: (`ingredient_id`, `product_id`, `variant_option_id`).
 | note | varchar(255) | nullable | wajib untuk adjustment |
 Tanpa `updated_at`; baris tidak pernah diubah atau dihapus.
 
+## shift_expenses
+| Kolom | Tipe | Constraint | Catatan |
+|---|---|---|---|
+| shift_id | fk shifts | cascade | |
+| description | varchar(255) | not null | mis. "Es batu" |
+| amount | bigint unsigned | not null | Rupiah, mengurangi `expected_cash` (06 P2) |
+Tanpa `updated_at`; bisa dihapus selama shift masih `open`, tak bisa diubah setelah `closed`.
+
 ## wage_activities (F7)
 | Kolom | Tipe | Constraint | Catatan |
 |---|---|---|---|

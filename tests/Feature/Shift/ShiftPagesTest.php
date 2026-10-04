@@ -5,8 +5,10 @@ namespace Tests\Feature\Shift;
 use App\Actions\Orders\CompleteOrder;
 use App\Actions\Orders\SaveOpenOrder;
 use App\Livewire\Shift\Close;
+use App\Livewire\Shift\Expenses;
 use App\Livewire\Shift\Open;
 use App\Models\Shift;
+use App\Models\ShiftExpense;
 use App\Models\User;
 use App\Models\WageActivity;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -82,6 +84,26 @@ class ShiftPagesTest extends TestCase
             ->assertHasNoErrors();
 
         $this->assertDatabaseHas('shift_activities', ['shift_id' => $this->shift->id, 'name' => 'Pembuatan Jelly']);
+    }
+
+    public function test_cashier_can_record_and_delete_expense(): void
+    {
+        $this->setUpPos();
+
+        $component = Livewire::actingAs($this->cashier)->test(Expenses::class)
+            ->set('description', 'Es batu')
+            ->set('amount', 15000)
+            ->call('save')
+            ->assertHasNoErrors()
+            ->assertSee('Es batu')
+            ->assertSee('Rp 15.000');
+
+        $this->assertDatabaseHas('shift_expenses', ['shift_id' => $this->shift->id, 'amount' => 15000]);
+
+        $expenseId = ShiftExpense::first()->id;
+        $component->call('delete', $expenseId);
+
+        $this->assertDatabaseMissing('shift_expenses', ['id' => $expenseId]);
     }
 
     public function test_after_closing_pos_redirects_back_to_open_shift(): void

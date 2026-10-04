@@ -61,6 +61,7 @@
                     <div class="shift-card">
                         <div class="shift-card__label">Shift aktif</div>
                         <div class="shift-card__value">sejak {{ $activeShift->opened_at->format('H.i') }}</div>
+                        <a href="{{ route('shift.expenses') }}" class="shift-card__link">Catat Pengeluaran</a>
                         <a href="{{ route('shift.close') }}" class="shift-card__link">Tutup Shift</a>
                     </div>
                 @endif

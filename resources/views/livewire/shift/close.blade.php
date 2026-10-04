@@ -8,6 +8,9 @@
             <div class="card__title">Ringkasan shift</div>
             <dl class="summary">
                 <div class="summary__row"><dt>Modal awal</dt><dd>{{ \App\Support\Money::format($closed->opening_cash) }}</dd></div>
+                @if ($closed->expenses->isNotEmpty())
+                    <div class="summary__row"><dt>Pengeluaran ({{ $closed->expenses->count() }})</dt><dd>-{{ \App\Support\Money::format($closed->expenses->sum('amount')) }}</dd></div>
+                @endif
                 <div class="summary__row"><dt>Kas seharusnya</dt><dd>{{ \App\Support\Money::format($closed->expected_cash) }}</dd></div>
                 <div class="summary__row"><dt>Kas dihitung</dt><dd>{{ \App\Support\Money::format($closed->counted_cash) }}</dd></div>
                 <div class="summary__row summary__row--strong">

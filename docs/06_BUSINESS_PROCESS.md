@@ -22,8 +22,9 @@ Peran: `docs/05_USER_ROLE.md`. Tabel/kolom: `docs/07_DATA_MODEL.md`.
 
 ## P2 — Buka & tutup shift
 1. Buka: kasir mengisi modal awal (≥ 0) → `shifts.status=open`.
-2. Tutup: kasir menghitung uang fisik per pecahan atau total → sistem menghitung `expected_cash` dan `cash_difference`.
-3. Bila selisih ≠ 0, catatan wajib diisi. Shift berstatus `closed`, ringkasan shift dicetak.
+2. Selama shift berjalan, kasir boleh mencatat pengeluaran kas operasional (mis. beli es batu) di `/shift/expenses` — nominal + keterangan, bisa dihapus selama shift masih terbuka. Mengurangi `expected_cash` (lihat 3).
+3. Tutup: kasir menghitung uang fisik per pecahan atau total → sistem menghitung `expected_cash` (modal awal + tunai bersih dari penjualan − total pengeluaran kas) dan `cash_difference`.
+4. Bila selisih ≠ 0, catatan wajib diisi. Shift berstatus `closed` (pengeluaran tak bisa diubah lagi setelah ini), ringkasan shift dicetak.
 **Kondisi gagal:** masih ada pesanan `open` → tutup ditolak sampai pesanan dibayar atau dibatalkan.
 
 ## P3 — Void transaksi

@@ -6,6 +6,7 @@ use App\Actions\Orders\CompleteOrder;
 use App\Actions\Orders\SaveOpenOrder;
 use App\Actions\Shifts\CloseShift;
 use App\Actions\Shifts\OpenShift;
+use App\Actions\Shifts\RecordShiftExpense;
 use App\Models\User;
 use App\Models\WageActivity;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -113,6 +114,40 @@ class ShiftActionsTest extends TestCase
 
         $jelly->update(['name' => 'Berubah', 'bonus_amount' => 1]);
         $this->assertDatabaseHas('shift_activities', ['shift_id' => $closed->id, 'name' => 'Pembuatan Jelly', 'bonus_amount' => 5000]);
+    }
+
+    public function test_expense_reduces_expected_cash(): void
+    {
+        app(CompleteOrder::class)->handle($this->cashier, $this->shift, $this->cashInput());
+
+        app(RecordShiftExpense::class)->handle($this->shift, $this->cashier, 'Es batu', 15000);
+        app(RecordShiftExpense::class)->handle($this->shift, $this->cashier, 'Gula', 20000);
+
+        // Modal 200.000 + tunai bersih 80.300 - pengeluaran 35.000 = 245.300
+        $this->assertSame(245300, $this->shift->fresh()->expectedCash());
+
+        $closed = app(CloseShift::class)->handle($this->shift, $this->cashier, 245300);
+        $this->assertSame(0, $closed->cash_difference);
+    }
+
+    public function test_expense_requires_positive_amount_and_description(): void
+    {
+        $this->expectException(ValidationException::class);
+        app(RecordShiftExpense::class)->handle($this->shift, $this->cashier, '', 15000);
+    }
+
+    public function test_expense_cannot_be_recorded_on_closed_shift(): void
+    {
+        app(CloseShift::class)->handle($this->shift, $this->cashier, 200000);
+
+        $this->expectException(ValidationException::class);
+        app(RecordShiftExpense::class)->handle($this->shift, $this->cashier, 'Es batu', 15000);
+    }
+
+    public function test_expense_cannot_be_recorded_by_another_user(): void
+    {
+        $this->expectException(ValidationException::class);
+        app(RecordShiftExpense::class)->handle($this->shift, User::factory()->cashier()->create(), 'Es batu', 15000);
     }
 
     public function test_new_shift_can_be_opened_after_closing(): void

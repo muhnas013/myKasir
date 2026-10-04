@@ -8,7 +8,7 @@
 | MENU | Menu & varian | Kategori, produk, harga, varian (grup + opsi + tambahan harga), aktif/nonaktif di kasir | MVP |
 | POS | Transaksi kasir | Pilih menu, varian, qty, catatan, diskon, makan di tempat/bawa pulang, nama/meja, simpan (open bill sederhana) | MVP |
 | PAY | Pembayaran & struk | Tunai (kembalian), QRIS statis (konfirmasi manual), Debit/Transfer (no. referensi); cetak struk 58 mm | MVP |
-| SHIFT | Shift kas | Buka shift dengan modal awal, tutup shift dengan hitung kas fisik & selisih | MVP |
+| SHIFT | Shift kas | Buka shift dengan modal awal, catat pengeluaran kas operasional selama shift, tutup shift dengan hitung kas fisik & selisih | MVP |
 | VOID | Pembatalan | Batalkan transaksi lunas dengan alasan + PIN admin; stok dikembalikan | MVP |
 | STOCK | Bahan baku & resep | Bahan baku, resep per produk/opsi varian, potong stok otomatis, stok masuk, opname, HPP, peringatan menipis | MVP |
 | REPORT | Laporan | Omzet, transaksi, rata-rata, per jam, terlaris, metode bayar, riwayat, export Excel | MVP |
