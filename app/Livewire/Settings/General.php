@@ -5,6 +5,7 @@ namespace App\Livewire\Settings;
 use App\Actions\Settings\UpdateGeneralSettings;
 use App\Services\SettingService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -81,7 +82,13 @@ class General extends Component
 
     public function save(UpdateGeneralSettings $action): void
     {
-        $this->validate();
+        try {
+            $this->validate();
+        } catch (ValidationException $e) {
+            $this->dispatch('toast', type: 'danger', message: $e->validator->errors()->first());
+
+            throw $e;
+        }
 
         if ($this->logo) {
             $this->validate(['logo' => 'image|mimes:jpg,jpeg,png,webp|max:2048']);

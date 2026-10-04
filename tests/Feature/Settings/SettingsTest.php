@@ -37,6 +37,23 @@ class SettingsTest extends TestCase
         ]);
     }
 
+    public function test_failed_save_shows_danger_toast_instead_of_failing_silently(): void
+    {
+        $owner = User::factory()->owner()->create();
+
+        Livewire::actingAs($owner)
+            ->test(General::class)
+            ->set('outlet_name', '')
+            ->set('method_qris', true)
+            ->call('save')
+            ->assertHasErrors('outlet_name')
+            ->assertDispatched('toast', type: 'danger');
+
+        $settings = app(SettingService::class);
+        $settings->forget();
+        $this->assertFalse($settings->get('method_qris', false));
+    }
+
     public function test_admin_cannot_access_settings_page(): void
     {
         $admin = User::factory()->admin()->create();
