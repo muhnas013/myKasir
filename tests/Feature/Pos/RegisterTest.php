@@ -3,6 +3,7 @@
 namespace Tests\Feature\Pos;
 
 use App\Livewire\Pos\Cart;
+use App\Livewire\Pos\Register;
 use App\Models\Order;
 use App\Models\User;
 use App\Models\VariantGroup;
@@ -10,6 +11,7 @@ use App\Services\SettingService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Features\SupportLockedProperties\CannotUpdateLockedPropertyException;
 use Livewire\Livewire;
+use ReflectionMethod;
 use Tests\Concerns\SetsUpPos;
 use Tests\TestCase;
 
@@ -198,6 +200,28 @@ class RegisterTest extends TestCase
 
         $this->assertDatabaseCount('orders', 1);
         $this->assertSame('paid', $open->fresh()->status->value);
+    }
+
+    public function test_offline_catalog_includes_variant_groups_and_options(): void
+    {
+        $group = VariantGroup::create(['product_id' => $this->esKopi->id, 'name' => 'Ukuran', 'is_required' => true, 'max_select' => 1]);
+        $group->options()->create(['name' => 'Regular', 'price_delta' => 0]);
+        $group->options()->create(['name' => 'Large', 'price_delta' => 5000]);
+
+        $component = Livewire::actingAs($this->cashier)->test(Register::class);
+        $method = new ReflectionMethod(Register::class, 'offlineCatalog');
+        $method->setAccessible(true);
+        $catalog = collect($method->invoke($component->instance()));
+
+        $withVariant = $catalog->firstWhere('id', $this->esKopi->id);
+        $this->assertCount(1, $withVariant['variant_groups']);
+        $this->assertSame('Ukuran', $withVariant['variant_groups'][0]['name']);
+        $this->assertTrue($withVariant['variant_groups'][0]['is_required']);
+        $large = collect($withVariant['variant_groups'][0]['options'])->firstWhere('name', 'Large');
+        $this->assertSame(5000, $large['price_delta']);
+
+        $withoutVariant = $catalog->firstWhere('id', $this->nasiGoreng->id);
+        $this->assertSame([], $withoutVariant['variant_groups']);
     }
 
     public function test_pay_dialog_offers_only_enabled_methods(): void

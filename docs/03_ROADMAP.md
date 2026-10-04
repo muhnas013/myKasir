@@ -9,6 +9,6 @@ Setiap fase = vertical slice (migrasi → Action/Service → Livewire/Blade → 
 | F3 | Kasir buka shift → transaksi → bayar Tunai/QRIS/Debit → cetak struk → tutup shift dengan selisih kas; void dengan PIN admin | POS, PAY, SHIFT, VOID | selesai (menunggu uji manual 58 mm & stopwatch) |
 | F4 | Admin mengisi bahan baku & resep; penjualan memotong stok; stok masuk memperbarui HPP; peringatan menipis tampil | STOCK | selesai |
 | F5 | Pemilik membuka laporan hari ini/7/30 hari/rentang tanggal dan mengunduh Excel | REPORT | selesai |
-| F6 (setelah MVP) | Kasir tetap bisa transaksi saat internet putus; transaksi tersinkron tanpa duplikat | OFFLINE | selesai (iterasi 1: produk tanpa varian, Tunai saja, tanpa diskon — menunggu uji manual browser; varian/diskon/QRIS offline ditunda) |
+| F6 (setelah MVP) | Kasir tetap bisa transaksi saat internet putus; transaksi tersinkron tanpa duplikat | OFFLINE | selesai (iterasi 1 + iterasi 2 varian, otomatis hijau — menunggu uji manual browser gabungan; diskon/QRIS offline tetap ditunda) |
 
 Catatan F3: stok produk (`track_stock`) sudah dipotong di F3; stok bahan baku baru aktif di F4.

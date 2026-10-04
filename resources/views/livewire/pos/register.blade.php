@@ -30,13 +30,12 @@
             </template>
             <div class="menu-grid" x-show="catalog.length > 0">
                 <template x-for="product in catalog" :key="product.id">
-                    <button type="button" class="menu-tile" @click="addToCart(product)">
+                    <button type="button" class="menu-tile" @click="openProduct(product)">
                         <span class="menu-tile__name" x-text="product.name"></span>
                         <span class="menu-tile__price" x-text="formatRp(product.price)"></span>
                     </button>
                 </template>
             </div>
-            <p class="muted">Produk bervarian butuh koneksi — tidak tampil di sini (06 P7).</p>
         </div>
 
         <div class="pos__cart">
@@ -117,6 +116,45 @@
 
             <x-button type="button" variant="secondary" @click="printReceipt()">Cetak Struk</x-button>
             <x-button type="button" @click="newOrder()">Pesanan Baru</x-button>
+        </div>
+    </div>
+
+    {{-- Modal pilih varian offline — Alpine murni, bukan <x-modal> (terikat $wire, 06 P7 butuh vanilla JS). --}}
+    <div class="modal" x-show="selectingProduct" x-cloak x-on:keydown.escape.window="closeProduct()">
+        <div class="modal__backdrop" @click="closeProduct()"></div>
+        <div class="modal__dialog" role="dialog" aria-modal="true" x-trap.noscroll="selectingProduct !== null">
+            <template x-if="selectingProduct">
+                <div>
+                    <div class="card__title" x-text="selectingProduct.name"></div>
+                    <template x-for="group in selectingProduct.variant_groups" :key="group.id">
+                        <fieldset class="option-group">
+                            <legend class="field__label">
+                                <span x-text="group.name"></span>
+                                <x-badge x-show="group.is_required" variant="warning" x-cloak>Wajib</x-badge>
+                            </legend>
+                            <div class="option-list">
+                                <template x-for="option in group.options" :key="option.id">
+                                    <label class="option-item">
+                                        <template x-if="group.max_select === 1">
+                                            <input type="radio" :name="'group-' + group.id" :value="option.id" x-model="selected[group.id]">
+                                        </template>
+                                        <template x-if="group.max_select !== 1">
+                                            <input type="checkbox" :value="option.id" x-model="selected[group.id]">
+                                        </template>
+                                        <span x-text="option.name"></span>
+                                        <span class="option-item__price" x-show="option.price_delta > 0" x-text="'+ ' + formatRp(option.price_delta)"></span>
+                                    </label>
+                                </template>
+                            </div>
+                            <span class="field-error" x-show="selectError[group.id]" x-text="selectError[group.id]"></span>
+                        </fieldset>
+                    </template>
+                    <div class="card__row">
+                        <x-button type="button" @click="confirmOptions()">Tambah</x-button>
+                        <x-button type="button" variant="secondary" @click="closeProduct()">Batal</x-button>
+                    </div>
+                </div>
+            </template>
         </div>
     </div>
 </div>

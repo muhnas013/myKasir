@@ -49,6 +49,13 @@
       "step": 3,
       "detik": 199,
       "tok_est": 26340
+    },
+    {
+      "mulai": "2026-10-04T08:52:04+08:00",
+      "selesai": null,
+      "step": 4,
+      "detik": 158,
+      "tok_est": 9150
     }
   ],
   "step_berjalan": null,
@@ -772,13 +779,91 @@
         "Uji manual browser (DevTools offline) utk SW/IndexedDB — lih. 23 residual"
       ],
       "selesai": "2026-10-04T08:39:38+08:00"
+    },
+    {
+      "fitur": "F6-OFFLINE-ITERASI2-VARIAN",
+      "rute": "Fitur baru (vertical slice)",
+      "mulai": "2026-10-04T08:52:17+08:00",
+      "rencana": [
+        "app/Livewire/Pos/Register.php",
+        "resources/views/livewire/pos/register.blade.php",
+        "resources/js/offline/pos-component.js",
+        "tests/Feature/Pos/RegisterTest.php",
+        "tests/Feature/Pos/OfflineSyncTest.php",
+        "docs/23_ACCEPTANCE_CRITERIA.md"
+      ],
+      "total_step": 0,
+      "step": [
+        {
+          "no": 1,
+          "nama": "Model/akses data: offlineCatalog bawa varian",
+          "mulai": "2026-10-04T08:53:03+08:00",
+          "selesai": "2026-10-04T08:53:14+08:00",
+          "detik": 12,
+          "tok_est": 769,
+          "muat": [
+            "app/Livewire/Pos/Register.php"
+          ]
+        },
+        {
+          "no": 2,
+          "nama": "Service/logika domain: Alpine pos-component varian",
+          "mulai": "2026-10-04T08:53:19+08:00",
+          "selesai": "2026-10-04T08:53:54+08:00",
+          "detik": 36,
+          "tok_est": 1744,
+          "muat": [
+            "resources/js/offline/pos-component.js"
+          ]
+        },
+        {
+          "no": 3,
+          "nama": "UI: modal pilih varian di layar kasir offline",
+          "mulai": "2026-10-04T08:54:01+08:00",
+          "selesai": "2026-10-04T08:54:52+08:00",
+          "detik": 52,
+          "tok_est": 2683,
+          "muat": [
+            "resources/views/livewire/pos/register.blade.php"
+          ]
+        },
+        {
+          "no": 4,
+          "nama": "Tes: RegisterTest + OfflineSyncTest varian",
+          "mulai": "2026-10-04T08:54:56+08:00",
+          "selesai": "2026-10-04T08:55:54+08:00",
+          "detik": 58,
+          "tok_est": 3954,
+          "muat": [
+            "tests/Feature/Pos/RegisterTest.php",
+            "tests/Feature/Pos/OfflineSyncTest.php"
+          ]
+        }
+      ],
+      "detik": 158,
+      "tok_est": 9150,
+      "warn_dilewati": [
+        "S8: register.blade.php tak punya state 'memuat'/'gagal' eksplisit — desain sejak iterasi 1 (katalog sudah ter-embed saat render, tak ada round-trip utk dimuat; sinkron gagal ditahan diam2 di antrean per 06 P7), tak diubah slice ini"
+      ],
+      "asumsi": [
+        "Kriteria 23 iterasi 2 disusun sendiri dari 06 P7 rule 1 (ASUMSI) karena blueprint belum punya format checklist utk cakupan ini"
+      ],
+      "dokumen_diperbarui": [
+        "docs/23_ACCEPTANCE_CRITERIA.md (blok F6 iterasi 2 varian)",
+        "docs/03_ROADMAP.md (status F6)"
+      ],
+      "ditunda": [
+        "Diskon offline (butuh keputusan keamanan: cache PIN admin vs rate-limit 5x/15menit)",
+        "QRIS/Debit offline (kemungkinan permanen tak bisa, butuh konfirmasi dana real-time)"
+      ],
+      "selesai": "2026-10-04T08:57:15+08:00"
     }
   ],
   "akumulasi": {
-    "detik": 2726,
-    "tok_est": 111604,
+    "detik": 2884,
+    "tok_est": 120754,
     "tok_terukur": 0,
-    "step": 23,
-    "fitur": 6
+    "step": 27,
+    "fitur": 7
   }
 }

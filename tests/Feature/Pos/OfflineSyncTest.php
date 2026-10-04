@@ -5,6 +5,7 @@ namespace Tests\Feature\Pos;
 use App\Actions\Shifts\CloseShift;
 use App\Models\AuditLog;
 use App\Models\Order;
+use App\Models\VariantGroup;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Tests\Concerns\SetsUpPos;
@@ -92,6 +93,33 @@ class OfflineSyncTest extends TestCase
 
         $this->actingAs($this->cashier)->postJson('/pos/offline-sync', $this->payload())
             ->assertStatus(422);
+
+        $this->assertDatabaseCount('orders', 0);
+    }
+
+    public function test_sync_with_selected_variant_option_prices_with_delta(): void
+    {
+        $group = VariantGroup::create(['product_id' => $this->esKopi->id, 'name' => 'Ukuran', 'is_required' => true, 'max_select' => 1]);
+        $large = $group->options()->create(['name' => 'Large', 'price_delta' => 5000]);
+
+        $this->actingAs($this->cashier)->postJson('/pos/offline-sync', $this->payload([
+            'lines' => [
+                ['product_id' => $this->esKopi->id, 'option_ids' => [$large->id], 'qty' => 1],
+            ],
+        ]))->assertOk();
+
+        $this->assertSame(25300, Order::firstOrFail()->total);
+    }
+
+    public function test_sync_with_missing_required_variant_option_is_rejected(): void
+    {
+        VariantGroup::create(['product_id' => $this->esKopi->id, 'name' => 'Ukuran', 'is_required' => true, 'max_select' => 1]);
+
+        $this->actingAs($this->cashier)->postJson('/pos/offline-sync', $this->payload([
+            'lines' => [
+                ['product_id' => $this->esKopi->id, 'option_ids' => [], 'qty' => 1],
+            ],
+        ]))->assertStatus(422);
 
         $this->assertDatabaseCount('orders', 0);
     }
