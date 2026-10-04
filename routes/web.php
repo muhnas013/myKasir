@@ -4,9 +4,11 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PinLoginController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReceiptController;
+use App\Http\Controllers\ReportExportController;
 use App\Livewire\Menu\Index as MenuIndex;
 use App\Livewire\Pos\History as PosHistory;
 use App\Livewire\Pos\Register as PosRegister;
+use App\Livewire\Reports\Index as ReportsIndex;
 use App\Livewire\Settings\Index as SettingsIndex;
 use App\Livewire\Shift\Close as ShiftClose;
 use App\Livewire\Shift\Open as ShiftOpen;
@@ -40,6 +42,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/stock', StockIndex::class)
         ->middleware('can:stock.manage')
         ->name('stock.index');
+
+    Route::get('/reports', ReportsIndex::class)
+        ->middleware('can:report.view-own')
+        ->name('reports.index');
+
+    Route::get('/reports/export', ReportExportController::class)
+        ->middleware('can:report.view-all')
+        ->name('reports.export');
 
     Route::get('/settings', SettingsIndex::class)
         ->middleware('can:settings.manage')

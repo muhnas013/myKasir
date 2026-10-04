@@ -33,6 +33,11 @@
                         <x-icon name="package" /> Stok
                     </a>
                 @endcan
+                @can('report.view-own')
+                    <a href="{{ route('reports.index') }}" class="app-sidebar__link @if(request()->routeIs('reports.*')) is-active @endif">
+                        <x-icon name="bar-chart" /> Laporan
+                    </a>
+                @endcan
                 @can('settings.manage')
                     <a href="{{ route('settings.index') }}" class="app-sidebar__link @if(request()->routeIs('settings.*')) is-active @endif">
                         <x-icon name="settings" /> Pengaturan

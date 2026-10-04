@@ -35,22 +35,39 @@
       "step": 7,
       "detik": 819,
       "tok_est": 38134
+    },
+    {
+      "mulai": "2026-10-04T07:46:59+08:00",
+      "selesai": null,
+      "step": 7,
+      "detik": 563,
+      "tok_est": 28600
     }
   ],
   "step_berjalan": null,
   "blueprint": {
     "sidik_awal": "c34de8dd38e393ec",
-    "sidik": "8807b74ecc7ed50f",
+    "sidik": "d09600174b523429",
     "dokumen": 27,
-    "disegel": "2026-10-04T02:46:19+08:00",
-    "sidik_sebelumnya": "c34de8dd38e393ec",
+    "disegel": "2026-10-04T08:05:03+08:00",
     "riwayat": [
       {
         "dari": "c34de8dd38e393ec",
         "ke": "8807b74ecc7ed50f",
         "pada": "2026-10-04T02:46:19+08:00"
+      },
+      {
+        "dari": "8807b74ecc7ed50f",
+        "ke": "9b0599974661b73d",
+        "pada": "2026-10-04T07:46:59+08:00"
+      },
+      {
+        "dari": "9b0599974661b73d",
+        "ke": "d09600174b523429",
+        "pada": "2026-10-04T08:05:03+08:00"
       }
-    ]
+    ],
+    "sidik_sebelumnya": "9b0599974661b73d"
   },
   "riwayat_fitur": [
     {
@@ -475,13 +492,150 @@
         "Halaman pemakaian resep lintas-produk / laporan HPP — bagian dari F5 REPORT, di luar slice ini"
       ],
       "selesai": "2026-10-04T03:05:41+08:00"
+    },
+    {
+      "fitur": "F5-REPORT",
+      "rute": "Fitur baru (vertical slice)",
+      "mulai": "2026-10-04T07:55:24+08:00",
+      "rencana": [
+        "composer.json",
+        "app/Policies/ReportPolicy.php",
+        "app/Providers/AppServiceProvider.php",
+        "app/Services/ReportService.php",
+        "app/Exports/OrdersExport.php",
+        "app/Http/Controllers/ReportExportController.php",
+        "app/Livewire/Reports/Index.php",
+        "resources/views/livewire/reports/index.blade.php",
+        "routes/web.php",
+        "resources/views/components/layouts/app.blade.php",
+        "resources/views/components/icon.blade.php",
+        "tests/Feature/Reports/ReportTest.php"
+      ],
+      "total_step": 0,
+      "step": [
+        {
+          "no": 1,
+          "nama": "Skema/migrasi",
+          "mulai": "2026-10-04T07:55:24+08:00",
+          "selesai": "2026-10-04T07:55:29+08:00",
+          "detik": 5,
+          "tok_est": 2120,
+          "muat": [
+            "docs/07_DATA_MODEL.md"
+          ]
+        },
+        {
+          "no": 2,
+          "nama": "Model/akses data",
+          "mulai": "2026-10-04T07:55:34+08:00",
+          "selesai": "2026-10-04T07:57:49+08:00",
+          "detik": 135,
+          "tok_est": 1677,
+          "muat": [
+            "composer.json",
+            "app/Policies/ReportPolicy.php",
+            "app/Providers/AppServiceProvider.php",
+            "docs/05_USER_ROLE.md"
+          ]
+        },
+        {
+          "no": 3,
+          "nama": "Service/logika domain",
+          "mulai": "2026-10-04T07:57:49+08:00",
+          "selesai": "2026-10-04T07:58:48+08:00",
+          "detik": 59,
+          "tok_est": 5587,
+          "muat": [
+            "app/Services/ReportService.php",
+            "app/Exports/OrdersExport.php",
+            "docs/06_BUSINESS_PROCESS.md",
+            "docs/07_DATA_MODEL.md",
+            "app/Models/Order.php",
+            "app/Models/Payment.php",
+            "app/Models/OrderItem.php",
+            "app/Enums/PaymentMethod.php"
+          ]
+        },
+        {
+          "no": 4,
+          "nama": "Endpoint/controller/rute",
+          "mulai": "2026-10-04T07:58:48+08:00",
+          "selesai": "2026-10-04T07:59:30+08:00",
+          "detik": 42,
+          "tok_est": 1494,
+          "muat": [
+            "app/Http/Controllers/ReportExportController.php",
+            "app/Livewire/Reports/Index.php",
+            "routes/web.php"
+          ]
+        },
+        {
+          "no": 5,
+          "nama": "UI + empat state",
+          "mulai": "2026-10-04T07:59:30+08:00",
+          "selesai": "2026-10-04T08:01:12+08:00",
+          "detik": 103,
+          "tok_est": 11804,
+          "muat": [
+            "resources/css/app.css",
+            "resources/views/components/icon.blade.php",
+            "resources/views/components/layouts/app.blade.php",
+            "resources/views/livewire/reports/index.blade.php",
+            "docs/26_UI_CONVENTIONS.md"
+          ]
+        },
+        {
+          "no": 6,
+          "nama": "Tes",
+          "mulai": "2026-10-04T08:01:12+08:00",
+          "selesai": "2026-10-04T08:03:25+08:00",
+          "detik": 134,
+          "tok_est": 5608,
+          "muat": [
+            "tests/Feature/Reports/ReportTest.php",
+            "tests/Concerns/SetsUpPos.php",
+            "tests/Feature/Orders/CompleteOrderTest.php",
+            "app/Actions/Orders/VoidOrder.php"
+          ]
+        },
+        {
+          "no": 7,
+          "nama": "Gerbang fitur",
+          "mulai": "2026-10-04T08:03:25+08:00",
+          "selesai": "2026-10-04T08:04:50+08:00",
+          "detik": 85,
+          "tok_est": 310,
+          "muat": [
+            "docs/_archive/23-F5-REPORT.md"
+          ]
+        }
+      ],
+      "detik": 563,
+      "tok_est": 28600,
+      "deviasi": [
+        "Kasir 'ringkasan shift sendiri' diimplementasikan sebagai filter per-user lintas periode (pola sama dengan Pos\\History), bukan dibatasi ke satu shift aktif — interpretasi disengaja, bukan salah baca"
+      ],
+      "warn_dilewati": [
+        "S7 gerbang: resources/css/app.css & composer.lock tersentuh di luar daftar rencana tertulis — companion wajar (CSS halaman baru, lock file dependency), bukan scope creep"
+      ],
+      "asumsi": [
+        "Riwayat & export Excel memasukkan order paid+void (kolom Status membedakan), karena kriteria '23' menyebut 'jumlah order periode' bukan 'jumlah order lunas'"
+      ],
+      "dokumen_diperbarui": [
+        "docs/23_ACCEPTANCE_CRITERIA.md (arsipkan F5 ke _archive)",
+        "docs/03_ROADMAP.md (status F5 selesai)"
+      ],
+      "landmine_tersentuh": [
+        "php default di mesin dev lokal ini 8.5.10 tanpa ext-gd/iconv (tak sesuai stack PHP 8.3); dipakai php-legacy (8.3.33) + -d extension=iconv.so untuk composer/test lokal, tak ada file sistem diubah"
+      ],
+      "selesai": "2026-10-04T08:04:58+08:00"
     }
   ],
   "akumulasi": {
-    "detik": 1964,
-    "tok_est": 56664,
+    "detik": 2527,
+    "tok_est": 85264,
     "tok_terukur": 0,
-    "step": 13,
-    "fitur": 4
+    "step": 20,
+    "fitur": 5
   }
 }

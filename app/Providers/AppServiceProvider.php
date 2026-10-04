@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Policies\MenuPolicy;
 use App\Policies\OrderPolicy;
 use App\Policies\PosPolicy;
+use App\Policies\ReportPolicy;
 use App\Policies\SettingPolicy;
 use App\Policies\StockPolicy;
 use App\Policies\UserPolicy;
@@ -33,5 +34,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('menu.manage', [MenuPolicy::class, 'manage']);
         Gate::define('stock.manage', [StockPolicy::class, 'manage']);
         Gate::define('user.manage', [UserPolicy::class, 'manage']);
+        Gate::define('report.view-all', [ReportPolicy::class, 'viewAll']);
+        Gate::define('report.view-own', [ReportPolicy::class, 'viewOwn']);
     }
 }

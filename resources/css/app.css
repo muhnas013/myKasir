@@ -1158,3 +1158,68 @@ textarea.input {
         margin: 0;
     }
 }
+
+/* Laporan */
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--sp-5);
+}
+
+.stat-tile {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+    padding: var(--sp-5);
+    background: var(--c-surface-alt);
+    border: 1px solid var(--c-border);
+    border-radius: var(--r-lg);
+}
+
+.stat-tile__label {
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    color: var(--c-text-label);
+}
+
+.stat-tile__value {
+    font-size: var(--fs-2xl);
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+}
+
+.hourly-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 140px;
+    padding-top: var(--sp-4);
+}
+
+.hourly-chart__bar {
+    flex: 1;
+    min-height: 2px;
+    background: var(--c-chart-1);
+    border-radius: var(--r-sm) var(--r-sm) 0 0;
+}
+
+.hourly-chart__labels {
+    display: flex;
+    gap: 2px;
+    margin-top: var(--sp-2);
+}
+
+.hourly-chart__labels span {
+    flex: 1;
+    text-align: center;
+    font-size: var(--fs-xs);
+    color: var(--c-text-muted);
+}
+
+.date-range-row {
+    display: flex;
+    gap: var(--sp-4);
+    align-items: flex-end;
+    flex-wrap: wrap;
+    margin-top: var(--sp-4);
+}
