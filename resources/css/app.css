@@ -342,6 +342,7 @@ p {
     color: var(--c-danger);
     font-size: var(--fs-xs);
     font-weight: 500;
+    overflow-wrap: anywhere;
 }
 
 /* Skeleton loading */
@@ -1093,10 +1094,11 @@ textarea.input {
     padding: var(--sp-1);
     background: var(--c-subtle);
     border-radius: var(--r-md);
+    overflow-x: auto;
 }
 
 .segmented__item {
-    flex: 1;
+    flex: 1 0 auto;
     min-height: var(--h-control);
     padding: 0 var(--sp-3);
     border: none;
@@ -1107,6 +1109,7 @@ textarea.input {
     font-size: var(--fs-base);
     font-weight: 600;
     cursor: pointer;
+    white-space: nowrap;
 }
 
 .segmented__item.is-active {
