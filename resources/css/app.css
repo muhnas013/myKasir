@@ -793,11 +793,89 @@ textarea.input {
     padding: var(--sp-6);
 }
 
+/* Kontrol ukuran grid / mode daftar (kasir) */
+.view-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-2);
+    margin-bottom: var(--sp-4);
+}
+
+.view-toggle__sizes,
+.view-toggle__modes {
+    display: flex;
+    gap: var(--sp-1);
+}
+
+.view-toggle__btn {
+    width: var(--h-control);
+    height: var(--h-control);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--c-border);
+    border-radius: var(--r-md);
+    background: var(--c-surface);
+    color: var(--c-text-muted);
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: var(--fs-sm);
+    cursor: pointer;
+}
+
+.view-toggle__btn.is-active {
+    background: var(--c-primary-soft);
+    color: var(--c-primary);
+    border-color: var(--c-primary);
+}
+
 /* Menu grid (kasir) */
 .menu-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     gap: var(--sp-4);
+}
+
+.menu-grid--sm {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+}
+
+.menu-grid--lg {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+}
+
+.menu-grid--list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+}
+
+.menu-grid--list .menu-tile {
+    position: relative;
+    flex-direction: row;
+    align-items: center;
+}
+
+.menu-grid--list .menu-tile__photo {
+    position: static;
+    width: 64px;
+    aspect-ratio: 1;
+    flex-shrink: 0;
+}
+
+.menu-grid--list .menu-tile__badge {
+    top: 50%;
+    right: var(--sp-3);
+    transform: translateY(-50%);
+}
+
+.menu-grid--list .menu-tile__info {
+    flex: 1;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--sp-3) var(--sp-4);
 }
 
 .menu-tile {

@@ -22,6 +22,8 @@
         'chevron-up' => '<polyline points="18 15 12 9 6 15" />',
         'chevron-down' => '<polyline points="6 9 12 15 18 9" />',
         'wallet' => '<path d="M19 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2" /><path d="M3 10h18" /><path d="M17 15h2" /><path d="M21 10v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-5" />',
+        'layout-grid' => '<rect width="7" height="7" x="3" y="3" rx="1" /><rect width="7" height="7" x="14" y="3" rx="1" /><rect width="7" height="7" x="14" y="14" rx="1" /><rect width="7" height="7" x="3" y="14" rx="1" />',
+        'list' => '<line x1="8" y1="6" x2="21" y2="6" /><line x1="8" y1="12" x2="21" y2="12" /><line x1="8" y1="18" x2="21" y2="18" /><line x1="3" y1="6" x2="3.01" y2="6" /><line x1="3" y1="12" x2="3.01" y2="12" /><line x1="3" y1="18" x2="3.01" y2="18" />',
     ];
 @endphp
 

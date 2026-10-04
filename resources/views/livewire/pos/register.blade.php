@@ -24,11 +24,30 @@
     </div>
 
     <div class="pos" x-show="!online && !completed" x-cloak>
-        <div class="pos__menu">
+        <div
+            class="pos__menu"
+            x-data="{
+                gridSize: localStorage.getItem('mykasir_menu_grid_size') || 'md',
+                view: localStorage.getItem('mykasir_menu_view') || 'grid',
+                setGridSize(v) { this.gridSize = v; localStorage.setItem('mykasir_menu_grid_size', v); },
+                setView(v) { this.view = v; localStorage.setItem('mykasir_menu_view', v); },
+            }"
+        >
             <template x-if="catalog.length === 0">
                 <x-empty-state title="Belum ada menu aktif yang bisa dijual offline." icon="inbox" />
             </template>
-            <div class="menu-grid" x-show="catalog.length > 0">
+            <div class="view-toggle" x-show="catalog.length > 0">
+                <div class="view-toggle__sizes" x-show="view === 'grid'" x-cloak>
+                    <button type="button" class="view-toggle__btn" :class="{ 'is-active': gridSize === 'sm' }" @click="setGridSize('sm')" aria-label="Grid kecil">K</button>
+                    <button type="button" class="view-toggle__btn" :class="{ 'is-active': gridSize === 'md' }" @click="setGridSize('md')" aria-label="Grid sedang">S</button>
+                    <button type="button" class="view-toggle__btn" :class="{ 'is-active': gridSize === 'lg' }" @click="setGridSize('lg')" aria-label="Grid besar">B</button>
+                </div>
+                <div class="view-toggle__modes">
+                    <button type="button" class="view-toggle__btn" :class="{ 'is-active': view === 'grid' }" @click="setView('grid')" aria-label="Tampilan grid"><x-icon name="layout-grid" /></button>
+                    <button type="button" class="view-toggle__btn" :class="{ 'is-active': view === 'list' }" @click="setView('list')" aria-label="Tampilan daftar"><x-icon name="list" /></button>
+                </div>
+            </div>
+            <div class="menu-grid" x-show="catalog.length > 0" :class="view === 'list' ? 'menu-grid--list' : 'menu-grid--' + gridSize">
                 <template x-for="product in catalog" :key="product.id">
                     <button type="button" class="menu-tile" @click="openProduct(product)">
                         <div class="menu-tile__photo">

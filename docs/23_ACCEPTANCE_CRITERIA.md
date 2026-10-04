@@ -3,6 +3,10 @@
 Hanya fitur AKTIF. Fitur yang diterima dipindah ke `docs/_archive/23-{kode}.md`. Fitur: `docs/01_PRD.md`; proses & rumus: `docs/06_BUSINESS_PROCESS.md`; peran: `docs/05_USER_ROLE.md`; DoD: `docs/24_DEFINITION_OF_DONE.md`.
 Data uji standar: Es Kopi Susu Gula Aren Rp 18.000, Nasi Goreng Spesial Rp 25.000, Pisang Goreng Rp 12.000.
 
+## POS — ukuran grid & mode daftar Kasir (26, tambahan setelah F3 diarsipkan)
+- [x] Toggle ukuran grid (Kecil/Sedang/Besar) + mode Grid/Daftar tersedia di layar Kasir online & offline; preferensi tersimpan per-perangkat (`localStorage`), bukan di server — tidak ada tes PHP (13: tak ada framework tes JS), diverifikasi manual via screenshot headless (desktop & mobile 375px, 4 kombinasi, overflow 0px).
+- [ ] Manual: pilih mode/ukuran di satu perangkat, refresh halaman — preferensi tetap tersimpan (localStorage per origin).
+
 ## REPORT/MENU — Modal/HPP & Keuntungan Bersih (06 P5, tambahan setelah F2/F5 diarsipkan)
 - [x] Produk punya field Modal/HPP; tersimpan lewat form Menu (`ProductTest::test_admin_can_set_cost_price`).
 - [x] Produk BERRESEP tetap pakai HPP presisi dari bahan baku; Modal/HPP manual hanya fallback saat tanpa resep (`RecipeManagementTest::test_cost_price_is_used_as_fallback_hpp_when_no_recipe`, `test_recipe_cost_takes_precedence_over_cost_price`).

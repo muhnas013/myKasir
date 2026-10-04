@@ -40,6 +40,7 @@ Rancangan kanvas "Rancangan Aplikasi Kasir Outlet" (4 artboard: Kasir, Menu & St
 | `x-empty-state` | default | ikon + judul + 1 kalimat + aksi |
 | `x-icon` | Lucide, stroke 1.8 | satu set ikon saja |
 | `x-segmented` | — | jenis pesanan, periode laporan |
+| `.view-toggle` (grid Kasir) | tombol K/S/B (ukuran) + grid/daftar | preferensi per-perangkat di `localStorage`, bukan server; ikon `layout-grid`/`list` |
 
 ## Halaman → pola
 | Halaman | Rute | Pola | Navigasi |
