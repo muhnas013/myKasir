@@ -90,6 +90,12 @@ body {
     padding: 0;
 }
 
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
 body {
     background: var(--c-bg);
     color: var(--c-text);
@@ -796,6 +802,7 @@ textarea.input {
 .menu-tile {
     display: flex;
     flex-direction: column;
+    min-width: 0;
     padding: 0;
     overflow: hidden;
     border: 1px solid var(--c-border);
@@ -816,6 +823,9 @@ textarea.input {
     position: relative;
     aspect-ratio: 4 / 3;
     width: 100%;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
