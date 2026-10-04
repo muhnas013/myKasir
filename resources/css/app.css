@@ -833,16 +833,20 @@ textarea.input {
 /* Menu grid (kasir) */
 .menu-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: var(--sp-4);
 }
 
 .menu-grid--sm {
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.menu-grid--md {
+    grid-template-columns: repeat(2, 1fr);
 }
 
 .menu-grid--lg {
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    grid-template-columns: repeat(1, 1fr);
 }
 
 .menu-grid--list {
