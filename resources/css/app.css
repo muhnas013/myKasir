@@ -129,6 +129,33 @@ p {
     gap: var(--sp-6);
 }
 
+.app-sidebar__bar {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+}
+
+.app-sidebar__toggle {
+    display: none;
+    margin-left: auto;
+    width: var(--h-control);
+    height: var(--h-control);
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: 1px solid var(--c-border);
+    border-radius: var(--r-md);
+    color: var(--c-text-label);
+    cursor: pointer;
+}
+
+.app-sidebar__panel {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--sp-6);
+}
+
 .app-sidebar__brand {
     font-size: var(--fs-lg);
     font-weight: 700;
@@ -820,6 +847,57 @@ textarea.input {
 
     .pos__cart {
         position: static;
+    }
+}
+
+/* Mobile: sidebar jadi bar atas (26 — breakpoint 768px) */
+@media (max-width: 767px) {
+    .app-shell {
+        flex-direction: column;
+    }
+
+    .app-sidebar {
+        width: 100%;
+        position: sticky;
+        top: 0;
+        z-index: 40;
+        padding: var(--sp-3) var(--sp-4);
+        border-right: none;
+        border-bottom: 1px solid var(--c-border);
+    }
+
+    .app-sidebar__toggle {
+        display: inline-flex;
+    }
+
+    .app-sidebar__panel {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        margin-top: var(--sp-3);
+        padding: var(--sp-6) var(--sp-4);
+        background: var(--c-surface);
+        border-bottom: 1px solid var(--c-border);
+        box-shadow: var(--shadow-dialog);
+    }
+
+    .app-sidebar.is-open .app-sidebar__panel {
+        display: flex;
+    }
+
+    .app-main {
+        padding: var(--sp-5) var(--sp-4);
+    }
+
+    .tabs {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+    }
+
+    .tabs__item {
+        flex-shrink: 0;
     }
 }
 
