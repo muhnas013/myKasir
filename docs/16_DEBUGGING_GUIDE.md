@@ -18,3 +18,5 @@ Lokasi log: `docs/15_OBSERVABILITY.md`. Perintah: `docs/11_COMMANDS.md`.
 - **Uang float**: `18000 * 1.1` = `19800.000000000004`. Selalu integer + `intdiv`/`round` di `PriceCalculator`.
 - **`avg_cost` per 1000 satuan**: lupa membagi 1000 saat menghitung HPP → HPP 1000× lipat.
 - **Shift ganda**: dua tab membuka shift bersamaan → validasi di Action dengan `lockForUpdate` pada user, bukan hanya di UI.
+- **Order offline tersangkut (F6)**: dua kasir offline menjual item terakhir yang sama → order kedua yang disinkron GAGAL permanen (422, rollback — stok TIDAK pernah negatif) dan tertahan di `IndexedDB` device itu dengan `_syncFailed=true`. Ini risiko yang diterima (06 P7), bukan bug — jangan "perbaiki" dengan mengizinkan stok minus; selesaikan manual (cek kas fisik vs sistem, hubungi pemilik).
+- **Mismatch total offline (F6)**: total struk offline (estimasi klien) ≠ total tersimpan (hasil server saat sinkron) → ini yang diharapkan bila tarif berubah selagi offline; cek `audit_logs` untuk flag `offline_adjusted`, jangan anggap bug di `PriceCalculator`.

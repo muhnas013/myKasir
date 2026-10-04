@@ -100,7 +100,7 @@ Unik: (`ingredient_id`, `product_id`, `variant_option_id`).
 | note | text | nullable | |
 | subtotal, discount, service, tax, rounding, total | bigint (rounding signed, sisanya unsigned) | not null | aturan hitung: 06 |
 | discount_approved_by | fk users | nullable | |
-| idempotency_key | char(36) | unique | cegah order ganda |
+| idempotency_key | char(36) | unique | cegah order ganda; dibuat klien saat keranjang dimulai — dipakai ulang sebagai kunci dedup sinkronisasi offline (F6, 06 P7), bukan kolom baru |
 | paid_at | timestamp | nullable | |
 | voided_at / voided_by / void_reason | timestamp / fk users / varchar(255) | nullable | |
 

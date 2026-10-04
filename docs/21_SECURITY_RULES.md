@@ -13,7 +13,7 @@
 
 ## Validasi input
 - Semua input melalui FormRequest atau `rules()` Livewire; harga/qty integer ≥ 0; persen 0–100.
-- Harga dan total TIDAK pernah diterima dari klien — server menghitung ulang dari `product_id` + opsi via `PriceCalculator`.
+- Harga dan total TIDAK pernah diterima dari klien — server menghitung ulang dari `product_id` + opsi via `PriceCalculator`. Berlaku juga untuk order offline (F6): total klien di IndexedDB hanya estimasi tampilan; server tetap menghitung ulang saat sinkron dan itulah yang disimpan (06 P7).
 - Unggahan (logo, QRIS, foto produk): `image|mimes:jpg,png,webp|max:2048`, disimpan dengan nama acak.
 
 ## Data & rahasia

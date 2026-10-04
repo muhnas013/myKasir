@@ -16,6 +16,7 @@
 | Tes | PHPUnit (via `php artisan test`) + Livewire testing | 11.x |
 | Kualitas kode | Laravel Pint | 1.x |
 | Server | Ubuntu 24.04, Nginx, PHP-FPM 8.3 | — |
+| Offline (F6 saja) | Service Worker (cache app-shell, vanilla JS) + IndexedDB (antrean transaksi, via Alpine) | API browser bawaan, tanpa pustaka tambahan |
 
 ## Terlarang
 | Teknologi | Alasan |
@@ -25,5 +26,6 @@
 | React, Vue, SPA terpisah | Arsitektur monolit (08) |
 | `float`/`double`/`decimal` untuk uang | Pembulatan tak deterministik; uang = integer Rupiah (07) |
 | Paket payment gateway / QRIS dinamis | Out-of-scope (02) |
-| Service worker / PWA | Ditunda ke F6 |
+| Service worker / PWA sebelum F6 | Ditunda ke F6 (02) |
+| Background Sync API, PouchDB/RxDB, pustaka sync pihak ketiga lain | F6 pakai antrean manual (IndexedDB + event online/offline), bukan Background Sync — dukungan browser tidak konsisten (lih. 02 asumsi F6) |
 Menambah dependency apa pun: lewat `docs/22_CHANGE_POLICY.md`.

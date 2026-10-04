@@ -1,0 +1,11 @@
+{
+    "name": "MyKasir",
+    "short_name": "MyKasir",
+    "start_url": "/pos",
+    "display": "standalone",
+    "background_color": "#F5F4F0",
+    "theme_color": "#17603F",
+    "icons": [
+        { "src": "/favicon.ico", "sizes": "any", "type": "image/x-icon" }
+    ]
+}

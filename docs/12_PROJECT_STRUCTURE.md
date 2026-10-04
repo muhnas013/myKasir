@@ -20,8 +20,12 @@ resources/
   views/layouts/app.blade.php   # sidebar + konten
   views/livewire/...            # view komponen Livewire, cermin app/Livewire
   views/receipts/show.blade.php # struk cetak
+  js/offline/        # F6: queue.js (tulis/baca antrean IndexedDB), sync.js (replay ke POST /pos/offline-sync), pricer.js (estimasi PriceCalculator), pos-component.js (Alpine) — dibundel Vite ke app.js, bukan file terpisah
+public/
+  sw.js              # F6: Service Worker — cache app-shell saja (bukan Background Sync); plain JS, TIDAK lewat Vite, scope root agar bisa kontrol seluruh origin
+  manifest.webmanifest  # F6: metadata install PWA
 routes/web.php       # semua rute; dikelompokkan per middleware peran
-tests/Feature/{Auth,Pos,Shift,Stock,Reports,Settings}/, tests/Unit/
+tests/Feature/{Auth,Pos,Shift,Stock,Reports,Settings,Offline}/, tests/Unit/
 ```
 
 ## Konvensi penamaan

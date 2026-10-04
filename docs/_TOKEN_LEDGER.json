@@ -64,6 +64,16 @@
       "chars": 22306,
       "cpt": 3.5,
       "est_tokens": 6373
+    },
+    {
+      "ts": "2026-10-04T08:39:38+08:00",
+      "type": "task",
+      "task": "F6-OFFLINE",
+      "route": "Fitur baru (vertical slice)",
+      "files": 8,
+      "chars": 28283,
+      "cpt": 3.5,
+      "est_tokens": 8081
     }
   ],
   "measured_sessions": {}

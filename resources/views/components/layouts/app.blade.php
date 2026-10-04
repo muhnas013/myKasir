@@ -5,6 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $title ?? 'MyKasir' }}</title>
+    <link rel="manifest" href="/manifest.webmanifest">
+    <meta name="theme-color" content="#17603F">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>

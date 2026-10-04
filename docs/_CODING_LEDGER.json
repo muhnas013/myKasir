@@ -42,14 +42,21 @@
       "step": 7,
       "detik": 563,
       "tok_est": 28600
+    },
+    {
+      "mulai": "2026-10-04T08:24:08+08:00",
+      "selesai": null,
+      "step": 3,
+      "detik": 199,
+      "tok_est": 26340
     }
   ],
   "step_berjalan": null,
   "blueprint": {
     "sidik_awal": "c34de8dd38e393ec",
-    "sidik": "d09600174b523429",
+    "sidik": "5264f9cbbb5dc9ee",
     "dokumen": 27,
-    "disegel": "2026-10-04T08:05:03+08:00",
+    "disegel": "2026-10-04T08:39:17+08:00",
     "riwayat": [
       {
         "dari": "c34de8dd38e393ec",
@@ -65,9 +72,24 @@
         "dari": "9b0599974661b73d",
         "ke": "d09600174b523429",
         "pada": "2026-10-04T08:05:03+08:00"
+      },
+      {
+        "dari": "d09600174b523429",
+        "ke": "a11aceb93b38d929",
+        "pada": "2026-10-04T08:24:01+08:00"
+      },
+      {
+        "dari": "a11aceb93b38d929",
+        "ke": "dd904a5b3d298a5e",
+        "pada": "2026-10-04T08:25:12+08:00"
+      },
+      {
+        "dari": "dd904a5b3d298a5e",
+        "ke": "5264f9cbbb5dc9ee",
+        "pada": "2026-10-04T08:39:17+08:00"
       }
     ],
-    "sidik_sebelumnya": "9b0599974661b73d"
+    "sidik_sebelumnya": "dd904a5b3d298a5e"
   },
   "riwayat_fitur": [
     {
@@ -629,13 +651,134 @@
         "php default di mesin dev lokal ini 8.5.10 tanpa ext-gd/iconv (tak sesuai stack PHP 8.3); dipakai php-legacy (8.3.33) + -d extension=iconv.so untuk composer/test lokal, tak ada file sistem diubah"
       ],
       "selesai": "2026-10-04T08:04:58+08:00"
+    },
+    {
+      "fitur": "F6-OFFLINE",
+      "rute": "Fitur baru (vertical slice)",
+      "mulai": "2026-10-04T08:25:18+08:00",
+      "rencana": [
+        "public/sw.js",
+        "public/manifest.webmanifest",
+        "resources/js/offline/queue.js",
+        "resources/js/offline/sync.js",
+        "resources/js/bootstrap.js",
+        "resources/js/app.js",
+        "resources/views/livewire/pos/register.blade.php",
+        "app/Livewire/Pos/Register.php",
+        "app/Http/Controllers/OfflineSyncController.php",
+        "app/Actions/Orders/CompleteOrder.php",
+        "routes/web.php",
+        "database/migrations/*_add_offline_adjusted_to_orders_table.php",
+        "app/Models/Order.php",
+        "tests/Feature/Offline/OfflineSyncTest.php"
+      ],
+      "total_step": 0,
+      "step": [
+        {
+          "no": 1,
+          "nama": "Endpoint sinkronisasi offline (controller + route)",
+          "mulai": "2026-10-04T08:29:08+08:00",
+          "selesai": "2026-10-04T08:30:03+08:00",
+          "detik": 56,
+          "tok_est": 6696,
+          "muat": [
+            "app/Http/Controllers/Pos/OfflineSyncController.php",
+            "routes/web.php",
+            "tests/Feature/Pos/OfflineSyncTest.php",
+            "app/Actions/Orders/CompleteOrder.php",
+            "app/Actions/Orders/SaveOpenOrder.php",
+            "app/Models/AuditLog.php",
+            "app/Models/Shift.php",
+            "app/Http/Middleware/EnsureOpenShift.php",
+            "tests/Concerns/SetsUpPos.php"
+          ]
+        },
+        {
+          "no": 2,
+          "nama": "UI + 4 state: offline capture, SW, manifest, IndexedDB queue/sync",
+          "mulai": "2026-10-04T08:36:45+08:00",
+          "selesai": "2026-10-04T08:36:45+08:00",
+          "detik": 1,
+          "tok_est": 11056,
+          "muat": [
+            "resources/js/offline/{queue",
+            "sync",
+            "pricer",
+            "pos-component}.js",
+            "resources/js/app.js",
+            "resources/views/livewire/pos/register.blade.php",
+            "app/Livewire/Pos/Register.php",
+            "public/sw.js",
+            "public/manifest.webmanifest",
+            "resources/views/components/layouts/app.blade.php",
+            "resources/css/app.css",
+            "app/Models/Product.php"
+          ]
+        },
+        {
+          "no": 3,
+          "nama": "Tes (sudah ditulis di step 1) + verifikasi gerbang",
+          "mulai": "2026-10-04T08:37:01+08:00",
+          "selesai": "2026-10-04T08:39:23+08:00",
+          "detik": 142,
+          "tok_est": 8588,
+          "muat": [
+            "docs/23_ACCEPTANCE_CRITERIA.md",
+            "docs/_archive/23-F6-OFFLINE.md",
+            "docs/02_SCOPE.md",
+            "docs/06_BUSINESS_PROCESS.md",
+            "docs/16_DEBUGGING_GUIDE.md",
+            "docs/12_PROJECT_STRUCTURE.md",
+            "docs/03_ROADMAP.md",
+            "docs/_MANIFEST.json"
+          ]
+        }
+      ],
+      "detik": 199,
+      "tok_est": 26340,
+      "deviasi": [
+        "app/Http/Controllers/Pos/OfflineSyncController.php — dipindah ke subfolder Pos/ (ikut konvensi Auth/), bukan path datar di rencana awal",
+        "tests/Feature/Pos/OfflineSyncTest.php — ditaruh di folder Pos/ yang sudah ada, bukan folder Offline/ baru",
+        "Grid.php/grid.blade.php tidak jadi disentuh — katalog+setelan offline dipindah ke Register.php (satu sumber, lebih sederhana)"
+      ],
+      "warn_dilewati": [
+        "S1 gerbang: penamaan blok 23 tak cocok pola pemindai otomatis (nama fitur vs heading) — sudah diverifikasi manual isinya benar",
+        "S6 gerbang: kesesuaian struktur/guardrail diverifikasi manual (baca kode), bukan otomatis",
+        "S8 gerbang: state 'Memuat'/'Gagal' sengaja dilewati di UI capture offline — tidak ada operasi async yang bisa gagal di IndexedDB lokal; kegagalan sinkron ditangani di luar halaman (toast sync.js), bukan di state halaman ini"
+      ],
+      "asumsi": [
+        "F6 iterasi 1 dibatasi: produk tanpa grup varian, tanpa diskon, metode Tunai saja — varian/diskon/QRIS offline ditunda ke iterasi berikutnya",
+        "KOREKSI: stok tidak pernah negatif saat oversell offline (StockService tetap menolak) — order kedua yang stoknya habis gagal permanen dan tersangkut di IndexedDB device, bukan 'diterima dengan stok minus' seperti asumsi awal di 02/06"
+      ],
+      "dokumen_diperbarui": [
+        "docs/02_SCOPE.md (asumsi F6 + koreksi oversell)",
+        "docs/06_BUSINESS_PROCESS.md (P7 baru + koreksi kondisi gagal)",
+        "docs/07_DATA_MODEL.md (catatan idempotency_key dipakai ulang)",
+        "docs/09_STACK.md (SW/IndexedDB ditambah ke stack F6)",
+        "docs/12_PROJECT_STRUCTURE.md (folder js/offline, public/sw.js)",
+        "docs/16_DEBUGGING_GUIDE.md (landmine order tersangkut)",
+        "docs/21_SECURITY_RULES.md (klarifikasi guardrail harga utk offline)",
+        "docs/23_ACCEPTANCE_CRITERIA.md (blok F6 + arsip sebagian)",
+        "docs/_MANIFEST.json (open_question->asumsi, landmines)",
+        "docs/03_ROADMAP.md (status F6)"
+      ],
+      "landmine_tersentuh": [
+        "Order offline yang gagal sinkron (shift ditutup / stok habis) tersangkut permanen di IndexedDB device itu — tidak ada UI admin untuk melihat/meninjaunya lintas device, hanya console log + toast di device yang bersangkutan"
+      ],
+      "ditunda": [
+        "F6 varian & diskon offline",
+        "F6 QRIS/Debit offline",
+        "UI admin untuk meninjau order offline yang gagal sinkron permanen",
+        "Uji manual browser (DevTools offline) utk SW/IndexedDB — lih. 23 residual"
+      ],
+      "selesai": "2026-10-04T08:39:38+08:00"
     }
   ],
   "akumulasi": {
-    "detik": 2527,
-    "tok_est": 85264,
+    "detik": 2726,
+    "tok_est": 111604,
     "tok_terukur": 0,
-    "step": 20,
-    "fitur": 5
+    "step": 23,
+    "fitur": 6
   }
 }

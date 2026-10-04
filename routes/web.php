@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PinLoginController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Pos\OfflineSyncController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\ReportExportController;
 use App\Livewire\Menu\Index as MenuIndex;
@@ -32,6 +33,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/shift/close', ShiftClose::class)->middleware(['can:pos.transact', 'shift.open'])->name('shift.close');
 
     Route::get('/pos', PosRegister::class)->middleware(['can:pos.transact', 'shift.open'])->name('pos.index');
+    // Bukan 'shift.open': dipanggil fetch() offline-sync JS tanpa Livewire; shift divalidasi di dalam Action (lihat 06 P7).
+    Route::post('/pos/offline-sync', [OfflineSyncController::class, 'store'])->middleware('can:pos.transact')->name('pos.offline-sync');
     Route::get('/orders', PosHistory::class)->middleware('can:pos.transact')->name('orders.index');
     Route::get('/receipts/{order}', [ReceiptController::class, 'show'])->name('receipts.show');
 

@@ -45,6 +45,18 @@ Diskon nominal atau persen per transaksi, tidak boleh membuat subtotal setelah d
 - Stok masuk: bahan, qty > 0, harga beli total → `avg_cost` baru = (stok lama × avg lama + harga beli total) ÷ (stok lama + qty).
 - Opname: input stok fisik → sistem mencatat selisih sebagai `adjustment` + alasan.
 
+## P7 — Mode offline & sinkronisasi (F6)
+1. Saat koneksi putus, layar kasir (Alpine/vanilla JS, bukan Livewire) tetap menerima transaksi untuk **produk tanpa grup varian sama sekali** (produk dengan varian, wajib maupun opsional, ditandai "Pilih varian — butuh koneksi" dan tidak bisa diketuk offline, sama pola dengan tampilan "Habis"), tanpa diskon (P4 butuh persetujuan PIN yang sama-sama butuh koneksi untuk verifikasi), metode bayar Tunai saja (QRIS/Debit butuh konfirmasi manual yang mengandalkan referensi luar, ditahan sampai online — lihat Kondisi gagal). [ASUMSI cakupan F6 pertama: varian & diskon offline ditunda ke iterasi berikutnya — di luar slice ini.]
+2. Order offline dihitung sementara di klien pakai tarif pajak/biaya/pembulatan yang di-cache saat login terakhir (aturan sama persis dengan "Aturan perhitungan" di bawah), disimpan ke IndexedDB dengan `idempotency_key` yang sama dipakai nanti saat sinkron.
+3. Struk tercetak offline diberi tanda "Estimasi — belum sinkron".
+4. Saat online kembali, antrean dikirim satu per satu ke endpoint sinkronisasi tipis (controller baru, BUKAN Livewire — Livewire butuh koneksi aktif per aksi) yang memanggil `Action` yang sama dipakai alur online (`CompleteOrder`), bukan logika bayar baru; server menghitung ulang via `PriceCalculator` dan memotong stok (P5) di titik sinkron, bukan di titik transaksi dibuat.
+5. Klien menyertakan total estimasinya sebagai field informasional (`client_estimated_total`) — tidak pernah dipakai untuk kalkulasi. Bila berbeda dari hasil `CompleteOrder`, dicatat ke `audit_logs` (`action=order.offline_adjusted`, pola sama dengan `order.void`); total yang berlaku selalu hasil server.
+
+**Kondisi gagal**
+- Stok tidak cukup saat sinkron (dua kasir offline sama-sama menjual item terakhir) → `CompleteOrder` menolak (rollback) persis seperti alur online; order itu TIDAK tercatat dan tetap tersangkut di antrean lokal device yang mengirimnya (ditandai gagal, lihat 16). Kasir sudah menerima tunai tapi transaksi belum pernah ada di sistem — perlu ditinjau manual oleh pemilik (koreksi kas/kompensasi di luar sistem), bukan dibiarkan "stok negatif otomatis".
+- QRIS/Debit-Transfer tidak bisa diselesaikan offline (butuh konfirmasi dana/referensi real-time) → tombol metode tersebut nonaktif saat offline, hanya Tunai yang bisa.
+- Dua tab/device mengirim `idempotency_key` sama saat sinkron → server menolak duplikat (constraint unique sudah ada di 07), sinkron berikutnya menandai "sudah tersimpan" tanpa error ke kasir.
+
 ## Aturan perhitungan (urutan tetap)
 1. `subtotal` = Σ (harga produk + Σ tambahan opsi) × qty
 2. `discount` → `net` = subtotal − discount

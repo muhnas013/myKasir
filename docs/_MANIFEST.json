@@ -393,7 +393,10 @@
     "17",
     "19"
   ],
-  "landmines": [],
+  "landmines": [
+"F6 offline: stok TIDAK pernah negatif (StockService tetap menolak); risikonya order offline kedua yang stoknya keburu habis gagal permanen dan tersangkut di IndexedDB device itu — kasir sudah terima tunai tapi order tak tercatat, perlu tinjauan manual pemilik — lih. 06 P7, 16",
+    "F6 offline: total struk offline hanya estimasi klien; mismatch vs hasil server ditandai offline_adjusted di audit_logs, bukan ditimpa diam-diam — lih. 06 P7, 21"
+  ],
   "assumptions": [
     "CSS kustom berbasis variabel token, tanpa Bootstrap/Tailwind",
     "Export Excel memakai maatwebsite/excel",
@@ -401,10 +404,10 @@
     "PB1 10% aktif, biaya layanan 5% opsional, pembulatan Rp 100",
     "Produk tanpa resep: stok per produk; produk dengan resep: stok mengikuti bahan",
     "Roadmap F1-F5 MVP, F6 PWA offline",
-    "Kode di folder mykasir/"
+    "Kode di folder mykasir/",
+    "F6: pola sinkronisasi offline = antrean manual IndexedDB + Service Worker app-shell (bukan Background Sync API), tanpa pustaka sync pihak ketiga; dedup pakai idempotency_key yang sudah ada (02 F6, 06 P7, 07, 09)"
   ],
   "open_questions": [
-    "Pustaka/pola sinkronisasi offline Fase 2",
     "Nama, alamat, logo outlet asli",
     "Jadwal backup otomatis"
   ],

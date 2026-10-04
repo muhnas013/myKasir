@@ -832,6 +832,16 @@ textarea.input {
     font-size: var(--fs-sm);
 }
 
+[x-cloak] {
+    display: none !important;
+}
+
+.app-topbar__status {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+}
+
 .cart {
     display: flex;
     flex-direction: column;
@@ -1156,6 +1166,11 @@ textarea.input {
 
     @page {
         margin: 0;
+    }
+
+    /* Struk estimasi offline (F6): hanya elemen .offline-receipt-print yang dicetak. */
+    .pos-wrapper.is-printing-receipt > *:not(.offline-receipt-print) {
+        display: none;
     }
 }
 
