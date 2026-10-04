@@ -184,6 +184,7 @@ p {
     color: var(--c-text-label);
     font-weight: 600;
     text-decoration: none;
+    transition: background-color .15s ease, color .15s ease;
 }
 
 .app-sidebar__link:hover {
@@ -373,11 +374,16 @@ p {
     align-items: center;
     justify-content: center;
     gap: var(--sp-2);
+    transition: background-color .15s ease, border-color .15s ease, transform .1s ease;
 }
 
 .btn:disabled {
     cursor: not-allowed;
     opacity: .6;
+}
+
+.btn:active:not(:disabled) {
+    transform: scale(.97);
 }
 
 .btn--primary {
@@ -415,7 +421,7 @@ p {
 }
 
 .btn--danger:hover:not(:disabled) {
-    background: #F6D9D5;
+    background: color-mix(in srgb, var(--c-danger-soft), var(--c-danger) 15%);
 }
 
 /* Fields */
@@ -707,6 +713,7 @@ textarea.input {
     border-top: none;
     font-family: var(--font-sans);
     font-size: var(--fs-base);
+    transition: color .15s ease, border-color .15s ease;
 }
 
 .tabs__item.is-active {
@@ -822,6 +829,11 @@ textarea.input {
     font-weight: 700;
     font-size: var(--fs-sm);
     cursor: pointer;
+    transition: background-color .15s ease, color .15s ease, border-color .15s ease, transform .1s ease;
+}
+
+.view-toggle__btn:active {
+    transform: scale(.94);
 }
 
 .view-toggle__btn.is-active {
@@ -895,6 +907,15 @@ textarea.input {
     font-family: var(--font-sans);
     text-align: left;
     cursor: pointer;
+    transition: border-color .15s ease, transform .1s ease;
+}
+
+.menu-tile:hover:not(:disabled) {
+    border-color: var(--c-primary);
+}
+
+.menu-tile:active:not(:disabled) {
+    transform: scale(.97);
 }
 
 .menu-tile:disabled {
@@ -1197,6 +1218,7 @@ textarea.input {
     font-weight: 600;
     cursor: pointer;
     white-space: nowrap;
+    transition: background-color .15s ease, color .15s ease;
 }
 
 .segmented__item.is-active {
@@ -1566,4 +1588,49 @@ textarea.input {
     align-items: flex-end;
     flex-wrap: wrap;
     margin-top: var(--sp-4);
+}
+
+/* Transisi & animasi fungsional (micro-interaction) — bukan dekoratif:
+   menegaskan kemunculan/hilangnya elemen (modal, toast, panel), hormati
+   prefers-reduced-motion. */
+@media (prefers-reduced-motion: no-preference) {
+    @keyframes fade-in {
+        from { opacity: 0; }
+    }
+
+    @keyframes scale-in {
+        from { opacity: 0; transform: scale(.96); }
+    }
+
+    @keyframes fade-in-down {
+        from { opacity: 0; transform: translateY(-8px); }
+    }
+
+    @keyframes fade-in-up {
+        from { opacity: 0; transform: translateY(8px); }
+    }
+
+    @keyframes fade-in-right {
+        from { opacity: 0; transform: translateX(16px); }
+    }
+
+    .modal__backdrop {
+        animation: fade-in .15s ease;
+    }
+
+    .modal__dialog {
+        animation: scale-in .18s ease;
+    }
+
+    .toast {
+        animation: fade-in-right .2s ease;
+    }
+
+    .app-sidebar.is-open .app-sidebar__panel {
+        animation: fade-in-down .18s ease;
+    }
+
+    .pos__cart.is-open .cart__body {
+        animation: fade-in-up .18s ease;
+    }
 }

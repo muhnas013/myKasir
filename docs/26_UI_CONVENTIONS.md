@@ -66,8 +66,9 @@ Sidebar: Kasir · Menu & Stok · Laporan · Pengaturan + kartu shift aktif; item
 Bahasa Indonesia, nada netral-ramah, kalimat aktif. Rupiah `Rp 18.000` (titik ribuan, tanpa desimal). Tanggal `Sabtu, 3 Oktober 2026`; jam `14.52` (WITA). Kata kerja tombol baku: **Simpan**, **Batal**, **Ubah**, **Tambah**, **Hapus**, **Bayar**, **Cetak Struk**, **Pesanan Baru**, **Buka Shift**, **Tutup Shift**.
 
 ## Larangan UI
-- Nilai warna/ukuran/radius/bayangan di luar tabel token; hex di Blade/inline style.
-- Gradien, glassmorphism, bayangan pada kartu, animasi dekoratif.
+- Nilai warna/ukuran/radius/bayangan di luar tabel token; hex di Blade/inline style (termasuk CSS murni seperti `color-mix()` dari token yang ada — bukan hex baru).
+- Gradien, glassmorphism, bayangan pada kartu, animasi dekoratif (gerak tanpa tujuan — mis. bounce, parallax, confetti).
+- Transisi/animasi FUNGSIONAL tetap boleh (dikonfirmasi pengguna): feedback hover/tekan tombol & tile, serta animasi masuk modal/toast/panel mobile/bottom-sheet kasir — durasi pendek (~150–250ms), hormati `prefers-reduced-motion`, bukan pengganti state (empat state wajib tetap berlaku).
 - Emoji di antarmuka; ikon selain Lucide.
 - Pustaka UI/CSS baru (lihat 09).
 - Teks placeholder (`Lorem`, `[ISI]`) tersisa di halaman.
