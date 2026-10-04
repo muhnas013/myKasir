@@ -199,7 +199,7 @@ p {
 .app-main {
     flex: 1;
     padding: var(--sp-7) var(--sp-8);
-    max-width: 1440px;
+    max-width: 1760px;
 }
 
 .app-topbar {
@@ -859,6 +859,10 @@ textarea.input {
 
 .menu-grid--lg {
     grid-template-columns: repeat(1, 1fr);
+}
+
+.menu-grid--lg .menu-tile {
+    max-width: 480px;
 }
 
 .menu-grid--list {

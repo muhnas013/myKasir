@@ -29,6 +29,6 @@
 
 ## Kebutuhan non-fungsional
 - Layar kasir dirender < 1 detik; tambah item ke keranjang < 200 ms (tanpa reload halaman).
-- Bisa dipakai di tablet ≥ 768 px dan desktop 1280–1440 px; target sentuh ≥ 44 px (`docs/26_UI_CONVENTIONS.md`).
+- Bisa dipakai di tablet ≥ 768 px dan desktop 1280 px ke atas (konten melebar sampai 1760 px di layar lebar, tidak menyisakan area kosong); target sentuh ≥ 44 px (`docs/26_UI_CONVENTIONS.md`).
 - Satu outlet, maksimal ±3 kasir bersamaan.
 - Zona waktu aplikasi `Asia/Makassar`; mata uang Rupiah tanpa desimal.
