@@ -12,7 +12,10 @@ export default defineConfig({
         // VITE_DEV_ORIGIN: dipakai saat dev server diakses dari perangkat lain di
         // jaringan (mis. HP) — tanpa ini, public/hot menulis host bind literal
         // (mis. 0.0.0.0) yang tak bisa dituju browser lain. Opsional, default kosong.
-        ...(process.env.VITE_DEV_ORIGIN ? { origin: process.env.VITE_DEV_ORIGIN } : {}),
+        // `cors: true` wajib didampingkan — tanpanya Vite mengirim header
+        // Access-Control-Allow-Origin tetap = nilai `origin`, menolak origin
+        // Laravel yang sesungguhnya (beda port = beda origin bagi browser).
+        ...(process.env.VITE_DEV_ORIGIN ? { origin: process.env.VITE_DEV_ORIGIN, cors: true } : {}),
         watch: {
             ignored: ['**/storage/framework/views/**'],
         },
