@@ -26,15 +26,30 @@ class ShiftPagesTest extends TestCase
 
         Livewire::actingAs($cashier)->test(Open::class)
             ->set('opening_cash', 150000)
+            ->set('pin', '135790')
             ->call('save')
             ->assertRedirect('/pos');
 
         $this->assertDatabaseHas('shifts', ['user_id' => $cashier->id, 'status' => 'open', 'opening_cash' => 150000]);
     }
 
+    public function test_wrong_pin_blocks_opening_shift(): void
+    {
+        $cashier = User::factory()->cashier()->create();
+
+        Livewire::actingAs($cashier)->test(Open::class)
+            ->set('opening_cash', 150000)
+            ->set('pin', '000000')
+            ->call('save')
+            ->assertHasErrors('pin');
+
+        $this->assertDatabaseMissing('shifts', ['user_id' => $cashier->id]);
+    }
+
     public function test_negative_opening_cash_shows_error(): void
     {
         Livewire::actingAs(User::factory()->cashier()->create())->test(Open::class)
+            ->set('pin', '135790')
             ->set('opening_cash', -5)
             ->call('save')
             ->assertHasErrors('opening_cash');

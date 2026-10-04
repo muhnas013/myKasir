@@ -9,6 +9,11 @@ Data uji standar: Es Kopi Susu Gula Aren Rp 18.000, Nasi Goreng Spesial Rp 25.00
 - [x] Laporan menampilkan Total HPP & Keuntungan Bersih = Omzet − HPP (`ReportTest::test_keuntungan_bersih_mengurangi_hpp_dari_omzet`).
 - [x] Kasir (report.view-own) tidak melihat angka HPP/Keuntungan Bersih — hanya owner/admin (`test_cashier_does_not_see_profit_figures`, `test_owner_sees_profit_figures`).
 
+## SHIFT — konfirmasi PIN sendiri saat Buka Shift (06 P2, tambahan setelah F3 diarsipkan)
+- [x] Buka Shift menolak tanpa PIN benar milik kasir yang login (`ShiftPagesTest::test_cashier_opens_shift_with_opening_cash`, `test_wrong_pin_blocks_opening_shift`).
+- [x] PIN salah 5x berturut-turut mengunci 15 menit + audit `auth.pin_locked`, sama seperti PIN persetujuan (`ShiftActionsTest::test_five_wrong_own_pins_lock_and_audit`).
+- [x] Tidak mengganti sesi/identitas — hanya mencocokkan ke PIN milik user yang sedang login (`VerifyOwnPin`, bukan pencarian lintas-user seperti `VerifyApproverPin`).
+
 ## SHIFT — pengeluaran kas operasional (06 P2, tambahan setelah F3 diarsipkan)
 - [x] Kasir mencatat pengeluaran (keterangan + nominal) selama shift terbuka; mengurangi `expected_cash` (`ShiftActionsTest::test_expense_reduces_expected_cash`).
 - [x] Pengeluaran tak bisa dicatat pada shift tertutup atau oleh bukan pemilik shift (`test_expense_cannot_be_recorded_on_closed_shift`, `test_expense_cannot_be_recorded_by_another_user`).

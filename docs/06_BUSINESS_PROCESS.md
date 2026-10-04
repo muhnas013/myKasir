@@ -21,7 +21,7 @@ Peran: `docs/05_USER_ROLE.md`. Tabel/kolom: `docs/07_DATA_MODEL.md`.
 - Klik ganda "Selesaikan" → hanya satu order tercipta (idempotency key per keranjang).
 
 ## P2 — Buka & tutup shift
-1. Buka: kasir mengisi modal awal (≥ 0) → `shifts.status=open`.
+1. Buka: kasir mengisi modal awal (≥ 0) + konfirmasi PIN miliknya sendiri (6 digit, `VerifyOwnPin`) → `shifts.status=open` tercatat atas nama kasir yang login. PIN salah ditolak; 5x salah dikunci 15 menit (21) — sama seperti PIN persetujuan.
 2. Selama shift berjalan, kasir boleh mencatat pengeluaran kas operasional (mis. beli es batu) di `/shift/expenses` — nominal + keterangan, bisa dihapus selama shift masih terbuka. Mengurangi `expected_cash` (lihat 3).
 3. Tutup: kasir menghitung uang fisik per pecahan atau total → sistem menghitung `expected_cash` (modal awal + tunai bersih dari penjualan − total pengeluaran kas) dan `cash_difference`.
 4. Bila selisih ≠ 0, catatan wajib diisi. Shift berstatus `closed` (pengeluaran tak bisa diubah lagi setelah ini), ringkasan shift dicetak.

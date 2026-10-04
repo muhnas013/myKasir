@@ -4,11 +4,12 @@
 - Owner/admin: email + kata sandi (bcrypt, minimal 8 karakter). Kasir: pilih nama + PIN 6 digit (bcrypt di `pin_hash`); PIN berurutan/berulang (`123456`, `111111`) ditolak, kecuali seeder `local`.
 - `session()->regenerate()` setelah login; cookie `httponly`, `secure` (produksi), `same_site=lax`.
 - Kunci layar: tombol "Kunci" kembali ke layar PIN tanpa mengakhiri shift.
-- Rate limit: login 5x/menit per IP+email; PIN login dan PIN persetujuan 5x salah/15 menit per user (`RateLimiter`), lalu audit `auth.pin_locked`.
+- Rate limit: login 5x/menit per IP+email; PIN login, PIN persetujuan, dan PIN konfirmasi buka shift 5x salah/15 menit per user (`RateLimiter`), lalu audit `auth.pin_locked`.
 
 ## Otorisasi
 - Setiap rute dan aksi Livewire memanggil `authorize()`/`Gate` sesuai ability di `docs/05_USER_ROLE.md`; menyembunyikan tombol di UI BUKAN otorisasi.
 - Persetujuan PIN: `App\Actions\Auth\VerifyApproverPin` memeriksa PIN milik user berperan owner/admin yang aktif, mengembalikan id penyetuju untuk dicatat.
+- Konfirmasi PIN sendiri: `App\Actions\Auth\VerifyOwnPin` (dipakai saat Buka Shift, 06 P2) mencocokkan PIN HANYA ke milik user yang sedang login — tidak mengganti sesi/identitas, murni penegasan.
 - User nonaktif ditolak walau sesinya masih ada (middleware `EnsureUserIsActive`).
 
 ## Validasi input

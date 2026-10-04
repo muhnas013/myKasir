@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Shift;
 
+use App\Actions\Auth\VerifyOwnPin;
 use App\Actions\Orders\CompleteOrder;
 use App\Actions\Orders\SaveOpenOrder;
 use App\Actions\Shifts\CloseShift;
@@ -10,6 +11,7 @@ use App\Actions\Shifts\RecordShiftExpense;
 use App\Models\User;
 use App\Models\WageActivity;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Validation\ValidationException;
 use Tests\Concerns\SetsUpPos;
 use Tests\TestCase;
@@ -148,6 +150,35 @@ class ShiftActionsTest extends TestCase
     {
         $this->expectException(ValidationException::class);
         app(RecordShiftExpense::class)->handle($this->shift, User::factory()->cashier()->create(), 'Es batu', 15000);
+    }
+
+    public function test_correct_own_pin_passes_verification(): void
+    {
+        $this->expectNotToPerformAssertions();
+        app(VerifyOwnPin::class)->handle($this->cashier, '135790');
+    }
+
+    public function test_wrong_own_pin_is_rejected(): void
+    {
+        $this->expectException(ValidationException::class);
+        app(VerifyOwnPin::class)->handle($this->cashier, '000000');
+    }
+
+    public function test_five_wrong_own_pins_lock_and_audit(): void
+    {
+        RateLimiter::clear('pin-self:'.$this->cashier->id);
+
+        for ($i = 0; $i < 5; $i++) {
+            try {
+                app(VerifyOwnPin::class)->handle($this->cashier, '000000');
+            } catch (ValidationException) {
+            }
+        }
+
+        $this->assertDatabaseHas('audit_logs', ['action' => 'auth.pin_locked', 'user_id' => $this->cashier->id]);
+
+        $this->expectException(ValidationException::class);
+        app(VerifyOwnPin::class)->handle($this->cashier, '135790');
     }
 
     public function test_new_shift_can_be_opened_after_closing(): void
