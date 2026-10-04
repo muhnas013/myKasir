@@ -32,7 +32,14 @@ Diskon dan QRIS/Debit offline tetap ditunda (butuh verifikasi/konfirmasi yang be
 - [x] Layar Tutup Shift menampilkan daftar aktivitas aktif sebagai checklist opsional (`ShiftPagesTest::test_cashier_can_pick_activities_while_closing_shift`).
 - [x] Aktivitas nonaktif tidak bisa ikut tercatat meski id-nya dikirim manual (`ShiftActionsTest::test_selected_activities_are_logged_with_snapshot`).
 - [x] Nama & nominal di-snapshot ke `shift_activities` saat shift ditutup; perubahan katalog setelahnya tidak mengubah baris yang sudah tercatat (test yang sama).
-- [ ] Slice 3 (belum): `WageCalculator` (upah dasar + bonus aktivitas + bonus penjualan per hari) dan halaman Rekap Upah.
+
+## F7 — WAGE, slice 3: kalkulasi upah + Rekap Upah (06 P8)
+- [x] Upah dasar per shift closed (`WageCalculatorTest::test_base_wage_only_when_below_sales_threshold`).
+- [x] Bonus penjualan berjenjang per hari, lintas shift/pegawai, cocok dengan contoh terdokumentasi — 350rb+450rb sehari → 15rb+20rb (`WageCalculatorTest::test_matches_documented_example_two_shifts_same_day`).
+- [x] Shift di hari berbeda tak ikut terpool untuk ambang minimum (`test_same_revenue_split_across_different_days_does_not_pool`).
+- [x] Bonus aktivitas masuk ke total upah (`test_activity_bonus_is_included_in_total`); shift masih `open` tak dihitung (`test_open_shift_is_excluded`).
+- [x] Halaman Rekap Upah (owner-only): ringkasan total per pegawai + rincian per shift, filter periode (Hari Ini/7/30/Rentang, pola sama dengan Laporan) (`WageActivityTest::test_wage_summary_shows_empty_state_without_closed_shifts`, `test_admin_cannot_access_wage_summary_component`).
+- [ ] Manual: uji dengan data produksi nyata sebelum dipakai membayar gaji sungguhan.
 
 ## Verifikasi UI (semua fase)
 - [ ] `grep -rnE "#[0-9A-Fa-f]{3,6}\b" resources/views resources/js` → 0 hasil (warna hanya dari `resources/css/app.css`).

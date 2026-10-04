@@ -11,6 +11,8 @@ use Livewire\Component;
 #[Title('Penggajian')]
 class Index extends Component
 {
+    public string $tab = 'summary';
+
     public function mount(): void
     {
         Gate::authorize('settings.manage');

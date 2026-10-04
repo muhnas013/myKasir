@@ -10,6 +10,6 @@ Setiap fase = vertical slice (migrasi → Action/Service → Livewire/Blade → 
 | F4 | Admin mengisi bahan baku & resep; penjualan memotong stok; stok masuk memperbarui HPP; peringatan menipis tampil | STOCK | selesai |
 | F5 | Pemilik membuka laporan hari ini/7/30 hari/rentang tanggal dan mengunduh Excel | REPORT | selesai |
 | F6 (setelah MVP) | Kasir tetap bisa transaksi saat internet putus; transaksi tersinkron tanpa duplikat | OFFLINE | selesai (iterasi 1 + iterasi 2 varian, otomatis hijau — menunggu uji manual browser gabungan; diskon/QRIS offline tetap ditunda) |
-| F7 (setelah F6) | Pemilik kelola katalog aktivitas bonus; kasir catat aktivitas saat tutup shift; pemilik lihat rekap upah per shift/pegawai | WAGE | berjalan (slice 1/3: skema + kontrol admin aktivitas — selesai; slice 2: pencatatan kasir; slice 3: kalkulasi + rekap upah — belum) |
+| F7 (setelah F6) | Pemilik kelola katalog aktivitas bonus; kasir catat aktivitas saat tutup shift; pemilik lihat rekap upah per shift/pegawai | WAGE | selesai (otomatis hijau — menunggu uji manual dengan data produksi sebelum dipakai membayar gaji sungguhan) |
 
 Catatan F3: stok produk (`track_stock`) sudah dipotong di F3; stok bahan baku baru aktif di F4.

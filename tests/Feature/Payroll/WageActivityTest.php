@@ -3,6 +3,7 @@
 namespace Tests\Feature\Payroll;
 
 use App\Livewire\Payroll\ActivityTable;
+use App\Livewire\Payroll\WageSummary;
 use App\Models\User;
 use App\Models\WageActivity;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -108,5 +109,19 @@ class WageActivityTest extends TestCase
         Livewire::actingAs(User::factory()->owner()->create())
             ->test(ActivityTable::class)
             ->assertSee('Belum ada aktivitas bonus. Tambah yang pertama.');
+    }
+
+    public function test_admin_cannot_access_wage_summary_component(): void
+    {
+        Livewire::actingAs(User::factory()->admin()->create())
+            ->test(WageSummary::class)
+            ->assertForbidden();
+    }
+
+    public function test_wage_summary_shows_empty_state_without_closed_shifts(): void
+    {
+        Livewire::actingAs(User::factory()->owner()->create())
+            ->test(WageSummary::class)
+            ->assertSee('Belum ada shift selesai pada periode ini.');
     }
 }
