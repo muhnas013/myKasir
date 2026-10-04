@@ -836,6 +836,17 @@ textarea.input {
     transform: scale(.94);
 }
 
+/* 4/5/6 kolom hanya masuk akal di layar lebar — disembunyikan di mobile */
+.view-toggle__btn--desktop {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .view-toggle__btn--desktop {
+        display: flex;
+    }
+}
+
 .view-toggle__btn.is-active {
     background: var(--c-primary-soft);
     color: var(--c-primary);
@@ -849,19 +860,14 @@ textarea.input {
     gap: var(--sp-4);
 }
 
-.menu-grid--sm {
-    grid-template-columns: repeat(3, 1fr);
-}
+.menu-grid--cols-1 { grid-template-columns: repeat(1, 1fr); }
+.menu-grid--cols-2 { grid-template-columns: repeat(2, 1fr); }
+.menu-grid--cols-3 { grid-template-columns: repeat(3, 1fr); }
+.menu-grid--cols-4 { grid-template-columns: repeat(4, 1fr); }
+.menu-grid--cols-5 { grid-template-columns: repeat(5, 1fr); }
+.menu-grid--cols-6 { grid-template-columns: repeat(6, 1fr); }
 
-.menu-grid--md {
-    grid-template-columns: repeat(2, 1fr);
-}
-
-.menu-grid--lg {
-    grid-template-columns: repeat(1, 1fr);
-}
-
-.menu-grid--lg .menu-tile {
+.menu-grid--cols-1 .menu-tile {
     max-width: 480px;
 }
 
@@ -1049,6 +1055,13 @@ textarea.input {
 
 /* Mobile: sidebar jadi bar atas (26 — breakpoint 768px) */
 @media (max-width: 767px) {
+    /* Jaga-jaga preferensi 4/5/6 kolom tersimpan dari sesi desktop sebelumnya */
+    .menu-grid--cols-4,
+    .menu-grid--cols-5,
+    .menu-grid--cols-6 {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
     .app-shell {
         flex-direction: column;
     }

@@ -27,7 +27,7 @@
         <div
             class="pos__menu"
             x-data="{
-                gridSize: localStorage.getItem('mykasir_menu_grid_size') || 'md',
+                gridSize: localStorage.getItem('mykasir_menu_grid_size') || '2',
                 view: localStorage.getItem('mykasir_menu_view') || 'grid',
                 setGridSize(v) { this.gridSize = v; localStorage.setItem('mykasir_menu_grid_size', v); },
                 setView(v) { this.view = v; localStorage.setItem('mykasir_menu_view', v); },
@@ -38,16 +38,19 @@
             </template>
             <div class="view-toggle" x-show="catalog.length > 0">
                 <div class="view-toggle__sizes" x-show="view === 'grid'" x-cloak>
-                    <button type="button" class="view-toggle__btn" :class="{ 'is-active': gridSize === 'sm' }" @click="setGridSize('sm')" aria-label="Grid kecil">K</button>
-                    <button type="button" class="view-toggle__btn" :class="{ 'is-active': gridSize === 'md' }" @click="setGridSize('md')" aria-label="Grid sedang">S</button>
-                    <button type="button" class="view-toggle__btn" :class="{ 'is-active': gridSize === 'lg' }" @click="setGridSize('lg')" aria-label="Grid besar">B</button>
+                    <button type="button" class="view-toggle__btn" :class="{ 'is-active': gridSize === '1' }" @click="setGridSize('1')" aria-label="1 kolom">1</button>
+                    <button type="button" class="view-toggle__btn" :class="{ 'is-active': gridSize === '2' }" @click="setGridSize('2')" aria-label="2 kolom">2</button>
+                    <button type="button" class="view-toggle__btn" :class="{ 'is-active': gridSize === '3' }" @click="setGridSize('3')" aria-label="3 kolom">3</button>
+                    <button type="button" class="view-toggle__btn view-toggle__btn--desktop" :class="{ 'is-active': gridSize === '4' }" @click="setGridSize('4')" aria-label="4 kolom">4</button>
+                    <button type="button" class="view-toggle__btn view-toggle__btn--desktop" :class="{ 'is-active': gridSize === '5' }" @click="setGridSize('5')" aria-label="5 kolom">5</button>
+                    <button type="button" class="view-toggle__btn view-toggle__btn--desktop" :class="{ 'is-active': gridSize === '6' }" @click="setGridSize('6')" aria-label="6 kolom">6</button>
                 </div>
                 <div class="view-toggle__modes">
                     <button type="button" class="view-toggle__btn" :class="{ 'is-active': view === 'grid' }" @click="setView('grid')" aria-label="Tampilan grid"><x-icon name="layout-grid" /></button>
                     <button type="button" class="view-toggle__btn" :class="{ 'is-active': view === 'list' }" @click="setView('list')" aria-label="Tampilan daftar"><x-icon name="list" /></button>
                 </div>
             </div>
-            <div class="menu-grid" x-show="catalog.length > 0" :class="view === 'list' ? 'menu-grid--list' : 'menu-grid--' + gridSize">
+            <div class="menu-grid" x-show="catalog.length > 0" :class="view === 'list' ? 'menu-grid--list' : 'menu-grid--cols-' + gridSize">
                 <template x-for="product in catalog" :key="product.id">
                     <button type="button" class="menu-tile" @click="openProduct(product)">
                         <div class="menu-tile__photo">
