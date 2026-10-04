@@ -18,7 +18,7 @@
         <div class="pos__menu">
             @livewire('pos.grid')
         </div>
-        <div class="pos__cart">
+        <div class="pos__cart" x-data="{ cartOpen: false }" :class="{ 'is-open': cartOpen }">
             @livewire('pos.cart')
         </div>
     </div>

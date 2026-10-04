@@ -985,6 +985,17 @@ textarea.input {
     padding: var(--sp-5);
 }
 
+/* Bar ringkasan pesanan — mobile-only, lihat @media 767px di bawah */
+.cart-bar {
+    display: none;
+}
+
+.cart__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+}
+
 .cart__header {
     display: flex;
     flex-direction: column;
@@ -1192,6 +1203,91 @@ textarea.input {
 .cart__success-number {
     font-size: var(--fs-2xl);
     font-weight: 800;
+}
+
+/* Kasir mobile: keranjang jadi bottom bar — hindari scroll melewati seluruh grid menu */
+@media (max-width: 767px) {
+    .pos__menu {
+        padding-bottom: calc(var(--h-primary) + var(--sp-5));
+    }
+
+    .pos__cart {
+        position: fixed;
+        top: auto;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 35;
+        width: auto;
+        max-height: 85vh;
+        overflow-y: auto;
+        border-top: 1px solid var(--c-border);
+        border-radius: var(--r-xl) var(--r-xl) 0 0;
+        box-shadow: var(--shadow-dialog);
+    }
+
+    .cart {
+        border: none;
+        border-radius: 0;
+        padding: 0;
+    }
+
+    .cart-bar {
+        display: flex;
+        align-items: center;
+        gap: var(--sp-3);
+        padding: var(--sp-4);
+    }
+
+    .cart-bar__summary {
+        display: flex;
+        align-items: center;
+        gap: var(--sp-3);
+        flex: 1;
+        min-width: 0;
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        font-family: var(--font-sans);
+        color: var(--c-text);
+        text-align: left;
+    }
+
+    .cart-bar__text {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .cart-bar__count {
+        font-size: var(--fs-sm);
+        color: var(--c-text-muted);
+        font-weight: 600;
+    }
+
+    .cart-bar__total {
+        font-size: var(--fs-lg);
+        font-weight: 800;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .cart__body {
+        display: none;
+        padding: 0 var(--sp-5) var(--sp-5);
+    }
+
+    .cart__success {
+        padding: var(--sp-5);
+    }
+
+    .pos__cart.is-open .cart__body {
+        display: flex;
+    }
+
+    .pos__cart.is-open .cart-bar__pay {
+        display: none;
+    }
 }
 
 .shift-card {

@@ -14,6 +14,23 @@
             <x-button type="button" wire:click="newOrder">Pesanan Baru</x-button>
         </div>
     @else
+        {{-- Bar ringkasan: hanya tampil di mobile (<768px, lihat app.css) agar kasir
+             tak perlu scroll melewati seluruh grid menu untuk bayar (26). --}}
+        <div class="cart-bar">
+            <button type="button" class="cart-bar__summary" @click="cartOpen = !cartOpen" :aria-expanded="cartOpen ? 'true' : 'false'" aria-label="Buka ringkasan pesanan">
+                <span class="cart-bar__text">
+                    <span class="cart-bar__count">{{ count($lines) }} item</span>
+                    <span class="cart-bar__total">{{ $priced ? \App\Support\Money::format($priced['total']) : 'Rp 0' }}</span>
+                </span>
+                <x-icon name="chevron-up" x-show="!cartOpen" x-cloak />
+                <x-icon name="chevron-down" x-show="cartOpen" x-cloak />
+            </button>
+            <x-button type="button" class="cart-bar__pay" wire:click="openPay" wire:loading.attr="disabled" :disabled="! $priced">Bayar</x-button>
+        </div>
+    @endif
+
+    <div class="cart__body">
+    @if (! $completed)
         <div class="cart__header">
             <div class="card__title">Pesanan</div>
             <x-segmented :options="['take_away' => 'Bawa Pulang', 'dine_in' => 'Makan di Tempat']" :current="$order_type" model="order_type" />
@@ -83,6 +100,7 @@
             <x-button type="button" class="btn--block btn--tall" wire:click="openPay" wire:loading.attr="disabled" :disabled="! $priced">Bayar</x-button>
         </div>
     @endif
+    </div>
 
     @if ($showDiscount)
         <x-modal title="Diskon" close="closeDiscount">
