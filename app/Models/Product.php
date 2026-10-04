@@ -21,6 +21,7 @@ class Product extends Model
         'sku',
         'name',
         'price',
+        'cost_price',
         'image_path',
         'is_active',
         'track_stock',
@@ -31,6 +32,7 @@ class Product extends Model
     {
         return [
             'price' => 'integer',
+            'cost_price' => 'integer',
             'is_active' => 'boolean',
             'track_stock' => 'boolean',
             'stock_qty' => 'integer',

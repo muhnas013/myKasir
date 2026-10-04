@@ -85,7 +85,9 @@
                     <x-input label="SKU" wire:model="sku" :error="$errors->first('sku')" />
                     <x-input label="Nama" wire:model="name" :error="$errors->first('name')" />
                     <x-input label="Harga (Rp)" type="number" min="0" inputmode="numeric" wire:model="price" :error="$errors->first('price')" />
+                    <x-input label="Modal / HPP (Rp)" type="number" min="0" inputmode="numeric" wire:model="cost_price" :error="$errors->first('cost_price')" />
                 </div>
+                <p class="muted">Modal/HPP dipakai untuk hitung Keuntungan Bersih di Laporan — hanya berlaku bila produk ini tidak punya resep bahan baku di Stok (resep lebih presisi, otomatis dipakai bila ada).</p>
                 <div class="card__row">
                     <label class="field">
                         <span class="field__label">Foto produk</span>

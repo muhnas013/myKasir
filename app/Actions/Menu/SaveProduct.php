@@ -11,7 +11,7 @@ class SaveProduct
 {
     /**
      * @param  array{
-     *     category_id: int, sku: string, name: string, price: int,
+     *     category_id: int, sku: string, name: string, price: int, cost_price?: int,
      *     is_active: bool, track_stock: bool, stock_qty?: int, image_path?: ?string,
      *     variant_groups?: list<array{
      *         id?: ?int, name: string, is_required: bool, max_select: int,
@@ -30,6 +30,7 @@ class SaveProduct
                 'sku' => $data['sku'],
                 'name' => $data['name'],
                 'price' => $data['price'],
+                'cost_price' => $data['cost_price'] ?? $product->cost_price ?? 0,
                 'is_active' => $data['is_active'],
                 'track_stock' => $data['track_stock'],
                 'stock_qty' => $data['stock_qty'] ?? $product->stock_qty ?? 0,

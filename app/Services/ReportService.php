@@ -19,11 +19,17 @@ class ReportService
     {
         $omzet = (int) $this->paidOrdersQuery($startDate, $endDate, $userId)->sum('total');
         $transaksi = (clone $this->paidOrdersQuery($startDate, $endDate, $userId))->count();
+        $hpp = (int) OrderItem::query()
+            ->whereHas('order', fn (Builder $q) => $this->scopePaidOrders($q, $startDate, $endDate, $userId))
+            ->selectRaw('COALESCE(SUM(unit_cost * qty), 0) as total')
+            ->value('total');
 
         return [
             'omzet' => $omzet,
             'transaksi' => $transaksi,
             'rata_rata' => $transaksi > 0 ? (int) round($omzet / $transaksi) : 0,
+            'hpp' => $hpp,
+            'keuntungan_bersih' => $omzet - $hpp,
         ];
     }
 

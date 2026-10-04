@@ -82,6 +82,24 @@ class ProductTest extends TestCase
         $this->assertSame('products/existing.jpg', $product->fresh()->image_path);
     }
 
+    public function test_admin_can_set_cost_price(): void
+    {
+        $category = Category::factory()->create();
+
+        Livewire::actingAs(User::factory()->admin()->create())
+            ->test(ProductTable::class)
+            ->call('create')
+            ->set('category_id', (string) $category->id)
+            ->set('sku', 'TH-001')
+            ->set('name', 'Teh Es')
+            ->set('price', 8000)
+            ->set('cost_price', 3000)
+            ->call('save')
+            ->assertHasNoErrors();
+
+        $this->assertDatabaseHas('products', ['sku' => 'TH-001', 'price' => 8000, 'cost_price' => 3000]);
+    }
+
     public function test_product_validation_rejects_bad_input(): void
     {
         Livewire::actingAs(User::factory()->admin()->create())

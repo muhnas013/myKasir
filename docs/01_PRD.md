@@ -5,13 +5,13 @@
 |---|---|---|---|
 | AUTH | Autentikasi & peran | Login email+kata sandi (owner/admin), login PIN 6 digit (cashier), logout, kunci layar | MVP |
 | SET | Pengaturan | Profil outlet, pajak/biaya, metode bayar aktif, gambar QRIS, teks struk, pengguna | MVP |
-| MENU | Menu & varian | Kategori, produk, harga, varian (grup + opsi + tambahan harga), aktif/nonaktif di kasir | MVP |
+| MENU | Menu & varian | Kategori, produk, harga, Modal/HPP manual, varian (grup + opsi + tambahan harga), aktif/nonaktif di kasir | MVP |
 | POS | Transaksi kasir | Pilih menu, varian, qty, catatan, diskon, makan di tempat/bawa pulang, nama/meja, simpan (open bill sederhana) | MVP |
 | PAY | Pembayaran & struk | Tunai (kembalian), QRIS statis (konfirmasi manual), Debit/Transfer (no. referensi); cetak struk 58 mm | MVP |
 | SHIFT | Shift kas | Buka shift dengan modal awal, catat pengeluaran kas operasional selama shift, tutup shift dengan hitung kas fisik & selisih | MVP |
 | VOID | Pembatalan | Batalkan transaksi lunas dengan alasan + PIN admin; stok dikembalikan | MVP |
 | STOCK | Bahan baku & resep | Bahan baku, resep per produk/opsi varian, potong stok otomatis, stok masuk, opname, HPP, peringatan menipis | MVP |
-| REPORT | Laporan | Omzet, transaksi, rata-rata, per jam, terlaris, metode bayar, riwayat, export Excel | MVP |
+| REPORT | Laporan | Omzet, transaksi, rata-rata, Total HPP & Keuntungan Bersih (owner/admin), per jam, terlaris, metode bayar, riwayat, export Excel | MVP |
 | OFFLINE | Mode offline (PWA) | Antrean transaksi di browser + sinkronisasi | Nanti (F6) |
 | WAGE | Penggajian pegawai | Upah dasar per shift + bonus aktivitas (dikontrol pemilik) + bonus penjualan bertingkat per hari | Nanti (F7) |
 

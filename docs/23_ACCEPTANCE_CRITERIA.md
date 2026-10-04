@@ -3,6 +3,12 @@
 Hanya fitur AKTIF. Fitur yang diterima dipindah ke `docs/_archive/23-{kode}.md`. Fitur: `docs/01_PRD.md`; proses & rumus: `docs/06_BUSINESS_PROCESS.md`; peran: `docs/05_USER_ROLE.md`; DoD: `docs/24_DEFINITION_OF_DONE.md`.
 Data uji standar: Es Kopi Susu Gula Aren Rp 18.000, Nasi Goreng Spesial Rp 25.000, Pisang Goreng Rp 12.000.
 
+## REPORT/MENU — Modal/HPP & Keuntungan Bersih (06 P5, tambahan setelah F2/F5 diarsipkan)
+- [x] Produk punya field Modal/HPP; tersimpan lewat form Menu (`ProductTest::test_admin_can_set_cost_price`).
+- [x] Produk BERRESEP tetap pakai HPP presisi dari bahan baku; Modal/HPP manual hanya fallback saat tanpa resep (`RecipeManagementTest::test_cost_price_is_used_as_fallback_hpp_when_no_recipe`, `test_recipe_cost_takes_precedence_over_cost_price`).
+- [x] Laporan menampilkan Total HPP & Keuntungan Bersih = Omzet − HPP (`ReportTest::test_keuntungan_bersih_mengurangi_hpp_dari_omzet`).
+- [x] Kasir (report.view-own) tidak melihat angka HPP/Keuntungan Bersih — hanya owner/admin (`test_cashier_does_not_see_profit_figures`, `test_owner_sees_profit_figures`).
+
 ## SHIFT — pengeluaran kas operasional (06 P2, tambahan setelah F3 diarsipkan)
 - [x] Kasir mencatat pengeluaran (keterangan + nominal) selama shift terbuka; mengurangi `expected_cash` (`ShiftActionsTest::test_expense_reduces_expected_cash`).
 - [x] Pengeluaran tak bisa dicatat pada shift tertutup atau oleh bukan pemilik shift (`test_expense_cannot_be_recorded_on_closed_shift`, `test_expense_cannot_be_recorded_by_another_user`).

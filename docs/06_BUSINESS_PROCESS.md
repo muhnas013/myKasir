@@ -41,6 +41,7 @@ Diskon nominal atau persen per transaksi, tidak boleh membuat subtotal setelah d
 - Produk tanpa resep dengan `track_stock=true`: kurangi `products.stock_qty`.
 - Stok boleh negatif hanya bila setting `allow_negative_stock=true` (default `false`).
 - Bahan dengan `stock_qty ≤ min_qty` muncul di peringatan "hampir habis" (layar Menu & Stok dan badge di kasir).
+- **HPP per porsi** (`StockService::porsiCost`, dicatat ke `order_items.unit_cost` tiap penjualan): produk BERRESEP dihitung dari `Σ qty resep × avg_cost bahan` (presisi); produk TANPA resep pakai `products.cost_price` (Modal/HPP manual diisi admin) sebagai HPP flat — dipakai Laporan untuk Keuntungan Bersih (= Omzet − Σ `unit_cost × qty`, lih. `07`).
 
 ## P6 — Stok masuk & opname
 - Stok masuk: bahan, qty > 0, harga beli total → `avg_cost` baru = (stok lama × avg lama + harga beli total) ÷ (stok lama + qty).

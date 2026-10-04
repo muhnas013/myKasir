@@ -32,6 +32,8 @@ class ProductTable extends Component
 
     public int|string $price = 0;
 
+    public int|string $cost_price = 0;
+
     public bool $is_active = true;
 
     public bool $track_stock = false;
@@ -85,6 +87,7 @@ class ProductTable extends Component
         $this->sku = $product->sku;
         $this->name = $product->name;
         $this->price = $product->price;
+        $this->cost_price = $product->cost_price;
         $this->is_active = $product->is_active;
         $this->track_stock = $product->track_stock;
         $this->stock_qty = $product->stock_qty;
@@ -146,6 +149,7 @@ class ProductTable extends Component
             'sku' => ['required', 'string', 'max:20', Rule::unique('products', 'sku')->ignore($this->editingId)],
             'name' => ['required', 'string', 'max:100'],
             'price' => ['required', 'integer', 'min:0', 'max:100000000'],
+            'cost_price' => ['nullable', 'integer', 'min:0', 'max:100000000'],
             'stock_qty' => ['nullable', 'integer', 'min:0', 'max:1000000'],
             'photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
             'groups.*.name' => ['required', 'string', 'max:50'],
@@ -172,6 +176,7 @@ class ProductTable extends Component
                 'sku' => $this->sku,
                 'name' => $this->name,
                 'price' => (int) $this->price,
+                'cost_price' => (int) $this->cost_price,
                 'is_active' => $this->is_active,
                 'track_stock' => $this->track_stock,
                 'stock_qty' => (int) $this->stock_qty,
@@ -220,6 +225,7 @@ class ProductTable extends Component
         $this->sku = '';
         $this->name = '';
         $this->price = 0;
+        $this->cost_price = 0;
         $this->is_active = true;
         $this->track_stock = false;
         $this->stock_qty = 0;

@@ -19,6 +19,25 @@ class RecipeManagementTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_cost_price_is_used_as_fallback_hpp_when_no_recipe(): void
+    {
+        $product = Product::factory()->create(['cost_price' => 7000]);
+
+        $this->assertSame(7000, app(StockService::class)->porsiCost($product));
+    }
+
+    public function test_recipe_cost_takes_precedence_over_cost_price(): void
+    {
+        $product = Product::factory()->create(['cost_price' => 7000]);
+        $ingredient = Ingredient::factory()->create(['avg_cost' => 1000]);
+        Recipe::create(['ingredient_id' => $ingredient->id, 'product_id' => $product->id, 'qty' => 18]);
+
+        $product->load('recipes');
+
+        // 18 * 1000 / 1000 = 18, bukan 7000 — resep lebih presisi dan menang.
+        $this->assertSame(18, app(StockService::class)->porsiCost($product));
+    }
+
     public function test_save_recipe_syncs_base_and_option_lines(): void
     {
         $product = Product::factory()->create();

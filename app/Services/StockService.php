@@ -60,7 +60,8 @@ class StockService
             ->concat($this->optionRecipes($product, $optionIds));
 
         if ($recipes->isEmpty()) {
-            return 0;
+            // Tanpa resep bahan baku: pakai Modal/HPP manual produk (07) sebagai HPP flat per porsi.
+            return $product->cost_price;
         }
 
         $ingredients = $recipes->first()->relationLoaded('ingredient')

@@ -31,6 +31,22 @@ class ReportTest extends TestCase
         return app(CompleteOrder::class)->handle($this->cashier, $this->shift, $this->cashInput($override));
     }
 
+    public function test_keuntungan_bersih_mengurangi_hpp_dari_omzet(): void
+    {
+        $this->esKopi->update(['cost_price' => 8000]);
+        $this->nasiGoreng->update(['cost_price' => 10000]);
+        $this->pisangGoreng->update(['cost_price' => 5000]);
+
+        $this->complete(); // 2x esKopi + 1x nasiGoreng + 1x pisangGoreng = 73.000, hpp = 2*8000+10000+5000 = 31.000
+
+        $today = now()->toDateString();
+        $summary = app(ReportService::class)->summary($today, $today);
+
+        $this->assertSame(73000, $summary['omzet']);
+        $this->assertSame(31000, $summary['hpp']);
+        $this->assertSame(42000, $summary['keuntungan_bersih']);
+    }
+
     public function test_omzet_hari_ini_menjumlahkan_order_lunas_dan_mengabaikan_void(): void
     {
         $this->complete();
@@ -104,6 +120,26 @@ class ReportTest extends TestCase
             ->assertSee(Money::format(73000))
             ->assertDontSee(Money::format(90000))
             ->assertDontSee('Unduh Excel');
+    }
+
+    public function test_cashier_does_not_see_profit_figures(): void
+    {
+        $this->complete();
+
+        Livewire::actingAs($this->cashier)
+            ->test(ReportsIndex::class)
+            ->assertDontSee('Keuntungan Bersih')
+            ->assertDontSee('Total HPP');
+    }
+
+    public function test_owner_sees_profit_figures(): void
+    {
+        $this->complete();
+
+        Livewire::actingAs(User::factory()->owner()->create())
+            ->test(ReportsIndex::class)
+            ->assertSee('Keuntungan Bersih')
+            ->assertSee('Total HPP');
     }
 
     public function test_kasir_tidak_bisa_mengakses_export(): void

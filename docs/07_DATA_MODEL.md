@@ -47,6 +47,7 @@ Persen disimpan dalam basis poin (`tax_rate_bp` 1000 = 10%).
 | sku | varchar(20) | unique | mis. `KP-001` |
 | name | varchar(100) | not null | |
 | price | bigint unsigned | not null | |
+| cost_price | bigint unsigned | default 0 | Modal/HPP manual per porsi — fallback `StockService::porsiCost()` HANYA bila produk tak punya resep bahan baku (resep lebih presisi & menang bila ada), dipakai Laporan untuk Keuntungan Bersih (06) |
 | image_path | varchar(255) | nullable | storage `public/products` |
 | is_active | boolean | default true | tampil di kasir |
 | track_stock | boolean | default false | hanya untuk produk tanpa resep |

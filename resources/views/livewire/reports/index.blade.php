@@ -34,6 +34,16 @@
                         <span class="stat-tile__label">Rata-rata</span>
                         <span class="stat-tile__value">{{ \App\Support\Money::format($summary['rata_rata']) }}</span>
                     </div>
+                    @if ($canViewAll)
+                        <div class="stat-tile">
+                            <span class="stat-tile__label">Total HPP</span>
+                            <span class="stat-tile__value">{{ \App\Support\Money::format($summary['hpp']) }}</span>
+                        </div>
+                        <div class="stat-tile">
+                            <span class="stat-tile__label">Keuntungan Bersih</span>
+                            <span class="stat-tile__value">{{ \App\Support\Money::format($summary['keuntungan_bersih']) }}</span>
+                        </div>
+                    @endif
                 </div>
             </div>
 
