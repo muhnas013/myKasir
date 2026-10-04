@@ -53,9 +53,9 @@
     {
       "mulai": "2026-10-04T08:52:04+08:00",
       "selesai": null,
-      "step": 4,
-      "detik": 158,
-      "tok_est": 9150
+      "step": 9,
+      "detik": 482,
+      "tok_est": 25907
     }
   ],
   "step_berjalan": null,
@@ -857,13 +857,132 @@
         "QRIS/Debit offline (kemungkinan permanen tak bisa, butuh konfirmasi dana real-time)"
       ],
       "selesai": "2026-10-04T08:57:15+08:00"
+    },
+    {
+      "fitur": "F7-WAGE-SLICE1-SKEMA-AKTIVITAS",
+      "rute": "Fitur baru (vertical slice)",
+      "mulai": "2026-10-04T13:30:47+08:00",
+      "rencana": [
+        "database/migrations/*_create_wage_activities_table.php",
+        "database/migrations/*_create_shift_activities_table.php",
+        "app/Models/WageActivity.php",
+        "app/Models/ShiftActivity.php",
+        "app/Actions/Payroll/SaveWageActivity.php",
+        "app/Livewire/Payroll/ActivityTable.php",
+        "resources/views/livewire/payroll/activity-table.blade.php",
+        "resources/views/livewire/payroll/index.blade.php",
+        "app/Livewire/Payroll/Index.php",
+        "routes/web.php",
+        "resources/views/components/layouts/app.blade.php",
+        "docs/01_PRD.md",
+        "docs/02_SCOPE.md",
+        "docs/03_ROADMAP.md",
+        "docs/05_USER_ROLE.md",
+        "docs/06_BUSINESS_PROCESS.md",
+        "docs/07_DATA_MODEL.md",
+        "docs/23_ACCEPTANCE_CRITERIA.md",
+        "tests/Feature/Payroll/WageActivityTest.php"
+      ],
+      "total_step": 0,
+      "step": [
+        {
+          "no": 1,
+          "nama": "Skema/migrasi: wage_activities + shift_activities",
+          "mulai": "2026-10-04T13:30:57+08:00",
+          "selesai": "2026-10-04T13:31:20+08:00",
+          "detik": 24,
+          "tok_est": 453,
+          "muat": [
+            "database/migrations/2026_10_06_000000_create_wage_activities_table.php",
+            "database/migrations/2026_10_06_000100_create_shift_activities_table.php"
+          ]
+        },
+        {
+          "no": 2,
+          "nama": "Model/akses data: WageActivity + ShiftActivity",
+          "mulai": "2026-10-04T13:31:26+08:00",
+          "selesai": "2026-10-04T13:31:54+08:00",
+          "detik": 29,
+          "tok_est": 1214,
+          "muat": [
+            "app/Models/WageActivity.php",
+            "app/Models/ShiftActivity.php",
+            "app/Models/Shift.php",
+            "database/factories/WageActivityFactory.php"
+          ]
+        },
+        {
+          "no": 3,
+          "nama": "Endpoint/Livewire: ActivityTable + Index Penggajian",
+          "mulai": "2026-10-04T13:32:26+08:00",
+          "selesai": "2026-10-04T13:34:39+08:00",
+          "detik": 133,
+          "tok_est": 5279,
+          "muat": [
+            "app/Livewire/Payroll/Index.php",
+            "app/Livewire/Payroll/ActivityTable.php",
+            "resources/views/livewire/payroll/index.blade.php",
+            "resources/views/livewire/payroll/activity-table.blade.php",
+            "routes/web.php",
+            "resources/views/components/layouts/app.blade.php",
+            "resources/views/components/icon.blade.php"
+          ]
+        },
+        {
+          "no": 4,
+          "nama": "Tes: WageActivityTest",
+          "mulai": "2026-10-04T13:34:39+08:00",
+          "selesai": "2026-10-04T13:35:03+08:00",
+          "detik": 25,
+          "tok_est": 985,
+          "muat": [
+            "tests/Feature/Payroll/WageActivityTest.php"
+          ]
+        },
+        {
+          "no": 5,
+          "nama": "Dokumentasi: 01/02/03/05/06/07/23 untuk fitur Penggajian",
+          "mulai": "2026-10-04T13:35:03+08:00",
+          "selesai": "2026-10-04T13:36:56+08:00",
+          "detik": 113,
+          "tok_est": 8826,
+          "muat": [
+            "docs/01_PRD.md",
+            "docs/02_SCOPE.md",
+            "docs/03_ROADMAP.md",
+            "docs/05_USER_ROLE.md",
+            "docs/06_BUSINESS_PROCESS.md",
+            "docs/07_DATA_MODEL.md",
+            "docs/23_ACCEPTANCE_CRITERIA.md"
+          ]
+        }
+      ],
+      "detik": 324,
+      "tok_est": 16757,
+      "warn_dilewati": [
+        "S8: icon.blade.php (komponen helper, tanpa data) dan payroll/index.blade.php (wrapper tipis tanpa data sendiri) false-positive; state wajib sudah ada di activity-table.blade.php (empty-state, skeleton, toast)"
+      ],
+      "dokumen_diperbarui": [
+        "docs/01_PRD.md (fitur WAGE)",
+        "docs/02_SCOPE.md (F7 asumsi penggajian)",
+        "docs/03_ROADMAP.md (fase F7)",
+        "docs/05_USER_ROLE.md (settings.manage mencakup penggajian)",
+        "docs/06_BUSINESS_PROCESS.md (P8)",
+        "docs/07_DATA_MODEL.md (wage_activities, shift_activities, setting baru)",
+        "docs/23_ACCEPTANCE_CRITERIA.md (blok F7 slice 1)"
+      ],
+      "ditunda": [
+        "F7 slice 2: kasir catat aktivitas saat tutup shift",
+        "F7 slice 3: WageCalculator + halaman Rekap Upah"
+      ],
+      "selesai": "2026-10-04T13:37:41+08:00"
     }
   ],
   "akumulasi": {
-    "detik": 2884,
-    "tok_est": 120754,
+    "detik": 3208,
+    "tok_est": 137511,
     "tok_terukur": 0,
-    "step": 27,
-    "fitur": 7
+    "step": 32,
+    "fitur": 8
   }
 }

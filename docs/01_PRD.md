@@ -13,6 +13,7 @@
 | STOCK | Bahan baku & resep | Bahan baku, resep per produk/opsi varian, potong stok otomatis, stok masuk, opname, HPP, peringatan menipis | MVP |
 | REPORT | Laporan | Omzet, transaksi, rata-rata, per jam, terlaris, metode bayar, riwayat, export Excel | MVP |
 | OFFLINE | Mode offline (PWA) | Antrean transaksi di browser + sinkronisasi | Nanti (F6) |
+| WAGE | Penggajian pegawai | Upah dasar per shift + bonus aktivitas (dikontrol pemilik) + bonus penjualan bertingkat per hari | Nanti (F7) |
 
 ## User story (MVP)
 - **AUTH** — Sebagai kasir, saya ingin masuk cukup dengan PIN agar ganti kasir antar shift cepat.
@@ -24,6 +25,7 @@
 - **VOID** — Sebagai pemilik, saya ingin setiap pembatalan butuh PIN admin dan alasan agar pembatalan tidak disalahgunakan.
 - **STOCK** — Sebagai admin, saya ingin stok bahan berkurang otomatis per penjualan dan diberi peringatan saat di bawah batas minimum.
 - **REPORT** — Sebagai pemilik, saya ingin mengunduh laporan harian ke Excel untuk pembukuan.
+- **WAGE** — Sebagai pemilik, saya ingin upah tiap kasir terhitung otomatis dari shift + aktivitas + bonus penjualan agar saya tak perlu menghitung manual tiap gajian.
 
 ## Kebutuhan non-fungsional
 - Layar kasir dirender < 1 detik; tambah item ke keranjang < 200 ms (tanpa reload halaman).

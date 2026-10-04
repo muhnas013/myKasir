@@ -57,6 +57,15 @@ Diskon nominal atau persen per transaksi, tidak boleh membuat subtotal setelah d
 - QRIS/Debit-Transfer tidak bisa diselesaikan offline (butuh konfirmasi dana/referensi real-time) → tombol metode tersebut nonaktif saat offline, hanya Tunai yang bisa.
 - Dua tab/device mengirim `idempotency_key` sama saat sinkron → server menolak duplikat (constraint unique sudah ada di 07), sinkron berikutnya menandai "sudah tersimpan" tanpa error ke kasir.
 
+## P8 — Penggajian (F7)
+1. Upah dihitung per shift **berstatus `closed`** (shift yang masih `open` belum ikut dihitung).
+2. `upah_shift` = `wage_base_per_shift` (setting, default Rp35.000) + Σ `bonus_amount` pada `shift_activities` milik shift itu + `bonus_penjualan_shift` (langkah 3-5).
+3. Kelompokkan shift closed berdasarkan tanggal kalender `opened_at` (hari) — **lintas pegawai**, bukan per pegawai.
+4. `total_omzet_hari` = Σ omzet tiap shift dalam kelompok hari itu, dengan omzet shift = Σ `orders.total` WHERE `shift_id` = X AND `status` = `paid` (definisi sama dengan `ReportService`, void tidak dihitung).
+5. Jika `total_omzet_hari` < `wage_sales_bonus_min_revenue` (setting, default Rp800.000) → `bonus_penjualan_shift` = 0 untuk semua shift hari itu. Jika ≥, untuk TIAP shift hari itu: `omzet_shift_dibulatkan` = `floor(omzet_shift / 100.000) * 100.000`; `bonus_penjualan_shift` = `(omzet_shift_dibulatkan / 100.000) * wage_sales_bonus_per_100k` (setting, default Rp5.000).
+   - Contoh: shift A omzet 350.000, shift B omzet 450.000 di hari yang sama → total 800.000 (≥ minimum) → bonus didapat. Shift A dibulatkan ke 300.000 → bonus Rp15.000. Shift B dibulatkan ke 400.000 → bonus Rp20.000.
+6. Aktivitas tambahan (mis. "Pembuatan Jelly") dipilih kasir sendiri di layar Tutup Shift dari daftar `wage_activities` aktif (dikontrol Pemilik di halaman Penggajian) — tanpa persetujuan admin. Nama & nominal di-snapshot ke `shift_activities` saat dicatat; perubahan katalog setelahnya tidak mengubah riwayat upah yang sudah tercatat.
+
 ## Aturan perhitungan (urutan tetap)
 1. `subtotal` = Σ (harga produk + Σ tambahan opsi) × qty
 2. `discount` → `net` = subtotal − discount

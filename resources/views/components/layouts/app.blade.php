@@ -48,6 +48,9 @@
                         </a>
                     @endcan
                     @can('settings.manage')
+                        <a href="{{ route('payroll.index') }}" class="app-sidebar__link @if(request()->routeIs('payroll.*')) is-active @endif">
+                            <x-icon name="wallet" /> Penggajian
+                        </a>
                         <a href="{{ route('settings.index') }}" class="app-sidebar__link @if(request()->routeIs('settings.*')) is-active @endif">
                             <x-icon name="settings" /> Pengaturan
                         </a>

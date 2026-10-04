@@ -140,6 +140,25 @@ Unik: (`ingredient_id`, `product_id`, `variant_option_id`).
 | note | varchar(255) | nullable | wajib untuk adjustment |
 Tanpa `updated_at`; baris tidak pernah diubah atau dihapus.
 
+## wage_activities (F7)
+| Kolom | Tipe | Constraint | Catatan |
+|---|---|---|---|
+| name | varchar(100) | not null | mis. "Pembuatan Jelly" |
+| bonus_amount | bigint unsigned | not null | Rupiah |
+| is_active | boolean | default true | tampil di pilihan tutup shift bila aktif |
+
+## shift_activities (F7)
+| Kolom | Tipe | Constraint | Catatan |
+|---|---|---|---|
+| shift_id | fk shifts | cascade | |
+| wage_activity_id | fk wage_activities | nullable, null on delete | hanya rujukan; lihat snapshot |
+| name | varchar(100) | not null | snapshot nama saat dicatat |
+| bonus_amount | bigint unsigned | not null | snapshot nominal saat dicatat |
+Tanpa `updated_at`; append-only — snapshot agar riwayat upah tak berubah bila `wage_activities` diedit/dihapus belakangan.
+
+## Setting tambahan (F7, tabel `settings` yang sudah ada)
+`wage_base_per_shift` (default 35000), `wage_sales_bonus_per_100k` (default 5000), `wage_sales_bonus_min_revenue` (default 800000) — key-value, tidak perlu kolom baru.
+
 ## audit_logs
 | Kolom | Tipe | Constraint | Catatan |
 |---|---|---|---|

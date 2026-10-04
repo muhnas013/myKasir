@@ -7,6 +7,7 @@ use App\Http\Controllers\Pos\OfflineSyncController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\ReportExportController;
 use App\Livewire\Menu\Index as MenuIndex;
+use App\Livewire\Payroll\Index as PayrollIndex;
 use App\Livewire\Pos\History as PosHistory;
 use App\Livewire\Pos\Register as PosRegister;
 use App\Livewire\Reports\Index as ReportsIndex;
@@ -57,4 +58,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/settings', SettingsIndex::class)
         ->middleware('can:settings.manage')
         ->name('settings.index');
+
+    Route::get('/payroll', PayrollIndex::class)
+        ->middleware('can:settings.manage')
+        ->name('payroll.index');
 });

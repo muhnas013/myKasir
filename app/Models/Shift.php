@@ -51,6 +51,11 @@ class Shift extends Model
         return $this->hasMany(Order::class);
     }
 
+    public function activities(): HasMany
+    {
+        return $this->hasMany(ShiftActivity::class);
+    }
+
     public function isOpen(): bool
     {
         return $this->status === ShiftStatus::Open;

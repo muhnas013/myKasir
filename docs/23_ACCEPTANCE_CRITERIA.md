@@ -23,6 +23,13 @@ Diskon dan QRIS/Debit offline tetap ditunda (butuh verifikasi/konfirmasi yang be
 - [x] Grup wajib tanpa opsi terpilih ditolak saat sinkron (422), order tidak tercatat (`OfflineSyncTest::test_sync_with_missing_required_variant_option_is_rejected`).
 - [ ] Manual (DevTools → Offline): produk bervarian bisa diketuk di layar kasir, modal pilih opsi muncul (bukan "butuh koneksi" lagi), grup wajib tak bisa dilewati ("Tambah" tertahan dengan pesan error), opsi dengan harga tambahan tampil `+ Rp ...`, dan struk estimasi menampilkan nama varian terpilih.
 
+## F7 — WAGE, slice 1: skema + kontrol admin aktivitas (06 P8)
+- [x] Pemilik bisa tambah/ubah/nonaktifkan/hapus aktivitas bonus (nama + nominal) di halaman Penggajian (`WageActivityTest::test_owner_can_create_activity`, `test_owner_can_edit_activity`, `test_owner_can_toggle_active_status`, `test_owner_can_delete_activity`).
+- [x] Admin dan kasir tidak bisa mengakses halaman/komponen Penggajian (`WageActivityTest::test_admin_cannot_access_payroll_page`, `test_admin_cannot_access_activity_component`, `test_cashier_cannot_access_activity_component`).
+- [x] Validasi nominal bonus (`test_bonus_amount_is_validated`), state kosong (`test_empty_state_is_shown_without_activities`).
+- [ ] Slice 2 (belum): kasir mencatat aktivitas saat tutup shift.
+- [ ] Slice 3 (belum): `WageCalculator` (upah dasar + bonus aktivitas + bonus penjualan per hari) dan halaman Rekap Upah.
+
 ## Verifikasi UI (semua fase)
 - [ ] `grep -rnE "#[0-9A-Fa-f]{3,6}\b" resources/views resources/js` → 0 hasil (warna hanya dari `resources/css/app.css`).
 - [ ] Tiap halaman ber-data punya empat state (26).

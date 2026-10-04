@@ -19,7 +19,7 @@
 | `report.view-all` — laporan semua shift + export | ✓ | ✓ | ✗ |
 | `report.view-own` — ringkasan shift sendiri | ✓ | ✓ | ✓ |
 | `shift.force-close` — tutup shift kasir lain | ✓ | ✓ | ✗ |
-| `settings.manage` — pengaturan outlet, pajak, bayar, struk | ✓ | ✗ | ✗ |
+| `settings.manage` — pengaturan outlet, pajak, bayar, struk, **penggajian** | ✓ | ✗ | ✗ |
 | `user.manage` — tambah/ubah/nonaktifkan pengguna | ✓ | ✗ | ✗ |
 
 "Dengan PIN" = kasir memicu aksi, lalu owner/admin memasukkan PIN mereka di dialog persetujuan. User yang menyetujui dicatat di `audit_logs`. Penegakan: `docs/21_SECURITY_RULES.md`.

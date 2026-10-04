@@ -4,6 +4,7 @@
 - Semua fitur berprioritas MVP di `docs/01_PRD.md` (AUTH, SET, MENU, POS, PAY, SHIFT, VOID, STOCK, REPORT).
 - Satu outlet, satu basis data, aplikasi online yang dihosting di VPS.
 - Struk dicetak lewat dialog print browser ke printer thermal 58 mm.
+- F7 WAGE (setelah MVP+F6): penggajian — lihat "F7 — asumsi penggajian" di bawah.
 
 ## Out-of-scope (JANGAN dibangun tanpa perubahan scope tertulis)
 - **Multi-outlet/cabang**: tidak ada kolom `outlet_id`, tidak ada pemilihan cabang.
@@ -29,3 +30,9 @@
 - [ASUMSI] Dedup order memakai `orders.idempotency_key` yang sudah ada (07) — dibuat di klien saat keranjang dimulai, dipakai ulang persis saat retry sinkronisasi; tidak perlu kolom baru.
 - [KOREKSI setelah implementasi — stok TIDAK pernah negatif]: `StockService`/`CompleteOrder` yang sudah ada menolak (rollback, 422) sinkron yang stoknya tak cukup di titik sinkron, sama seperti alur online — stok tidak pernah dibiarkan negatif. Risiko sebenarnya: order offline kedua yang stoknya keburu habis (disinkron duluan oleh order lain) GAGAL permanen dan tersangkut di antrean lokal device itu — kasir sudah terima tunai tapi order tidak pernah tercatat di sistem sampai ditinjau manual pemilik. Lih. `docs/06_BUSINESS_PROCESS.md` P7, `docs/16_DEBUGGING_GUIDE.md`.
 - [ASUMSI] Total yang tercetak di struk offline adalah estimasi klien dari tarif pajak/biaya/pembulatan yang di-cache saat login terakhir. Server tetap satu-satunya penghitung otoritatif (21) saat sinkronisasi; bila hasil server ≠ estimasi klien, order ditandai `offline_adjusted` di audit log untuk ditinjau admin — tidak pernah ditimpa diam-diam.
+
+## F7 — asumsi penggajian
+- [ASUMSI] Upah per shift = upah dasar (`wage_base_per_shift`, default Rp35.000) + Σ bonus aktivitas tambahan pada shift itu + bonus penjualan (lihat aturan di `06` P8). Dihitung hanya untuk shift berstatus `closed` (shift yang masih `open` belum "selesai").
+- [ASUMSI] Bonus aktivitas: katalog `wage_activities` (nama + nominal) dikontrol Pemilik di halaman Penggajian. Kasir memilih aktivitas yang dilakukan saat tutup shift (dari daftar aktif) — tanpa persetujuan admin, langsung tercatat. Nama & nominal di-snapshot ke `shift_activities` saat dicatat agar riwayat upah tak berubah bila katalog diedit/dihapus belakangan.
+- [ASUMSI] Bonus penjualan dikumpulkan per HARI KALENDER lintas shift dan lintas pegawai (bukan per pegawai) — lihat rumus di `06` P8.
+- [ASUMSI] Modul Penggajian hanya bisa diakses Pemilik (`settings.manage`), konsisten dengan `05`: admin sudah dilarang "ubah pengaturan".
