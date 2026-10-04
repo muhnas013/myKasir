@@ -6,18 +6,20 @@ use App\Enums\OrderStatus;
 use App\Enums\ShiftStatus;
 use App\Models\Shift;
 use App\Models\User;
+use App\Models\WageActivity;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
 class CloseShift
 {
-    public function handle(Shift $shift, User $actor, int $countedCash, ?string $note = null): Shift
+    /** @param  list<int>  $activityIds  id wage_activities yang dilakukan kasir selama shift (06 P8) */
+    public function handle(Shift $shift, User $actor, int $countedCash, ?string $note = null, array $activityIds = []): Shift
     {
         if ($countedCash < 0) {
             throw ValidationException::withMessages(['counted_cash' => 'Kas fisik tidak boleh negatif.']);
         }
 
-        return DB::transaction(function () use ($shift, $actor, $countedCash, $note) {
+        return DB::transaction(function () use ($shift, $actor, $countedCash, $note, $activityIds) {
             $shift = Shift::query()->lockForUpdate()->findOrFail($shift->id);
 
             if ($shift->user_id !== $actor->id) {
@@ -48,6 +50,16 @@ class CloseShift
                 'closing_note' => $note !== null && trim($note) !== '' ? trim($note) : null,
                 'closed_by' => $actor->id,
             ]);
+
+            if ($activityIds !== []) {
+                WageActivity::query()->active()->whereIn('id', $activityIds)->get()->each(
+                    fn (WageActivity $activity) => $shift->activities()->create([
+                        'wage_activity_id' => $activity->id,
+                        'name' => $activity->name,
+                        'bonus_amount' => $activity->bonus_amount,
+                    ])
+                );
+            }
 
             return $shift;
         });

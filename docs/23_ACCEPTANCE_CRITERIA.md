@@ -27,7 +27,11 @@ Diskon dan QRIS/Debit offline tetap ditunda (butuh verifikasi/konfirmasi yang be
 - [x] Pemilik bisa tambah/ubah/nonaktifkan/hapus aktivitas bonus (nama + nominal) di halaman Penggajian (`WageActivityTest::test_owner_can_create_activity`, `test_owner_can_edit_activity`, `test_owner_can_toggle_active_status`, `test_owner_can_delete_activity`).
 - [x] Admin dan kasir tidak bisa mengakses halaman/komponen Penggajian (`WageActivityTest::test_admin_cannot_access_payroll_page`, `test_admin_cannot_access_activity_component`, `test_cashier_cannot_access_activity_component`).
 - [x] Validasi nominal bonus (`test_bonus_amount_is_validated`), state kosong (`test_empty_state_is_shown_without_activities`).
-- [ ] Slice 2 (belum): kasir mencatat aktivitas saat tutup shift.
+
+## F7 — WAGE, slice 2: kasir catat aktivitas saat tutup shift (06 P8)
+- [x] Layar Tutup Shift menampilkan daftar aktivitas aktif sebagai checklist opsional (`ShiftPagesTest::test_cashier_can_pick_activities_while_closing_shift`).
+- [x] Aktivitas nonaktif tidak bisa ikut tercatat meski id-nya dikirim manual (`ShiftActionsTest::test_selected_activities_are_logged_with_snapshot`).
+- [x] Nama & nominal di-snapshot ke `shift_activities` saat shift ditutup; perubahan katalog setelahnya tidak mengubah baris yang sudah tercatat (test yang sama).
 - [ ] Slice 3 (belum): `WageCalculator` (upah dasar + bonus aktivitas + bonus penjualan per hari) dan halaman Rekap Upah.
 
 ## Verifikasi UI (semua fase)

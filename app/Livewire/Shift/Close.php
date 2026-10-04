@@ -4,6 +4,7 @@ namespace App\Livewire\Shift;
 
 use App\Actions\Shifts\CloseShift;
 use App\Models\Shift;
+use App\Models\WageActivity;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\ValidationException;
@@ -20,6 +21,9 @@ class Close extends Component
 
     public string $closing_note = '';
 
+    /** @var list<int> */
+    public array $selected_activities = [];
+
     #[Locked]
     public ?int $closedShiftId = null;
 
@@ -35,6 +39,8 @@ class Close extends Component
         $this->validate([
             'counted_cash' => ['required', 'integer', 'min:0', 'max:1000000000'],
             'closing_note' => ['nullable', 'string', 'max:500'],
+            'selected_activities' => ['array'],
+            'selected_activities.*' => ['integer', 'exists:wage_activities,id'],
         ]);
 
         $shift = Auth::user()->activeShift();
@@ -45,7 +51,7 @@ class Close extends Component
         }
 
         try {
-            $closed = app(CloseShift::class)->handle($shift, Auth::user(), (int) $this->counted_cash, $this->closing_note);
+            $closed = app(CloseShift::class)->handle($shift, Auth::user(), (int) $this->counted_cash, $this->closing_note, $this->selected_activities);
         } catch (ValidationException $e) {
             foreach ($e->errors() as $field => $messages) {
                 $this->addError(in_array($field, ['counted_cash', 'closing_note'], true) ? $field : 'shift', $messages[0]);
@@ -62,6 +68,7 @@ class Close extends Component
     {
         return view('livewire.shift.close', [
             'closed' => $this->closedShiftId ? Shift::find($this->closedShiftId) : null,
+            'activities' => WageActivity::active()->orderBy('name')->get(),
         ]);
     }
 }

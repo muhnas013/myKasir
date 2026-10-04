@@ -7,6 +7,7 @@ use App\Actions\Orders\SaveOpenOrder;
 use App\Actions\Shifts\CloseShift;
 use App\Actions\Shifts\OpenShift;
 use App\Models\User;
+use App\Models\WageActivity;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Validation\ValidationException;
 use Tests\Concerns\SetsUpPos;
@@ -93,6 +94,25 @@ class ShiftActionsTest extends TestCase
     {
         $this->expectException(ValidationException::class);
         app(CloseShift::class)->handle($this->shift, User::factory()->cashier()->create(), 200000);
+    }
+
+    public function test_selected_activities_are_logged_with_snapshot(): void
+    {
+        $jelly = WageActivity::factory()->create(['name' => 'Pembuatan Jelly', 'bonus_amount' => 5000]);
+        $inactive = WageActivity::factory()->create(['name' => 'Nonaktif', 'bonus_amount' => 9999, 'is_active' => false]);
+
+        $closed = app(CloseShift::class)->handle($this->shift, $this->cashier, 200000, null, [$jelly->id, $inactive->id]);
+
+        $this->assertDatabaseHas('shift_activities', [
+            'shift_id' => $closed->id,
+            'wage_activity_id' => $jelly->id,
+            'name' => 'Pembuatan Jelly',
+            'bonus_amount' => 5000,
+        ]);
+        $this->assertDatabaseMissing('shift_activities', ['wage_activity_id' => $inactive->id]);
+
+        $jelly->update(['name' => 'Berubah', 'bonus_amount' => 1]);
+        $this->assertDatabaseHas('shift_activities', ['shift_id' => $closed->id, 'name' => 'Pembuatan Jelly', 'bonus_amount' => 5000]);
     }
 
     public function test_new_shift_can_be_opened_after_closing(): void

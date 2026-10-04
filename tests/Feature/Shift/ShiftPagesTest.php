@@ -8,6 +8,7 @@ use App\Livewire\Shift\Close;
 use App\Livewire\Shift\Open;
 use App\Models\Shift;
 use App\Models\User;
+use App\Models\WageActivity;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 use Tests\Concerns\SetsUpPos;
@@ -66,6 +67,21 @@ class ShiftPagesTest extends TestCase
             ->assertHasErrors('shift');
 
         $this->assertSame('open', $this->shift->fresh()->status->value);
+    }
+
+    public function test_cashier_can_pick_activities_while_closing_shift(): void
+    {
+        $this->setUpPos();
+        $jelly = WageActivity::factory()->create(['name' => 'Pembuatan Jelly', 'bonus_amount' => 5000]);
+
+        Livewire::actingAs($this->cashier)->test(Close::class)
+            ->assertSee('Pembuatan Jelly')
+            ->set('counted_cash', 200000)
+            ->set('selected_activities', [$jelly->id])
+            ->call('save')
+            ->assertHasNoErrors();
+
+        $this->assertDatabaseHas('shift_activities', ['shift_id' => $this->shift->id, 'name' => 'Pembuatan Jelly']);
     }
 
     public function test_after_closing_pos_redirects_back_to_open_shift(): void

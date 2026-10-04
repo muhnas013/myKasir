@@ -35,6 +35,21 @@
             <form wire:submit="save" class="field-group">
                 <x-input label="Uang tunai di laci (Rp)" type="number" min="0" inputmode="numeric" wire:model="counted_cash" :error="$errors->first('counted_cash')" />
                 <x-input label="Catatan (wajib bila ada selisih)" wire:model="closing_note" :error="$errors->first('closing_note')" />
+
+                @if ($activities->isNotEmpty())
+                    <fieldset class="option-group">
+                        <legend class="field__label">Aktivitas tambahan selama shift (opsional, bonus upah — 06 P8)</legend>
+                        <div class="option-list">
+                            @foreach ($activities as $activity)
+                                <label class="option-item" wire:key="activity-{{ $activity->id }}">
+                                    <input type="checkbox" value="{{ $activity->id }}" wire:model="selected_activities">
+                                    <span>{{ $activity->name }}</span>
+                                    <span class="option-item__price">+ {{ \App\Support\Money::format($activity->bonus_amount) }}</span>
+                                </label>
+                            @endforeach
+                        </div>
+                    </fieldset>
+                @endif
                 @error('shift')
                     <span class="field-error">{{ $message }}</span>
                 @enderror
