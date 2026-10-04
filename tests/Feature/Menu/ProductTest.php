@@ -9,6 +9,8 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 use Tests\TestCase;
 
@@ -40,6 +42,44 @@ class ProductTest extends TestCase
         $group = $product->variantGroups()->firstOrFail();
         $this->assertTrue($group->is_required);
         $this->assertSame(5000, $group->options()->firstOrFail()->price_delta);
+    }
+
+    public function test_admin_can_upload_product_photo(): void
+    {
+        Storage::fake('public');
+        $category = Category::factory()->create();
+
+        Livewire::actingAs(User::factory()->admin()->create())
+            ->test(ProductTable::class)
+            ->call('create')
+            ->set('category_id', (string) $category->id)
+            ->set('sku', 'KP-002')
+            ->set('name', 'Teh Tarik')
+            ->set('price', 15000)
+            ->set('photo', UploadedFile::fake()->create('teh-tarik.jpg', 50, 'image/jpeg'))
+            ->call('save')
+            ->assertHasNoErrors();
+
+        $product = Product::where('sku', 'KP-002')->firstOrFail();
+        $this->assertNotNull($product->image_path);
+        Storage::disk('public')->assertExists($product->image_path);
+        $this->assertStringContainsString($product->image_path, $product->photo_url);
+    }
+
+    public function test_editing_product_without_new_photo_keeps_existing_one(): void
+    {
+        Storage::fake('public');
+        $product = Product::factory()->create(['image_path' => 'products/existing.jpg']);
+        Storage::disk('public')->put('products/existing.jpg', 'fake-content');
+
+        Livewire::actingAs(User::factory()->admin()->create())
+            ->test(ProductTable::class)
+            ->call('edit', $product->id)
+            ->set('name', 'Nama Diubah')
+            ->call('save')
+            ->assertHasNoErrors();
+
+        $this->assertSame('products/existing.jpg', $product->fresh()->image_path);
     }
 
     public function test_product_validation_rejects_bad_input(): void

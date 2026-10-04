@@ -12,7 +12,7 @@ class SaveProduct
     /**
      * @param  array{
      *     category_id: int, sku: string, name: string, price: int,
-     *     is_active: bool, track_stock: bool, stock_qty?: int,
+     *     is_active: bool, track_stock: bool, stock_qty?: int, image_path?: ?string,
      *     variant_groups?: list<array{
      *         id?: ?int, name: string, is_required: bool, max_select: int,
      *         options: list<array{id?: ?int, name: string, price_delta: int}>
@@ -33,6 +33,7 @@ class SaveProduct
                 'is_active' => $data['is_active'],
                 'track_stock' => $data['track_stock'],
                 'stock_qty' => $data['stock_qty'] ?? $product->stock_qty ?? 0,
+                'image_path' => $data['image_path'] ?? $product->image_path,
             ])->save();
 
             if ($oldPrice !== null && $oldPrice !== $product->price) {

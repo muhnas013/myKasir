@@ -32,7 +32,7 @@ class Register extends Component
      * menampilkan estimasi tanpa menebak; server tetap satu-satunya penghitung
      * otoritatif saat sinkron (`CartPricer`).
      *
-     * @return list<array{id: int, name: string, price: int, variant_groups: list<array{id: int, name: string, is_required: bool, max_select: int, options: list<array{id: int, name: string, price_delta: int}>}>}>
+     * @return list<array{id: int, name: string, price: int, photo_url: ?string, variant_groups: list<array{id: int, name: string, is_required: bool, max_select: int, options: list<array{id: int, name: string, price_delta: int}>}>}>
      */
     private function offlineCatalog(): array
     {
@@ -40,11 +40,12 @@ class Register extends Component
             ->active()
             ->with('variantGroups.options')
             ->orderBy('name')
-            ->get(['id', 'name', 'price'])
+            ->get(['id', 'name', 'price', 'image_path'])
             ->map(fn (Product $p) => [
                 'id' => $p->id,
                 'name' => $p->name,
                 'price' => $p->price,
+                'photo_url' => $p->photo_url,
                 'variant_groups' => $p->variantGroups->map(fn ($g) => [
                     'id' => $g->id,
                     'name' => $g->name,

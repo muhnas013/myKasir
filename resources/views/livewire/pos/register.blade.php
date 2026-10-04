@@ -26,13 +26,19 @@
     <div class="pos" x-show="!online && !completed" x-cloak>
         <div class="pos__menu">
             <template x-if="catalog.length === 0">
-                <x-empty-state title="Tidak ada produk tanpa varian yang bisa dijual offline." icon="inbox" />
+                <x-empty-state title="Belum ada menu aktif yang bisa dijual offline." icon="inbox" />
             </template>
             <div class="menu-grid" x-show="catalog.length > 0">
                 <template x-for="product in catalog" :key="product.id">
                     <button type="button" class="menu-tile" @click="openProduct(product)">
-                        <span class="menu-tile__name" x-text="product.name"></span>
-                        <span class="menu-tile__price" x-text="formatRp(product.price)"></span>
+                        <div class="menu-tile__photo">
+                            <template x-if="product.photo_url"><img :src="product.photo_url" alt="" loading="lazy"></template>
+                            <template x-if="!product.photo_url"><x-icon name="utensils" /></template>
+                        </div>
+                        <div class="menu-tile__info">
+                            <span class="menu-tile__name" x-text="product.name"></span>
+                            <span class="menu-tile__price" x-text="formatRp(product.price)"></span>
+                        </div>
                     </button>
                 </template>
             </div>

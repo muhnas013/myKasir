@@ -21,12 +21,21 @@
             <div class="menu-grid">
                 @foreach ($products as $product)
                     @php($soldOut = ! $stock->isSellable($product))
-                    <button type="button" class="menu-tile menu-tile--cat-{{ ($product->category_id - 1) % 4 + 1 }}" wire:key="tile-{{ $product->id }}" wire:click="selectProduct({{ $product->id }})" @disabled($soldOut)>
-                        <span class="menu-tile__name">{{ $product->name }}</span>
-                        <span class="menu-tile__price">{{ \App\Support\Money::format($product->price) }}</span>
-                        @if ($soldOut)
-                            <x-badge variant="danger">Habis</x-badge>
-                        @endif
+                    <button type="button" class="menu-tile" wire:key="tile-{{ $product->id }}" wire:click="selectProduct({{ $product->id }})" @disabled($soldOut)>
+                        <div class="menu-tile__photo menu-tile__photo--cat-{{ ($product->category_id - 1) % 4 + 1 }}">
+                            @if ($product->photo_url)
+                                <img src="{{ $product->photo_url }}" alt="" loading="lazy">
+                            @else
+                                <x-icon name="utensils" />
+                            @endif
+                            @if ($soldOut)
+                                <x-badge variant="danger" class="menu-tile__badge">Habis</x-badge>
+                            @endif
+                        </div>
+                        <div class="menu-tile__info">
+                            <span class="menu-tile__name">{{ $product->name }}</span>
+                            <span class="menu-tile__price">{{ \App\Support\Money::format($product->price) }}</span>
+                        </div>
                     </button>
                 @endforeach
             </div>

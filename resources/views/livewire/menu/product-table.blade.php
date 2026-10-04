@@ -26,6 +26,7 @@
                 <x-table>
                     <thead>
                         <tr>
+                            <th></th>
                             <th>SKU</th>
                             <th>Nama</th>
                             <th>Kategori</th>
@@ -37,6 +38,13 @@
                     <tbody>
                         @foreach ($products as $product)
                             <tr wire:key="product-{{ $product->id }}">
+                                <td>
+                                    @if ($product->photo_url)
+                                        <img src="{{ $product->photo_url }}" alt="" class="product-thumb">
+                                    @else
+                                        <div class="product-thumb product-thumb--empty"><x-icon name="utensils" /></div>
+                                    @endif
+                                </td>
                                 <td>{{ $product->sku }}</td>
                                 <td>{{ $product->name }}</td>
                                 <td>{{ $product->category->name }}</td>
@@ -77,6 +85,18 @@
                     <x-input label="SKU" wire:model="sku" :error="$errors->first('sku')" />
                     <x-input label="Nama" wire:model="name" :error="$errors->first('name')" />
                     <x-input label="Harga (Rp)" type="number" min="0" inputmode="numeric" wire:model="price" :error="$errors->first('price')" />
+                </div>
+                <div class="card__row">
+                    <label class="field">
+                        <span class="field__label">Foto produk</span>
+                        <input type="file" wire:model="photo" class="input" accept="image/*">
+                        @error('photo') <span class="field-error">{{ $message }}</span> @enderror
+                    </label>
+                    @if ($photo)
+                        <img src="{{ $photo->temporaryUrl() }}" alt="" class="product-thumb product-thumb--lg">
+                    @elseif ($image_path)
+                        <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($image_path) }}" alt="" class="product-thumb product-thumb--lg">
+                    @endif
                 </div>
                 <div class="card__row">
                     <x-toggle label="Tampil di kasir" wire:model="is_active" />
