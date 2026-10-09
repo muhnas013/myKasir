@@ -76,13 +76,17 @@ class WageCalculator
         })->values();
     }
 
-    /** @return array<string, array<string, mixed>> nama pegawai => {shifts, total} */
+    /** @return array<string, array<string, mixed>> nama pegawai => {shifts, omzet, base, activity_total, sales_bonus, total} */
     public function summaryByUser(Collection $rows): array
     {
         return $rows->groupBy('user_name')
             ->map(fn (Collection $rows, string $name) => [
                 'name' => $name,
                 'shifts' => $rows->count(),
+                'omzet' => $rows->sum('omzet'),
+                'base' => $rows->sum('base'),
+                'activity_total' => $rows->sum('activity_total'),
+                'sales_bonus' => $rows->sum('sales_bonus'),
                 'total' => $rows->sum('total'),
             ])
             ->sortKeys()

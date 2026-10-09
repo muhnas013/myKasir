@@ -118,10 +118,18 @@ class WageActivityTest extends TestCase
             ->assertForbidden();
     }
 
+    public function test_wage_summary_requires_period_before_showing_rows(): void
+    {
+        Livewire::actingAs(User::factory()->owner()->create())
+            ->test(WageSummary::class)
+            ->assertSee('Pilih periode dulu untuk melihat Rekap Upah.');
+    }
+
     public function test_wage_summary_shows_empty_state_without_closed_shifts(): void
     {
         Livewire::actingAs(User::factory()->owner()->create())
             ->test(WageSummary::class)
+            ->set('period', 'today')
             ->assertSee('Belum ada shift selesai pada periode ini.');
     }
 }

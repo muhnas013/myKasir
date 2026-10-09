@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PinLoginController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PayrollExportController;
 use App\Http\Controllers\Pos\OfflineSyncController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\ReportExportController;
@@ -64,4 +65,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/payroll', PayrollIndex::class)
         ->middleware('can:settings.manage')
         ->name('payroll.index');
+
+    Route::get('/payroll/export', PayrollExportController::class)
+        ->middleware('can:settings.manage')
+        ->name('payroll.export');
 });

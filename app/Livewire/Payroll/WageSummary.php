@@ -8,7 +8,7 @@ use Livewire\Component;
 
 class WageSummary extends Component
 {
-    public string $period = 'today';
+    public string $period = '';
 
     public string $start = '';
 
@@ -17,42 +17,41 @@ class WageSummary extends Component
     public function mount(): void
     {
         Gate::authorize('settings.manage');
-
-        $this->start = now()->toDateString();
-        $this->end = now()->toDateString();
     }
 
     public function updatedPeriod(): void
     {
-        [$this->start, $this->end] = $this->resolveRange();
+        if ($this->period === 'custom') {
+            $this->start = $this->start !== '' ? $this->start : now()->toDateString();
+            $this->end = $this->end !== '' ? $this->end : now()->toDateString();
+        }
     }
 
     public function render(WageCalculator $calculator)
     {
-        [$start, $end] = $this->resolveRange();
-        $rows = $calculator->forRange($start, $end);
+        $range = $this->resolveRange();
+        $rows = $range !== null ? $calculator->forRange($range[0], $range[1]) : collect();
 
         return view('livewire.payroll.wage-summary', [
+            'periodChosen' => $range !== null,
             'rows' => $rows,
             'summary' => $calculator->summaryByUser($rows),
-            'rangeStart' => $start,
-            'rangeEnd' => $end,
+            'rangeStart' => $range[0] ?? null,
+            'rangeEnd' => $range[1] ?? null,
         ]);
     }
 
-    /** @return array{0: string, 1: string} */
-    private function resolveRange(): array
+    /** @return array{0: string, 1: string}|null null bila periode belum dipilih pengguna */
+    private function resolveRange(): ?array
     {
         $today = now()->toDateString();
 
         return match ($this->period) {
+            'today' => [$today, $today],
             '7' => [now()->subDays(6)->toDateString(), $today],
             '30' => [now()->subDays(29)->toDateString(), $today],
-            'custom' => [
-                $this->start !== '' ? $this->start : $today,
-                $this->end !== '' ? $this->end : $today,
-            ],
-            default => [$today, $today],
+            'custom' => $this->start !== '' && $this->end !== '' ? [$this->start, $this->end] : null,
+            default => null,
         };
     }
 }

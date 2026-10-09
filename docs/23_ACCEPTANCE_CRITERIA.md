@@ -59,8 +59,14 @@ Diskon dan QRIS/Debit offline tetap ditunda (butuh verifikasi/konfirmasi yang be
 - [x] Bonus penjualan berjenjang per hari, lintas shift/pegawai, cocok dengan contoh terdokumentasi — 350rb+450rb sehari → 15rb+20rb (`WageCalculatorTest::test_matches_documented_example_two_shifts_same_day`).
 - [x] Shift di hari berbeda tak ikut terpool untuk ambang minimum (`test_same_revenue_split_across_different_days_does_not_pool`).
 - [x] Bonus aktivitas masuk ke total upah (`test_activity_bonus_is_included_in_total`); shift masih `open` tak dihitung (`test_open_shift_is_excluded`).
-- [x] Halaman Rekap Upah (owner-only): ringkasan total per pegawai + rincian per shift, filter periode (Hari Ini/7/30/Rentang, pola sama dengan Laporan) (`WageActivityTest::test_wage_summary_shows_empty_state_without_closed_shifts`, `test_admin_cannot_access_wage_summary_component`).
+- [x] Halaman Rekap Upah (owner-only): ringkasan total per pegawai, filter periode (Hari Ini/7/30/Rentang, pola sama dengan Laporan), **tanpa periode default** — tabel baru tampil setelah periode dipilih eksplisit (`WageActivityTest::test_wage_summary_requires_period_before_showing_rows`, `test_wage_summary_shows_empty_state_without_closed_shifts`, `test_admin_cannot_access_wage_summary_component`).
 - [ ] Manual: uji dengan data produksi nyata sebelum dipakai membayar gaji sungguhan.
+
+## F7 — WAGE, slice 4: export Excel Rekap Upah, satu baris per karyawan (tambahan setelah slice 3)
+- [x] Rekap Upah (tabel di layar & Excel) ditampilkan **satu baris per karyawan** untuk periode terpilih — omzet, upah dasar, bonus aktivitas, bonus penjualan, total dijumlah lintas shift karyawan itu, bukan per shift (`WageCalculatorTest::test_summary_by_user_aggregates_total`, `WageExportTest::test_beberapa_shift_karyawan_yang_sama_digabung_jadi_satu_baris`).
+- [x] Pemilik bisa unduh Rekap Upah sebagai Excel dari halaman Penggajian, kolom & jumlah baris sesuai periode yang dipilih (`WageExportTest::test_owner_bisa_unduh_excel_rekap_upah`).
+- [x] Admin dan kasir tidak bisa mengakses endpoint export (`WageExportTest::test_admin_tidak_bisa_mengakses_export_penggajian`, `test_kasir_tidak_bisa_mengakses_export_penggajian`).
+- [x] Guest diarahkan ke login (`WageExportTest::test_guest_diarahkan_ke_login`).
 
 ## Verifikasi UI (semua fase)
 - [ ] `grep -rnE "#[0-9A-Fa-f]{3,6}\b" resources/views resources/js` → 0 hasil (warna hanya dari `resources/css/app.css`).
