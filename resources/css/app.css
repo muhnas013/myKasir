@@ -141,9 +141,16 @@ p {
     gap: var(--sp-3);
 }
 
+.app-sidebar__bar-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    flex-shrink: 0;
+    margin-left: auto;
+}
+
 .app-sidebar__toggle {
     display: none;
-    margin-left: auto;
     width: var(--h-control);
     height: var(--h-control);
     align-items: center;
@@ -153,6 +160,26 @@ p {
     border-radius: var(--r-md);
     color: var(--c-text-label);
     cursor: pointer;
+}
+
+.app-sidebar__quick-expense {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: var(--h-control);
+    height: var(--h-control);
+    background: var(--c-primary-soft);
+    border: 1px solid var(--c-primary-soft);
+    border-radius: var(--r-md);
+    color: var(--c-primary);
+}
+
+.app-sidebar__quick-expense:hover {
+    border-color: var(--c-primary);
+}
+
+.app-sidebar__shift-status {
+    display: none;
 }
 
 .app-sidebar__panel {
@@ -374,6 +401,7 @@ p {
     align-items: center;
     justify-content: center;
     gap: var(--sp-2);
+    text-decoration: none;
     transition: background-color .15s ease, border-color .15s ease, transform .1s ease;
 }
 
@@ -1080,6 +1108,43 @@ textarea.input {
         display: inline-flex;
     }
 
+    .app-sidebar__quick-expense {
+        display: inline-flex;
+    }
+
+    .app-sidebar__shift-status {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
+    .app-sidebar__shift-status-label,
+    .app-sidebar__shift-status-value {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .app-sidebar__shift-status-label {
+        font-size: var(--fs-xs);
+        font-weight: 600;
+        color: var(--c-text-muted);
+    }
+
+    .app-sidebar__shift-status-value {
+        font-size: var(--fs-sm);
+        font-weight: 600;
+    }
+
+    .shift-card.shift-card--full {
+        display: none;
+    }
+
+    .app-sidebar__panel .app-sidebar__close-shift {
+        display: flex;
+    }
+
     .app-sidebar__panel {
         display: none;
         position: absolute;
@@ -1449,6 +1514,9 @@ textarea.input {
 }
 
 .shift-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
     padding: var(--sp-3);
     background: var(--c-primary-soft);
     border-radius: var(--r-md);
@@ -1464,12 +1532,20 @@ textarea.input {
     font-weight: 600;
 }
 
-.shift-card__link {
-    display: inline-block;
-    margin-top: var(--sp-2);
-    font-size: var(--fs-sm);
-    font-weight: 600;
-    color: var(--c-primary);
+.shift-card__actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+}
+
+.shift-card__actions .btn {
+    width: 100%;
+    background: var(--c-surface);
+}
+
+.app-sidebar__close-shift {
+    display: none;
+    background: var(--c-surface);
 }
 
 /* Struk 58 mm */

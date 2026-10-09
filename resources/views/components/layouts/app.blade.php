@@ -13,13 +13,43 @@
 <body>
     <div class="app-shell">
         <aside class="app-sidebar" x-data="{ open: false }" :class="{ 'is-open': open }">
+            @php($activeShift = auth()->user()->activeShift())
             <div class="app-sidebar__bar">
                 <div class="app-sidebar__brand">MyKasir</div>
-                <button type="button" class="app-sidebar__toggle" @click="open = !open" :aria-expanded="open ? 'true' : 'false'" aria-label="Buka menu navigasi">
-                    <x-icon name="menu" x-show="!open" x-cloak />
-                    <x-icon name="x" x-show="open" x-cloak />
-                </button>
+                @if ($activeShift)
+                    <div class="app-sidebar__shift-status">
+                        <span class="app-sidebar__shift-status-label">Shift aktif</span>
+                        <span class="app-sidebar__shift-status-value">sejak {{ $activeShift->opened_at->format('H.i') }}</span>
+                    </div>
+                @endif
+                <div class="app-sidebar__bar-actions">
+                    @if ($activeShift)
+                        <a href="{{ route('shift.expenses') }}" class="app-sidebar__quick-expense" aria-label="Catat Pengeluaran">
+                            <x-icon name="banknote" />
+                        </a>
+                    @endif
+                    <button type="button" class="app-sidebar__toggle" @click="open = !open" :aria-expanded="open ? 'true' : 'false'" aria-label="Buka menu navigasi">
+                        <x-icon name="menu" x-show="!open" x-cloak />
+                        <x-icon name="x" x-show="open" x-cloak />
+                    </button>
+                </div>
             </div>
+            @if ($activeShift)
+                <div class="shift-card shift-card--full">
+                    <div class="shift-card__status">
+                        <div class="shift-card__label">Shift aktif</div>
+                        <div class="shift-card__value">sejak {{ $activeShift->opened_at->format('H.i') }}</div>
+                    </div>
+                    <div class="shift-card__actions">
+                        <a href="{{ route('shift.expenses') }}" class="btn btn--secondary">
+                            <x-icon name="banknote" /> Catat Pengeluaran
+                        </a>
+                        <a href="{{ route('shift.close') }}" class="btn btn--secondary">
+                            <x-icon name="power" /> Tutup Shift
+                        </a>
+                    </div>
+                </div>
+            @endif
             <div class="app-sidebar__panel">
                 <nav class="app-sidebar__nav">
                     @can('pos.transact')
@@ -56,14 +86,10 @@
                         </a>
                     @endcan
                 </nav>
-                @php($activeShift = auth()->user()->activeShift())
                 @if ($activeShift)
-                    <div class="shift-card">
-                        <div class="shift-card__label">Shift aktif</div>
-                        <div class="shift-card__value">sejak {{ $activeShift->opened_at->format('H.i') }}</div>
-                        <a href="{{ route('shift.expenses') }}" class="shift-card__link">Catat Pengeluaran</a>
-                        <a href="{{ route('shift.close') }}" class="shift-card__link">Tutup Shift</a>
-                    </div>
+                    <a href="{{ route('shift.close') }}" class="btn btn--secondary app-sidebar__close-shift" style="width:100%">
+                        <x-icon name="power" /> Tutup Shift
+                    </a>
                 @endif
                 <form method="POST" action="{{ route('lock') }}" style="margin-top:auto">
                     @csrf
