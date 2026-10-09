@@ -24,6 +24,13 @@ Data uji standar: Es Kopi Susu Gula Aren Rp 18.000, Nasi Goreng Spesial Rp 25.00
 - [x] Kasir bisa hapus pengeluaran yang salah catat selama shift masih terbuka (`ShiftPagesTest::test_cashier_can_record_and_delete_expense`).
 - [x] Ringkasan Tutup Shift menampilkan total pengeluaran bila ada (visual, lihat `close.blade.php`).
 
+## SHIFT — jam operasional & batas 2 shift/hari (06 P2a, tambahan setelah F3 diarsipkan)
+- [x] Shift (termasuk shift pertama hari itu) tidak bisa dibuka sebelum 08:00 atau jam 22:00 ke atas (`ShiftActionsTest::test_shift_cannot_be_opened_before_8am`, `test_shift_cannot_be_opened_after_10pm`).
+- [x] Shift ke-3 dalam hari kalender yang sama (lintas kasir) ditolak; besok hitungan reset (`ShiftActionsTest::test_third_shift_of_the_day_is_blocked_until_tomorrow`).
+- [x] Shift yang masih `open` jam 22:00 ditutup otomatis oleh `php artisan shifts:auto-close` — `counted_cash` = `expected_cash` (selisih 0), tercatat ke `audit_logs` (`action=shift.auto_closed`) (`AutoCloseShiftsTest::test_open_shift_without_pending_orders_is_closed_automatically`).
+- [x] Shift dengan pesanan `open` yang belum selesai dilewati (tidak dipaksa tutup) saat auto-close (`AutoCloseShiftsTest::test_shift_with_pending_order_is_skipped`).
+- [ ] Manual: pastikan cron server menjalankan `php artisan schedule:run` tiap menit (produksi) — tanpa ini `shifts:auto-close` tidak pernah terpicu.
+
 ## F3 — POS + PAY + SHIFT + VOID (sisa: uji manual)
 Butir otomatis sudah diterima dan diarsipkan di `docs/_archive/23-F3-POS-PAY-SHIFT-VOID.md`. Sisa butir manual:
 - [ ] Struk tercetak penuh di kertas 58 mm pada printer thermal nyata (nama outlet, nomor, waktu WITA, item, subtotal, PB1, total, bayar, kembali, footer) (manual).

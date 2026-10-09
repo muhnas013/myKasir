@@ -27,6 +27,12 @@ Peran: `docs/05_USER_ROLE.md`. Tabel/kolom: `docs/07_DATA_MODEL.md`.
 4. Bila selisih ≠ 0, catatan wajib diisi. Shift berstatus `closed` (pengeluaran tak bisa diubah lagi setelah ini), ringkasan shift dicetak.
 **Kondisi gagal:** masih ada pesanan `open` → tutup ditolak sampai pesanan dibayar atau dibatalkan.
 
+### P2a — Jam operasional & batas shift (tambahan)
+1. Shift (shift pertama hari itu sekalipun) hanya bisa dibuka pukul **08:00–21:59**; di luar jam itu `OpenShift` menolak dengan pesan "Outlet buka jam 08:00–22:00."
+2. Maksimal **2 shift per hari untuk seluruh outlet** (lintas kasir, dihitung dari `opened_at` tanggal kalender) — begitu 2 shift hari itu sudah dibuka, percobaan shift ke-3 ditolak sampai besok jam 08:00.
+3. Shift yang masih `open` jam 22:00 ditutup paksa otomatis oleh scheduler (`php artisan shifts:auto-close`, dijadwalkan `dailyAt('22:00')` di `routes/console.php`): `counted_cash` disamakan dengan `expected_cash` (selisih 0) + `closing_note` otomatis menandai "belum dihitung fisik", `closed_by` tetap `null` (bukan manusia) — dicatat ke `audit_logs` (`action=shift.auto_closed`). Shift dengan pesanan `open` yang belum selesai **dilewati** (tidak dipaksa tutup), perlu peninjauan manual pemilik.
+**Kondisi gagal:** di luar jam operasional atau sudah 2 shift hari itu → `opening_cash` ditolak dengan pesan spesifik.
+
 ## P3 — Void transaksi
 1. Kasir/admin memilih transaksi `paid` di shift yang masih `open`, lalu mengisi alasan (wajib, ≥ 5 karakter).
 2. Bila pemicu `cashier` → dialog PIN owner/admin.

@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Shift;
 use App\Models\User;
 use App\Services\SettingService;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -22,8 +23,18 @@ trait SetsUpPos
 
     protected Product $pisangGoreng;
 
+    protected function tearDown(): void
+    {
+        Carbon::setTestNow();
+        parent::tearDown();
+    }
+
     protected function setUpPos(array $settings = []): void
     {
+        // Jam dikunci dalam jam operasional (06 P2: 08:00-22:00) agar tes tidak bergantung
+        // pada jam asli mesin yang menjalankannya.
+        Carbon::setTestNow(Carbon::parse('2026-10-08 10:00:00'));
+
         $values = array_merge([
             'tax_enabled' => true,
             'tax_rate_bp' => 1000,

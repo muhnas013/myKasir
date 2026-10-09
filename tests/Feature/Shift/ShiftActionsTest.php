@@ -11,6 +11,7 @@ use App\Actions\Shifts\RecordShiftExpense;
 use App\Models\User;
 use App\Models\WageActivity;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Validation\ValidationException;
 use Tests\Concerns\SetsUpPos;
@@ -187,6 +188,40 @@ class ShiftActionsTest extends TestCase
 
         $shift = app(OpenShift::class)->handle($this->cashier, 150000);
 
+        $this->assertSame('open', $shift->status->value);
+    }
+
+    public function test_shift_cannot_be_opened_before_8am(): void
+    {
+        Carbon::setTestNow(Carbon::parse('2026-10-08 07:59:00'));
+
+        $this->expectException(ValidationException::class);
+        app(OpenShift::class)->handle(User::factory()->cashier()->create(), 0);
+    }
+
+    public function test_shift_cannot_be_opened_after_10pm(): void
+    {
+        Carbon::setTestNow(Carbon::parse('2026-10-08 22:00:00'));
+
+        $this->expectException(ValidationException::class);
+        app(OpenShift::class)->handle(User::factory()->cashier()->create(), 0);
+    }
+
+    public function test_third_shift_of_the_day_is_blocked_until_tomorrow(): void
+    {
+        // setUp sudah membuka 1 shift ($this->shift) hari ini; ini jadi shift ke-2.
+        app(OpenShift::class)->handle(User::factory()->cashier()->create(), 0);
+
+        try {
+            app(OpenShift::class)->handle(User::factory()->cashier()->create(), 0);
+            $this->fail('Shift ke-3 seharusnya ditolak.');
+        } catch (ValidationException $e) {
+            $this->assertSame('Sudah 2 shift hari ini. Shift baru bisa dibuka besok mulai jam 08:00.', $e->validator->errors()->first('opening_cash'));
+        }
+
+        // Besok (hari kalender baru) hitungan shift kembali ke nol.
+        Carbon::setTestNow(Carbon::parse('2026-10-09 08:00:00'));
+        $shift = app(OpenShift::class)->handle(User::factory()->cashier()->create(), 0);
         $this->assertSame('open', $shift->status->value);
     }
 }

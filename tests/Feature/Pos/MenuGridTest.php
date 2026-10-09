@@ -8,12 +8,19 @@ use App\Models\Product;
 use App\Models\User;
 use App\Models\VariantGroup;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Carbon;
 use Livewire\Livewire;
 use Tests\TestCase;
 
 class MenuGridTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function tearDown(): void
+    {
+        Carbon::setTestNow();
+        parent::tearDown();
+    }
 
     public function test_inactive_product_is_not_shown_in_grid(): void
     {
@@ -99,11 +106,16 @@ class MenuGridTest extends TestCase
 
     public function test_all_active_roles_with_open_shift_can_open_pos(): void
     {
+        // Tiap role dibuka di hari berbeda: maksimal 2 shift/hari outlet (06 P2) tak relevan di sini.
+        Carbon::setTestNow(Carbon::parse('2026-10-01 10:00:00'));
+
         foreach ([User::factory()->cashier(), User::factory()->admin(), User::factory()->owner()] as $factory) {
             $user = $factory->create();
             app(OpenShift::class)->handle($user, 0);
 
             $this->actingAs($user)->get('/pos')->assertOk();
+
+            Carbon::setTestNow(Carbon::now()->addDay());
         }
     }
 

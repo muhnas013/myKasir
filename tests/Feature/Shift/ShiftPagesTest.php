@@ -12,6 +12,7 @@ use App\Models\ShiftExpense;
 use App\Models\User;
 use App\Models\WageActivity;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Carbon;
 use Livewire\Livewire;
 use Tests\Concerns\SetsUpPos;
 use Tests\TestCase;
@@ -19,6 +20,14 @@ use Tests\TestCase;
 class ShiftPagesTest extends TestCase
 {
     use RefreshDatabase, SetsUpPos;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        // Dikunci dalam jam operasional (06 P2) — beberapa tes di sini membuka shift
+        // tanpa lewat setUpPos(), jadi tak otomatis kena pin waktu dari trait itu.
+        Carbon::setTestNow(Carbon::parse('2026-10-08 10:00:00'));
+    }
 
     public function test_cashier_opens_shift_with_opening_cash(): void
     {

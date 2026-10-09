@@ -20,8 +20,22 @@ class OpenShift
             // Kunci baris user agar dua permintaan bersamaan tidak membuka dua shift.
             User::query()->lockForUpdate()->findOrFail($user->id);
 
+            $now = now();
+
+            // Jam operasional outlet 08:00-22:00; berlaku untuk shift pertama hari itu juga.
+            if ($now->hour < 8 || $now->hour >= 22) {
+                throw ValidationException::withMessages(['opening_cash' => 'Outlet buka jam 08:00–22:00. Shift tidak bisa dibuka di luar jam operasional.']);
+            }
+
             if (Shift::where('user_id', $user->id)->where('status', ShiftStatus::Open)->exists()) {
                 throw ValidationException::withMessages(['opening_cash' => 'Anda masih memiliki shift yang terbuka.']);
+            }
+
+            // Maksimal 2 shift per hari untuk seluruh outlet (lintas kasir), bukan per kasir.
+            $shiftsToday = Shift::query()->whereDate('opened_at', $now->toDateString())->lockForUpdate()->count();
+
+            if ($shiftsToday >= 2) {
+                throw ValidationException::withMessages(['opening_cash' => 'Sudah 2 shift hari ini. Shift baru bisa dibuka besok mulai jam 08:00.']);
             }
 
             return Shift::create([

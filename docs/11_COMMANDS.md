@@ -24,3 +24,6 @@ Jalankan dari root proyek.
 | Backup DB (produksi) ⚠️ | `mysqldump --single-transaction -u $DB_USERNAME -p $DB_DATABASE > backup-$(date +%F-%H%M).sql` |
 | Deploy (produksi) ⚠️ | `git pull && composer install --no-dev -o && npm ci && npm run build && php artisan migrate --force && php artisan optimize && sudo systemctl reload php8.3-fpm` |
 | Validasi blueprint | `bash scripts/validate.sh` |
+| Tutup paksa shift terbuka jam 22:00 (manual/uji) | `php artisan shifts:auto-close` |
+| Jalankan scheduler lokal (dev, tanpa cron sistem) | `php artisan schedule:work` |
+| Cron scheduler (produksi, 1 baris crontab) ⚠️ | `* * * * * cd /path/ke/mykasir && php artisan schedule:run >> /dev/null 2>&1` |
